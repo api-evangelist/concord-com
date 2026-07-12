@@ -1,0 +1,102 @@
+aid: concord-com
+name: Concord
+review:
+  question: Does Concord expose a documented public WebSocket API?
+  answer: false
+  date: '2026-07-12'
+  reviewer: API Evangelist
+  asyncapiSpecCreated: false
+  asyncapiScopeNote: |
+    No AsyncAPI document was authored. Concord's public developer surface is a
+    request/response REST API over HTTPS (base
+    https://api.concordnow.com/api/rest/1) plus outbound webhooks that Concord
+    POSTs to a URL you configure in the UI. There is no server-push transport
+    (WebSocket or SSE) on Concord's own API to model. The webhooks are ordinary
+    server-to-endpoint HTTP POST callbacks, not a bidirectional socket, and they
+    are configured through the Automations > Integrations UI rather than through
+    an API, so there is no documented channel/binding surface to express as
+    AsyncAPI.
+findings:
+  summary: |
+    Concord does not publish a documented public WebSocket API. Concord is a
+    contract lifecycle management (CLM) SaaS. Its documented developer surface
+    is a REST API under https://api.concordnow.com/api/rest/1 (UAT at
+    https://uat.concordnow.com/api/rest/1), authenticated with an API key sent
+    in the X-API-KEY header. The live production host was probed and returns
+    HTTP 401 {"statusCode":401,"restCode":"unauthorized"} on
+    GET /api/rest/1/user/me without a valid key, confirming host, base path,
+    and auth model. The API is request/response REST over HTTPS. Concord also
+    delivers outbound webhooks (HTTP POST) for agreement lifecycle events, but
+    those are UI-configured callbacks, not a WebSocket. No realtime,
+    bidirectional, or streaming WebSocket (ws:// or wss://) endpoint is
+    documented anywhere in Concord's API help pages or its rendered API
+    reference.
+  accessModel: |
+    API key generation is offered on paid plans only; sandbox/UAT accounts must
+    be upgraded before a key can be issued (email support to upgrade a UAT
+    account). Concord's public developer reference is a rendered documentation
+    portal (https://api.doc.concordnow.com/) and no machine-readable OpenAPI
+    file is published, so the OpenAPI in this repo is authored from documented
+    behavior and connector mappings, with modeled schemas flagged.
+  transports:
+    - protocol: REST
+      scheme: https
+      baseURL: https://api.concordnow.com/api/rest/1
+      documented: true
+      note: Primary API surface. UAT/sandbox base is https://uat.concordnow.com/api/rest/1. Auth via X-API-KEY header.
+    - protocol: Webhook
+      scheme: https
+      documented: true
+      note: Concord POSTs lifecycle events (document fully approved, fully signed, expired, signature provided) to a URL configured in Automations > Integrations. Outbound HTTP POST, not WebSocket, and not managed via an API endpoint.
+    - protocol: WebSocket
+      scheme: wss
+      documented: false
+      note: No WebSocket endpoint is documented anywhere in Concord's API help pages or rendered API reference as of the review date.
+  endpointsConfirmedRest:
+    - GET https://api.concordnow.com/api/rest/1/user/me
+    - GET https://api.concordnow.com/api/rest/1/user/me/organizations
+    - GET https://api.concordnow.com/api/rest/1/user/me/organizations/{organizationId}/agreements
+    - GET https://api.concordnow.com/api/rest/1/organizations/{organizationId}/agreements/{agreementUid}/attachments
+    - GET https://api.concordnow.com/api/rest/1/organizations/{organizationId}/agreements/{agreementUid}/members
+    - GET https://api.concordnow.com/api/rest/1/organizations/{organizationId}/reports
+    - GET https://api.concordnow.com/api/rest/1/organizations/{organizationId}/groups
+    - GET https://api.concordnow.com/api/rest/1/organizations/{organizationId}/tags
+  endpointsModeled:
+    - POST https://api.concordnow.com/api/rest/1/organizations/{organizationId}/templates/{templateUid}/documents
+  modeledNote: |
+    Concord documents that a document can be created from an automated
+    (Excel-driven) template via the API using an API key and the template UID,
+    but the exact request path, method, and body are NOT published in the
+    crawlable public reference. The create-document-from-template operation is
+    therefore modeled (path and body invented to represent the capability) and
+    explicitly flagged with x-concord-modeled: true in the OpenAPI. It MUST be
+    verified against a live account before use. Response schemas for all
+    endpoints are modeled from documented behavior, since no official OpenAPI is
+    published.
+sources:
+  - url: https://help.concord.app/concord-api
+    type: Documentation
+    note: Concord API landing page; API key auth, getting started, create-document-from-template.
+  - url: https://help.concord.app/hc/en-us/articles/360055115911-getting-started-with-the-concord-api
+    type: Documentation
+    note: States API key generation is offered on paid plans only; sandbox accounts must be upgraded. References https://api.doc.concordnow.com/.
+  - url: https://help.concord.app/hc/en-us/articles/4417525871508-create-a-webhook-integration
+    type: Documentation
+    note: Webhooks configured in Automations > Integrations UI; outbound HTTP POST on approve/sign/expire/signature events. No API management endpoint.
+  - url: https://help.concord.app/hc/en-us/articles/207854166-Create-a-Document-from-an-Automated-Template-with-the-API
+    type: Documentation
+    note: Confirms document creation from an automated template via API (API key + template UID); exact path/body not published.
+  - url: https://api.doc.concordnow.com/
+    type: APIReference
+    note: Rendered API reference portal (JS SPA); no machine-readable OpenAPI/swagger file exposed at common paths (probed 404).
+  - url: https://api.concordnow.com/api/rest/1/user/me
+    type: LiveProbe
+    note: Returns HTTP 401 {"statusCode":401,"restCode":"unauthorized"} without a valid X-API-KEY, confirming base host, path, and auth.
+actions:
+  asyncapiPath: null
+  apisYmlUpdated: true
+  reason: |
+    No WebSocket protocol surface exists. Concord's own public API is
+    request/response REST (X-API-KEY over HTTPS) plus UI-configured outbound
+    webhooks. No AsyncAPI document was created because there is no server-push
+    or bidirectional transport on Concord's own API to model.

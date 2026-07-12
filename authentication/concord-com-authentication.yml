@@ -1,0 +1,20 @@
+generated: '2026-07-12'
+method: derived
+source: openapi/concord-com-openapi.yml
+summary:
+  types:
+  - apiKey
+schemes:
+- name: apiKeyAuth
+  type: apiKey
+  in: header
+  keyName: X-API-KEY
+  description: >-
+    API key generated inside the Concord account (paid plans only) and sent in
+    the `X-API-KEY` request header. Confirmed against the live production host
+    https://api.concordnow.com/api/rest/1, which returns HTTP 401
+    `{"statusCode":401,"restCode":"unauthorized"}` when called without a valid
+    key.
+  sources:
+  - openapi/concord-com-openapi.yml
+  - https://help.concord.app/concord-api

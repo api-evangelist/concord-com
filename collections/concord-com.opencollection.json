@@ -1,0 +1,143 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Concord API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "apikey": {
+        "key": "X-API-KEY",
+        "value": "{{apiKey}}",
+        "in": "header"
+      }
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Users",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": { "name": "Get the authenticated user", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.concordnow.com/api/rest/1/user/me" },
+          "docs": "Returns the profile of the user that owns the API key. Confirmed live (401 without a valid key)."
+        },
+        {
+          "info": { "name": "List the user's organizations", "type": "http" },
+          "http": { "method": "GET", "url": "https://api.concordnow.com/api/rest/1/user/me/organizations" },
+          "docs": "Lists the organizations the authenticated user belongs to (nested under `organizations`)."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Agreements",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": { "name": "List agreements in an organization", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.concordnow.com/api/rest/1/user/me/organizations/:organizationId/agreements",
+            "params": [
+              { "name": "organizationId", "value": "", "type": "path", "description": "The ID of the organization." }
+            ]
+          },
+          "docs": "Lists the agreements (contracts) in the given organization (paginated; items nested under `items`)."
+        },
+        {
+          "info": { "name": "List an agreement's attachments", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.concordnow.com/api/rest/1/organizations/:organizationId/agreements/:agreementUid/attachments",
+            "params": [
+              { "name": "organizationId", "value": "", "type": "path", "description": "The ID of the organization." },
+              { "name": "agreementUid", "value": "", "type": "path", "description": "The UID of the agreement." }
+            ]
+          },
+          "docs": "Returns the files attached to an agreement (nested under `attachments`)."
+        },
+        {
+          "info": { "name": "List an agreement's members", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.concordnow.com/api/rest/1/organizations/:organizationId/agreements/:agreementUid/members",
+            "params": [
+              { "name": "organizationId", "value": "", "type": "path", "description": "The ID of the organization." },
+              { "name": "agreementUid", "value": "", "type": "path", "description": "The UID of the agreement." }
+            ]
+          },
+          "docs": "Returns the members (people) associated with an agreement."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Organizations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": { "name": "List organization reports", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.concordnow.com/api/rest/1/organizations/:organizationId/reports",
+            "params": [
+              { "name": "organizationId", "value": "", "type": "path", "description": "The ID of the organization." }
+            ]
+          },
+          "docs": "Returns the reports configured for an organization (nested under `reports`)."
+        },
+        {
+          "info": { "name": "List organization groups", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.concordnow.com/api/rest/1/organizations/:organizationId/groups",
+            "params": [
+              { "name": "organizationId", "value": "", "type": "path", "description": "The ID of the organization." }
+            ]
+          },
+          "docs": "Returns the groups within an organization (nested under `groups`)."
+        },
+        {
+          "info": { "name": "List organization tags", "type": "http" },
+          "http": {
+            "method": "GET",
+            "url": "https://api.concordnow.com/api/rest/1/organizations/:organizationId/tags",
+            "params": [
+              { "name": "organizationId", "value": "", "type": "path", "description": "The ID of the organization." }
+            ]
+          },
+          "docs": "Returns the tags defined within an organization (nested under `tags`)."
+        }
+      ]
+    },
+    {
+      "info": {
+        "name": "Templates (MODELED - UNCONFIRMED)",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": { "name": "Create a document from an automated template", "type": "http" },
+          "http": {
+            "method": "POST",
+            "url": "https://api.concordnow.com/api/rest/1/organizations/:organizationId/templates/:templateUid/documents",
+            "params": [
+              { "name": "organizationId", "value": "", "type": "path", "description": "The ID of the organization." },
+              { "name": "templateUid", "value": "", "type": "path", "description": "The UID of the automated template." }
+            ],
+            "body": { "type": "json", "data": "{}" }
+          },
+          "docs": "MODELED / UNCONFIRMED. Concord documents that a document can be generated from an automated template using an API key and template UID, but the exact path and body are not published. Verify against the live account before use."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

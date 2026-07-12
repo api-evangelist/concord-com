@@ -1,0 +1,58 @@
+specification: API Commons Rate Limits
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/RateLimits
+provider: Concord
+providerId: concord-com
+created: '2026-07-12'
+modified: '2026-07-12'
+reconciled: false
+tags:
+- Contract Management
+- CLM
+- Rate Limiting
+- Quotas
+description: >-
+  Concord does not publish fixed numeric rate limits for its REST API in the
+  public developer documentation. The API is a request/response REST surface
+  under https://api.concordnow.com/api/rest/1 authenticated with an API key;
+  list endpoints are paginated (limit/offset-style) rather than governed by a
+  documented per-minute request cap. Concord's own account limits (users,
+  storage, features) are governed by the subscription plan rather than by an
+  API request quota. Numeric per-key or per-endpoint limits are not documented
+  as of the review date.
+notes: >-
+  No public rate-limit figures were found on the Concord API help pages or the
+  rendered API reference at https://api.doc.concordnow.com/. Clients should
+  implement pagination, exponential backoff with jitter, and honor any
+  Retry-After header on 429 responses. Verify current limits directly with
+  Concord if building high-volume integrations.
+sources:
+- https://help.concord.app/concord-api
+- https://help.concord.app/hc/en-us/articles/360055115911-getting-started-with-the-concord-api
+- https://api.doc.concordnow.com/
+responseCodes:
+  throttled: 429
+limits:
+- name: REST API Requests
+  scope: apiKey
+  metric: requests
+  limit: not published
+  notes: No fixed numeric request-rate limit is documented for the Concord REST API.
+- name: List Pagination
+  scope: endpoint
+  metric: items
+  limit: paginated
+  notes: List endpoints (agreements, reports, etc.) return paginated result sets rather than unbounded lists.
+- name: Account Entitlements
+  scope: account
+  metric: plan
+  limit: per plan
+  notes: Users, storage, and feature access are bounded by the subscription tier, not by an API quota.
+policies:
+- name: Backoff Strategy
+  description: Clients should implement exponential backoff with jitter and honor Retry-After on any 429 response.
+- name: Pagination
+  description: Iterate list endpoints via limit/offset-style pagination rather than requesting large result sets in a single call.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

@@ -1,0 +1,169 @@
+{
+  "info": {
+    "name": "Concord API",
+    "description": "Read-oriented REST access to a Concord contract lifecycle management (CLM) account. Base URL: https://api.concordnow.com/api/rest/1 (Production) or https://uat.concordnow.com/api/rest/1 (UAT/Sandbox). All requests authenticate with an API key in the X-API-KEY header; API key generation is available on paid plans only. Confirmed endpoints were validated against the live host (401 without a valid key). The create-document-from-template request is MODELED - its exact path/body are not published by Concord.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      { "key": "key", "value": "X-API-KEY", "type": "string" },
+      { "key": "value", "value": "{{apiKey}}", "type": "string" },
+      { "key": "in", "value": "header", "type": "string" }
+    ]
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "https://api.concordnow.com/api/rest/1", "type": "string" },
+    { "key": "apiKey", "value": "", "type": "string" },
+    { "key": "organizationId", "value": "", "type": "string" },
+    { "key": "agreementUid", "value": "", "type": "string" }
+  ],
+  "item": [
+    {
+      "name": "Users",
+      "item": [
+        {
+          "name": "Get the authenticated user",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/user/me", "host": ["{{baseUrl}}"], "path": ["user", "me"] },
+            "description": "Returns the profile of the user that owns the API key. Confirmed live (401 without a valid key)."
+          }
+        },
+        {
+          "name": "List the user's organizations",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": { "raw": "{{baseUrl}}/user/me/organizations", "host": ["{{baseUrl}}"], "path": ["user", "me", "organizations"] },
+            "description": "Lists the organizations the authenticated user belongs to (nested under `organizations`)."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Agreements",
+      "item": [
+        {
+          "name": "List agreements in an organization",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/user/me/organizations/:organizationId/agreements",
+              "host": ["{{baseUrl}}"],
+              "path": ["user", "me", "organizations", ":organizationId", "agreements"],
+              "variable": [{ "key": "organizationId", "value": "{{organizationId}}" }]
+            },
+            "description": "Lists the agreements (contracts) in the given organization (paginated; items nested under `items`)."
+          }
+        },
+        {
+          "name": "List an agreement's attachments",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/organizations/:organizationId/agreements/:agreementUid/attachments",
+              "host": ["{{baseUrl}}"],
+              "path": ["organizations", ":organizationId", "agreements", ":agreementUid", "attachments"],
+              "variable": [
+                { "key": "organizationId", "value": "{{organizationId}}" },
+                { "key": "agreementUid", "value": "{{agreementUid}}" }
+              ]
+            },
+            "description": "Returns the files attached to an agreement (nested under `attachments`)."
+          }
+        },
+        {
+          "name": "List an agreement's members",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/organizations/:organizationId/agreements/:agreementUid/members",
+              "host": ["{{baseUrl}}"],
+              "path": ["organizations", ":organizationId", "agreements", ":agreementUid", "members"],
+              "variable": [
+                { "key": "organizationId", "value": "{{organizationId}}" },
+                { "key": "agreementUid", "value": "{{agreementUid}}" }
+              ]
+            },
+            "description": "Returns the members (people) associated with an agreement."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Organizations",
+      "item": [
+        {
+          "name": "List organization reports",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/organizations/:organizationId/reports",
+              "host": ["{{baseUrl}}"],
+              "path": ["organizations", ":organizationId", "reports"],
+              "variable": [{ "key": "organizationId", "value": "{{organizationId}}" }]
+            },
+            "description": "Returns the reports configured for an organization (nested under `reports`)."
+          }
+        },
+        {
+          "name": "List organization groups",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/organizations/:organizationId/groups",
+              "host": ["{{baseUrl}}"],
+              "path": ["organizations", ":organizationId", "groups"],
+              "variable": [{ "key": "organizationId", "value": "{{organizationId}}" }]
+            },
+            "description": "Returns the groups within an organization (nested under `groups`)."
+          }
+        },
+        {
+          "name": "List organization tags",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/organizations/:organizationId/tags",
+              "host": ["{{baseUrl}}"],
+              "path": ["organizations", ":organizationId", "tags"],
+              "variable": [{ "key": "organizationId", "value": "{{organizationId}}" }]
+            },
+            "description": "Returns the tags defined within an organization (nested under `tags`)."
+          }
+        }
+      ]
+    },
+    {
+      "name": "Templates (MODELED - UNCONFIRMED)",
+      "item": [
+        {
+          "name": "Create a document from an automated template",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": { "mode": "raw", "raw": "{}" },
+            "url": {
+              "raw": "{{baseUrl}}/organizations/:organizationId/templates/:templateUid/documents",
+              "host": ["{{baseUrl}}"],
+              "path": ["organizations", ":organizationId", "templates", ":templateUid", "documents"],
+              "variable": [
+                { "key": "organizationId", "value": "{{organizationId}}" },
+                { "key": "templateUid", "value": "" }
+              ]
+            },
+            "description": "MODELED / UNCONFIRMED. Concord documents that a document can be generated from an automated template using an API key and template UID, but the exact path and body are not published. Verify against the live account before use."
+          }
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,137 @@
+specification: API Commons Plans
+specificationVersion: '0.1'
+schema: https://raw.githubusercontent.com/api-evangelist/interface-research/main/schema/api-commons.yml#/$defs/Plans
+provider: Concord
+providerId: concord-com
+created: '2026-07-12'
+modified: '2026-07-12'
+reconciled: false
+tags:
+- Contract Management
+- Contract Lifecycle Management
+- CLM
+- E-Signature
+- Plans
+description: >-
+  Concord is sold as a per-seat SaaS subscription, billed annually, with all
+  plans including unlimited electronic signatures and no per-document fees.
+  Public third-party pricing guides for 2026 describe a flat base-fee model with
+  three published tiers - Essentials, Business, and Enterprise - each bundling a
+  number of seats with per-user add-on pricing above the included seats. API
+  access (API key generation) is offered on paid plans only; sandbox/UAT
+  accounts must be upgraded before a key can be generated. Exact seat counts and
+  per-seat rates vary by source and negotiation and are NOT reconciled here -
+  verify on the Concord pricing page (https://www.concord.app/pricing/).
+notes: >-
+  Figures below are drawn from public 2026 pricing guides and Concord's pricing
+  page ("starting at $499/mo") and are approximate. Concord historically used
+  lower per-user pricing (reported ~$17/user Standard, ~$49/user Pro) before
+  moving to the current flat base-fee model. Treat all amounts as unverified
+  until reconciled against a quote.
+sources:
+- https://www.concord.app/pricing/
+- https://help.concord.app/concord-api
+- https://help.concord.app/hc/en-us/articles/360055115911-getting-started-with-the-concord-api
+plans:
+- id: concord-essentials
+  name: Essentials
+  type: paid
+  description: >-
+    Entry paid tier. Public 2026 guides report a base near $499/month (billed
+    annually) including roughly 5 seats, with additional users billed per seat.
+    Includes unlimited e-signatures and API access on paid plans.
+  entries:
+  - label: Base Subscription
+    name: essentials_base
+    type: flat
+    metric: subscription
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: approximately $499/month billed annually (verify)
+    userMultiplied: false
+  - label: Additional User
+    name: essentials_addl_user
+    type: unit
+    metric: seat
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: approximately $49/user/month (verify)
+    userMultiplied: true
+  elements:
+  - name: Unlimited E-Signatures
+  - name: Contract Repository
+  - name: API Access (paid plans)
+- id: concord-business
+  name: Business
+  type: paid
+  description: >-
+    Mid tier for larger teams. Public 2026 guides report a base near $899/month
+    (billed annually) with additional users per seat, adding deeper workflow,
+    approval, and reporting capabilities.
+  entries:
+  - label: Base Subscription
+    name: business_base
+    type: flat
+    metric: subscription
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: approximately $899/month billed annually (verify)
+    userMultiplied: false
+  - label: Additional User
+    name: business_addl_user
+    type: unit
+    metric: seat
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: approximately $69/user/month (verify)
+    userMultiplied: true
+  elements:
+  - name: Unlimited E-Signatures
+  - name: Approval Workflows
+  - name: Reporting
+  - name: API Access
+- id: concord-enterprise
+  name: Enterprise
+  type: enterprise
+  description: >-
+    Top tier for larger organizations. Public 2026 guides report a base near
+    $1,299/month with additional users per seat, adding SSO/SAML, advanced
+    security, and administration. Volume discounts and custom terms are
+    negotiated.
+  entries:
+  - label: Base Subscription
+    name: enterprise_base
+    type: flat
+    metric: subscription
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: approximately $1,299/month, custom (verify)
+    userMultiplied: false
+  - label: Additional User
+    name: enterprise_addl_user
+    type: unit
+    metric: seat
+    limit: -1
+    timeFrame: month
+    geo: global
+    unit: 1
+    price: approximately $89/user/month (verify)
+    userMultiplied: true
+  elements:
+  - name: SSO / SAML
+  - name: Advanced Security and Admin
+  - name: Volume Discounts
+  - name: API Access
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

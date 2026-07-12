@@ -1,0 +1,86 @@
+specification: FinOps Framework
+specificationVersion: '1.0'
+schema: https://www.finops.org/framework/
+provider: Concord
+providerId: concord-com
+created: '2026-07-12'
+modified: '2026-07-12'
+reconciled: false
+tags:
+- Contract Management
+- CLM
+- E-Signature
+- FinOps
+- Cost Management
+- FOCUS
+description: >-
+  FinOps view of Concord spend. Concord is a per-seat SaaS contract lifecycle
+  management subscription billed annually, with all plans including unlimited
+  electronic signatures and no per-document fees. Cost is driven primarily by
+  the plan tier (Essentials, Business, Enterprise) and the number of seats above
+  each plan's included allotment, rather than by API call volume - the REST API
+  carries no separate metered fee and is included on paid plans. Because billing
+  is seat-based and annual, the dominant FinOps levers are right-sizing the seat
+  count and choosing the tier that matches required features (workflows,
+  reporting, SSO), not per-request optimization.
+notes: >-
+  Per-seat rates and included-seat counts vary by source and negotiation and are
+  not reconciled here; verify on the Concord pricing page during reconciliation.
+  There is no usage-metered API charge, so API cost allocation is effectively a
+  share of the seat-based subscription.
+sources:
+- https://www.concord.app/pricing/
+- https://help.concord.app/concord-api
+- https://focus.finops.org/focus-specification/v1-3/
+alignedWith:
+  framework: FinOps Foundation Framework
+  frameworkUrl: https://www.finops.org/framework/
+  dataSpec: FOCUS
+  dataSpecVersion: '1.3'
+  dataSpecUrl: https://focus.finops.org/focus-specification/v1-3/
+publisherName: Concord
+serviceCategory: Contract Lifecycle Management
+billingModel:
+  pricingCategory: Subscription-Based
+  billingFrequency: Annual
+  billingCurrency: USD
+  chargeCategories:
+  - Purchase
+  - Usage
+  - Adjustment
+focusColumns:
+  ServiceName: Concord
+  ServiceCategory: Contract Lifecycle Management
+  ProviderName: Concord
+  PublisherName: Concord
+  InvoiceIssuerName: Concord
+  BillingCurrency: USD
+  ChargeCategory: Purchase
+  PricingCategory: Subscription-Based
+meters:
+- name: base_subscription
+  description: Flat annual base subscription for the chosen plan tier, including a bundled seat allotment.
+  unit: subscription
+  aggregation: sum
+  dimensions:
+  - account
+  - plan
+- name: additional_seats
+  description: Per-user seats beyond the plan's included allotment, billed per seat per month.
+  unit: seats
+  aggregation: sum
+  dimensions:
+  - account
+  - plan
+principles:
+- name: Visibility
+  description: Track active seats against the plan's included allotment and the annual contract value; the API itself is unmetered.
+- name: Allocation
+  description: Map seats and the subscription to the teams and legal/procurement functions that use Concord.
+- name: Optimization
+  description: Right-size seat counts and pick the tier whose bundled features (workflows, reporting, SSO) match need, since spend is seat- and tier-driven, not API-call-driven.
+- name: Accountability
+  description: Assign an owner to review seat utilization and renewal terms ahead of the annual billing cycle.
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com

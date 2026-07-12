@@ -1,0 +1,155 @@
+aid: concord-com
+url: https://raw.githubusercontent.com/api-evangelist/concord-com/refs/heads/main/apis.yml
+name: Concord
+kind: company
+description: Concord is a contract lifecycle management (CLM) platform for creating,
+  negotiating, redlining, e-signing, storing, and tracking agreements in one place,
+  with unlimited electronic signatures, automated templates, approval workflows, and
+  reporting. Concord exposes a documented REST API (base
+  https://api.concordnow.com/api/rest/1) that lets integrators read a user's
+  organizations, list and retrieve agreements and their attachments and members,
+  and pull organization reports, groups, and tags. Outbound webhooks notify external
+  systems of agreement lifecycle events (fully approved, fully signed, expired,
+  signature provided). API key generation is offered on paid plans only.
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+tags:
+- Contract Management
+- Contract Lifecycle Management
+- CLM
+- Contracts
+- Agreements
+- E-Signature
+- Document Management
+- Legal
+- Workflow
+created: '2026-07-12'
+modified: '2026-07-12'
+specificationVersion: '0.19'
+apis:
+- aid: concord-com:concord-com-agreements-api
+  name: Concord Agreements API
+  tags:
+  - Agreements
+  - Contracts
+  - CLM
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://help.concord.app/concord-api
+  baseURL: https://api.concordnow.com/api/rest/1
+  properties:
+  - url: https://help.concord.app/concord-api
+    type: Documentation
+  - url: https://api.doc.concordnow.com/
+    type: APIReference
+  - url: openapi/concord-com-openapi.yml
+    type: OpenAPI
+  - url: collections/concord-com.postman_collection.json
+    type: PostmanCollection
+  - url: collections/concord-com.opencollection.json
+    type: OpenCollection
+  description: List an organization's agreements (contracts) and retrieve a single
+    agreement's attachments and members. Agreements are scoped under a user's
+    organization at /user/me/organizations/{organizationId}/agreements. Read
+    access is confirmed against the live API; write/create operations are not
+    documented in the public developer reference.
+- aid: concord-com:concord-com-organizations-api
+  name: Concord Organizations & Users API
+  tags:
+  - Organizations
+  - Users
+  - Accounts
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://help.concord.app/concord-api
+  baseURL: https://api.concordnow.com/api/rest/1
+  properties:
+  - url: https://help.concord.app/concord-api
+    type: Documentation
+  - url: https://api.doc.concordnow.com/
+    type: APIReference
+  - url: openapi/concord-com-openapi.yml
+    type: OpenAPI
+  - url: collections/concord-com.postman_collection.json
+    type: PostmanCollection
+  - url: collections/concord-com.opencollection.json
+    type: OpenCollection
+  description: Read the authenticated user (/user/me), the organizations that user
+    belongs to (/user/me/organizations), and per-organization reports, groups, and
+    tags. Concord does not publish a user CRUD or SCIM provisioning API; user
+    identity is surfaced read-only through the current-user and organizations
+    endpoints.
+- aid: concord-com:concord-com-documents-api
+  name: Concord Documents & Attachments API
+  tags:
+  - Documents
+  - Attachments
+  - Files
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://help.concord.app/concord-api
+  baseURL: https://api.concordnow.com/api/rest/1
+  properties:
+  - url: https://help.concord.app/concord-api
+    type: Documentation
+  - url: openapi/concord-com-openapi.yml
+    type: OpenAPI
+  - url: collections/concord-com.postman_collection.json
+    type: PostmanCollection
+  - url: collections/concord-com.opencollection.json
+    type: OpenCollection
+  description: Retrieve the files (attachments) associated with an agreement at
+    /organizations/{organizationId}/agreements/{agreementUid}/attachments. In
+    Concord's model a document is an agreement plus its attachments; agreement
+    content and attachments are read through the agreements surface.
+- aid: concord-com:concord-com-templates-api
+  name: Concord Templates API
+  tags:
+  - Templates
+  - Document Generation
+  - Automation
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://help.concord.app/hc/en-us/articles/207854166-Create-a-Document-from-an-Automated-Template-with-the-API
+  baseURL: https://api.concordnow.com/api/rest/1
+  properties:
+  - url: https://help.concord.app/hc/en-us/articles/207854166-Create-a-Document-from-an-Automated-Template-with-the-API
+    type: Documentation
+  - url: openapi/concord-com-openapi.yml
+    type: OpenAPI
+  description: Generate a document from an automated (Excel-driven) template using an
+    API key and the template UID. Concord documents that this capability exists,
+    but the exact request path and body are not published in the crawlable public
+    reference, so the operation is modeled here and flagged as unconfirmed.
+- aid: concord-com:concord-com-webhooks-api
+  name: Concord Webhooks (Outbound Events)
+  tags:
+  - Webhooks
+  - Events
+  - Notifications
+  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+  humanURL: https://help.concord.app/hc/en-us/articles/4417525871508-create-a-webhook-integration
+  baseURL: https://api.concordnow.com/api/rest/1
+  properties:
+  - url: https://help.concord.app/hc/en-us/articles/4417525871508-create-a-webhook-integration
+    type: Documentation
+  description: Concord sends outbound HTTP POST webhooks to a URL you configure in the
+    Automations > Integrations UI, firing on agreement lifecycle events - document
+    fully approved, document fully signed, document expired, and signature
+    provided. Webhooks are configured in the UI, not via a REST management endpoint,
+    and payloads carry the impacted agreement plus the triggering user.
+common:
+- type: DomainSecurity
+  url: security/concord-com-domain-security.yml
+- type: Authentication
+  url: authentication/concord-com-authentication.yml
+- type: Website
+  url: https://www.concord.app
+- type: Documentation
+  url: https://help.concord.app/concord-api
+- type: LinkedIn
+  url: https://www.linkedin.com/company/concordnow
+- type: Plans
+  url: plans/concord-com-plans-pricing.yml
+- type: RateLimits
+  url: rate-limits/concord-com-rate-limits.yml
+- type: FinOps
+  url: finops/concord-com-finops.yml
+maintainers:
+- FN: Kin Lane
+  email: kin@apievangelist.com
