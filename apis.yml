@@ -134,6 +134,8 @@ apis:
     provided. Webhooks are configured in the UI, not via a REST management endpoint,
     and payloads carry the impacted agreement plus the triggering user.
 common:
+- type: AgenticAccess
+  url: agentic-access/concord-com-agentic-access.yml
 - type: DomainSecurity
   url: security/concord-com-domain-security.yml
 - type: Authentication
