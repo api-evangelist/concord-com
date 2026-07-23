@@ -1,0 +1,125 @@
+openapi: 3.0.3
+info:
+  title: Concord Agreements Organizations API
+  description: 'The Concord REST API provides programmatic, read-oriented access to a Concord contract lifecycle management (CLM) account. It exposes the authenticated user, the organizations that user belongs to, the agreements (contracts) within an organization, an agreement''s attachments and members, and organization-level reports, groups, and tags. All requests are authenticated with an API key passed in the `X-API-KEY` header; API key generation is available on paid plans only.
+
+
+    Confirmed endpoints below were validated against the live production host (https://api.concordnow.com/api/rest/1), which returns HTTP 401 `{"statusCode":401,"restCode":"unauthorized"}` when called without a valid key. Concord''s public developer reference is a rendered documentation portal (https://api.doc.concordnow.com/) and does not expose a machine-readable OpenAPI file; response schemas here are modeled from documented behavior and connector mappings, not copied from an official spec. The template document-generation operation is documented to exist but its exact path and request body are not published, so it is included and explicitly flagged as modeled/unconfirmed.'
+  version: '1.0'
+  contact:
+    name: Concord
+    url: https://www.concord.app
+servers:
+- url: https://api.concordnow.com/api/rest/1
+  description: Production
+- url: https://uat.concordnow.com/api/rest/1
+  description: UAT / Sandbox
+security:
+- apiKeyAuth: []
+tags:
+- name: Organizations
+  description: Organization-level resources - reports, groups, and tags.
+paths:
+  /organizations/{organizationId}/reports:
+    parameters:
+    - $ref: '#/components/parameters/OrganizationId'
+    get:
+      operationId: listOrganizationReports
+      tags:
+      - Organizations
+      summary: List organization reports
+      description: Returns the reports configured for an organization. The response nests the list under a `reports` selector.
+      responses:
+        '200':
+          description: A list of reports.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  reports:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /organizations/{organizationId}/groups:
+    parameters:
+    - $ref: '#/components/parameters/OrganizationId'
+    get:
+      operationId: listOrganizationGroups
+      tags:
+      - Organizations
+      summary: List organization groups
+      description: Returns the groups within an organization. The response nests the list under a `groups` selector.
+      responses:
+        '200':
+          description: A list of groups.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  groups:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /organizations/{organizationId}/tags:
+    parameters:
+    - $ref: '#/components/parameters/OrganizationId'
+    get:
+      operationId: listOrganizationTags
+      tags:
+      - Organizations
+      summary: List organization tags
+      description: Returns the tags defined within an organization. The response nests the list under a `tags` selector.
+      responses:
+        '200':
+          description: A list of tags.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  tags:
+                    type: array
+                    items:
+                      type: object
+                      additionalProperties: true
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+components:
+  parameters:
+    OrganizationId:
+      name: organizationId
+      in: path
+      required: true
+      description: The ID of the organization.
+      schema:
+        type: string
+  schemas:
+    Error:
+      type: object
+      description: Modeled from the live 401 response body.
+      properties:
+        statusCode:
+          type: integer
+        restCode:
+          type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key. The live API returns `{"statusCode":401,"restCode":"unauthorized"}`.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  securitySchemes:
+    apiKeyAuth:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+      description: API key generated in the Concord account (paid plans only) and sent in the `X-API-KEY` request header. Confirmed against the live production host, which returns 401 unauthorized without a valid key.
