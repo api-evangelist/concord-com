@@ -11,7 +11,20 @@ description: Concord is a contract lifecycle management (CLM) platform for creat
   and pull organization reports, groups, and tags. Outbound webhooks notify external
   systems of agreement lifecycle events (fully approved, fully signed, expired,
   signature provided). API key generation is offered on paid plans only.
-image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
+accessModel:
+  pricing: paid
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Paid · Self-serve signup
+  confidence: high
+  source:
+  - plans
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/icons/concord-com.png
 tags:
 - Contract Management
 - Contract Lifecycle Management
@@ -26,96 +39,6 @@ created: '2026-07-12'
 modified: '2026-07-12'
 specificationVersion: '0.19'
 apis:
-- aid: concord-com:concord-com-agreements-api
-  name: Concord Agreements API
-  tags:
-  - Agreements
-  - Contracts
-  - CLM
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://help.concord.app/concord-api
-  baseURL: https://api.concordnow.com/api/rest/1
-  properties:
-  - url: https://help.concord.app/concord-api
-    type: Documentation
-  - url: https://api.doc.concordnow.com/
-    type: APIReference
-  - url: openapi/concord-com-openapi.yml
-    type: OpenAPI
-  - url: collections/concord-com.postman_collection.json
-    type: PostmanCollection
-  - url: collections/concord-com.opencollection.json
-    type: OpenCollection
-  description: List an organization's agreements (contracts) and retrieve a single
-    agreement's attachments and members. Agreements are scoped under a user's
-    organization at /user/me/organizations/{organizationId}/agreements. Read
-    access is confirmed against the live API; write/create operations are not
-    documented in the public developer reference.
-- aid: concord-com:concord-com-organizations-api
-  name: Concord Organizations & Users API
-  tags:
-  - Organizations
-  - Users
-  - Accounts
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://help.concord.app/concord-api
-  baseURL: https://api.concordnow.com/api/rest/1
-  properties:
-  - url: https://help.concord.app/concord-api
-    type: Documentation
-  - url: https://api.doc.concordnow.com/
-    type: APIReference
-  - url: openapi/concord-com-openapi.yml
-    type: OpenAPI
-  - url: collections/concord-com.postman_collection.json
-    type: PostmanCollection
-  - url: collections/concord-com.opencollection.json
-    type: OpenCollection
-  description: Read the authenticated user (/user/me), the organizations that user
-    belongs to (/user/me/organizations), and per-organization reports, groups, and
-    tags. Concord does not publish a user CRUD or SCIM provisioning API; user
-    identity is surfaced read-only through the current-user and organizations
-    endpoints.
-- aid: concord-com:concord-com-documents-api
-  name: Concord Documents & Attachments API
-  tags:
-  - Documents
-  - Attachments
-  - Files
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://help.concord.app/concord-api
-  baseURL: https://api.concordnow.com/api/rest/1
-  properties:
-  - url: https://help.concord.app/concord-api
-    type: Documentation
-  - url: openapi/concord-com-openapi.yml
-    type: OpenAPI
-  - url: collections/concord-com.postman_collection.json
-    type: PostmanCollection
-  - url: collections/concord-com.opencollection.json
-    type: OpenCollection
-  description: Retrieve the files (attachments) associated with an agreement at
-    /organizations/{organizationId}/agreements/{agreementUid}/attachments. In
-    Concord's model a document is an agreement plus its attachments; agreement
-    content and attachments are read through the agreements surface.
-- aid: concord-com:concord-com-templates-api
-  name: Concord Templates API
-  tags:
-  - Templates
-  - Document Generation
-  - Automation
-  image: https://kinlane-images.s3.amazonaws.com/shared/apis-json/apis-json-logo.jpg
-  humanURL: https://help.concord.app/hc/en-us/articles/207854166-Create-a-Document-from-an-Automated-Template-with-the-API
-  baseURL: https://api.concordnow.com/api/rest/1
-  properties:
-  - url: https://help.concord.app/hc/en-us/articles/207854166-Create-a-Document-from-an-Automated-Template-with-the-API
-    type: Documentation
-  - url: openapi/concord-com-openapi.yml
-    type: OpenAPI
-  description: Generate a document from an automated (Excel-driven) template using an
-    API key and the template UID. Concord documents that this capability exists,
-    but the exact request path and body are not published in the crawlable public
-    reference, so the operation is modeled here and flagged as unconfirmed.
 - aid: concord-com:concord-com-webhooks-api
   name: Concord Webhooks (Outbound Events)
   tags:
@@ -128,11 +51,95 @@ apis:
   properties:
   - url: https://help.concord.app/hc/en-us/articles/4417525871508-create-a-webhook-integration
     type: Documentation
-  description: Concord sends outbound HTTP POST webhooks to a URL you configure in the
-    Automations > Integrations UI, firing on agreement lifecycle events - document
-    fully approved, document fully signed, document expired, and signature
-    provided. Webhooks are configured in the UI, not via a REST management endpoint,
+  description: >-
+    Concord sends outbound HTTP POST webhooks to a URL you configure in the Automations > Integrations
+    UI, firing on agreement lifecycle events - document fully approved, document fully signed, document
+    expired, and signature provided. Webhooks are configured in the UI, not via a REST management endpoint,
     and payloads carry the impacted agreement plus the triggering user.
+- aid: concord-com:concord-com-agreements-api
+  name: Concord Agreements API
+  description: Agreements (contracts), their attachments, and members.
+  humanURL: https://help.concord.app/concord-api
+  baseURL: https://api.concordnow.com/api/rest/1
+  tags:
+  - Agreements
+  properties:
+  - type: OpenAPI
+    url: openapi/concord-com-agreements-api-openapi.yml
+  - type: Documentation
+    url: https://help.concord.app/concord-api
+  - type: APIReference
+    url: https://api.doc.concordnow.com/
+  - type: PostmanCollection
+    url: collections/concord-com.postman_collection.json
+  - type: OpenCollection
+    url: collections/concord-com.opencollection.json
+  - type: Documentation
+    url: >-
+      https://help.concord.app/hc/en-us/articles/207854166-Create-a-Document-from-an-Automated-Template-with-the-API
+- aid: concord-com:concord-com-organizations-api
+  name: Concord Organizations API
+  description: Organization-level resources - reports, groups, and tags.
+  humanURL: https://help.concord.app/concord-api
+  baseURL: https://api.concordnow.com/api/rest/1
+  tags:
+  - Organizations
+  properties:
+  - type: OpenAPI
+    url: openapi/concord-com-organizations-api-openapi.yml
+  - type: Documentation
+    url: https://help.concord.app/concord-api
+  - type: APIReference
+    url: https://api.doc.concordnow.com/
+  - type: PostmanCollection
+    url: collections/concord-com.postman_collection.json
+  - type: OpenCollection
+    url: collections/concord-com.opencollection.json
+  - type: Documentation
+    url: >-
+      https://help.concord.app/hc/en-us/articles/207854166-Create-a-Document-from-an-Automated-Template-with-the-API
+- aid: concord-com:concord-com-templates-api
+  name: Concord Templates API
+  description: Document generation from automated templates (modeled/unconfirmed).
+  humanURL: https://help.concord.app/concord-api
+  baseURL: https://api.concordnow.com/api/rest/1
+  tags:
+  - Templates
+  properties:
+  - type: OpenAPI
+    url: openapi/concord-com-templates-api-openapi.yml
+  - type: Documentation
+    url: https://help.concord.app/concord-api
+  - type: APIReference
+    url: https://api.doc.concordnow.com/
+  - type: PostmanCollection
+    url: collections/concord-com.postman_collection.json
+  - type: OpenCollection
+    url: collections/concord-com.opencollection.json
+  - type: Documentation
+    url: >-
+      https://help.concord.app/hc/en-us/articles/207854166-Create-a-Document-from-an-Automated-Template-with-the-API
+- aid: concord-com:concord-com-users-api
+  name: Concord Users API
+  description: The authenticated user and their organization memberships.
+  humanURL: https://help.concord.app/concord-api
+  baseURL: https://api.concordnow.com/api/rest/1
+  tags:
+  - Users
+  properties:
+  - type: OpenAPI
+    url: openapi/concord-com-users-api-openapi.yml
+  - type: Documentation
+    url: https://help.concord.app/concord-api
+  - type: APIReference
+    url: https://api.doc.concordnow.com/
+  - type: PostmanCollection
+    url: collections/concord-com.postman_collection.json
+  - type: OpenCollection
+    url: collections/concord-com.opencollection.json
+  - type: Documentation
+    url: >-
+      https://help.concord.app/hc/en-us/articles/207854166-Create-a-Document-from-an-Automated-Template-with-the-API
 common:
 - type: AgenticAccess
   url: agentic-access/concord-com-agentic-access.yml
