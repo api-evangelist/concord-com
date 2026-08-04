@@ -1,0 +1,20 @@
+{
+  "provider": "concord-com",
+  "sources": [
+    "concord-com-agreements-api-openapi.yml",
+    "concord-com-organizations-api-openapi.yml",
+    "concord-com-templates-api-openapi.yml",
+    "concord-com-users-api-openapi.yml"
+  ],
+  "outputs": [
+    "concord-com-agreements-api-openapi.yml",
+    "concord-com-organizations-api-openapi.yml",
+    "concord-com-templates-api-openapi.yml",
+    "concord-com-users-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}
