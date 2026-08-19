@@ -1,0 +1,300 @@
+{
+  "item": [
+    {
+      "id": "1de42fd4-eb7b-4c29-843b-75d768e9cd1d",
+      "name": "Users",
+      "description": {
+        "content": "The authenticated user and their organization memberships.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "d8e9886b-d478-4003-b29c-7a0b2df8d2d9",
+          "name": "Get the authenticated user",
+          "request": {
+            "name": "Get the authenticated user",
+            "description": {
+              "content": "Returns the profile of the user that owns the API key. Confirmed live (returns 401 without a valid key).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "user",
+                "me"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "290d3763-c442-4804-acda-9e1da9f8885f",
+              "name": "The authenticated user.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "user",
+                    "me"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-KEY",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": \"string\",\n  \"email\": \"pVY3SpGC@ygwrCjavsLnHoGyFBVEtdqW.ee\",\n  \"firstName\": \"string\",\n  \"lastName\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "338e2169-6ee9-45ee-abae-893553d3b60e",
+              "name": "Missing or invalid API key. The live API returns `{\"statusCode\":401,\"restCode\":\"unauthorized\"}`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "user",
+                    "me"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-KEY",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"statusCode\": 4168,\n  \"restCode\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "1824b955-14a5-4365-87c6-0fe6d3ccee65",
+          "name": "List the user's organizations",
+          "request": {
+            "name": "List the user's organizations",
+            "description": {
+              "content": "Lists the organizations the authenticated user belongs to. The response payload nests the list under an `organizations` selector.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "user",
+                "me",
+                "organizations"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "bffbb5e4-7e1c-4baa-9c19-be2038d9b4ae",
+              "name": "A list of organizations.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "user",
+                    "me",
+                    "organizations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-KEY",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"organizations\": [\n    {\n      \"id\": \"string\",\n      \"name\": \"string\"\n    },\n    {\n      \"id\": \"string\",\n      \"name\": \"string\"\n    }\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "96245a27-2475-4745-b87f-15b626e8e7cd",
+              "name": "Missing or invalid API key. The live API returns `{\"statusCode\":401,\"restCode\":\"unauthorized\"}`.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "user",
+                    "me",
+                    "organizations"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "description": {
+                      "content": "Added as a part of security scheme: apikey",
+                      "type": "text/plain"
+                    },
+                    "key": "X-API-KEY",
+                    "value": "<API Key>"
+                  },
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"statusCode\": 4168,\n  \"restCode\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://api.concordnow.com/api/rest/1",
+      "key": "baseUrl"
+    }
+  ],
+  "auth": {
+    "type": "apikey",
+    "apikey": [
+      {
+        "key": "key",
+        "value": "X-API-KEY"
+      },
+      {
+        "key": "value",
+        "value": "{{apiKey}}"
+      },
+      {
+        "key": "in",
+        "value": "header"
+      }
+    ]
+  },
+  "info": {
+    "_postman_id": "f6d3a4e8-20b7-43b1-a675-3726daa613e1",
+    "name": "Concord Agreements Users API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "The Concord REST API provides programmatic, read-oriented access to a Concord contract lifecycle management (CLM) account. It exposes the authenticated user, the organizations that user belongs to, the agreements (contracts) within an organization, an agreement's attachments and members, and organization-level reports, groups, and tags. All requests are authenticated with an API key passed in the `X-API-KEY` header; API key generation is available on paid plans only.\n\nConfirmed endpoints below were validated against the live production host (https://api.concordnow.com/api/rest/1), which returns HTTP 401 `{\"statusCode\":401,\"restCode\":\"unauthorized\"}` when called without a valid key. Concord's public developer reference is a rendered documentation portal (https://api.doc.concordnow.com/) and does not expose a machine-readable OpenAPI file; response schemas here are modeled from documented behavior and connector mappings, not copied from an official spec. The template document-generation operation is documented to exist but its exact path and request body are not published, so it is included and explicitly flagged as modeled/unconfirmed.\n\nContact Support:\n Name: Concord",
+      "type": "text/plain"
+    }
+  }
+}

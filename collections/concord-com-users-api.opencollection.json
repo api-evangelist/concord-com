@@ -1,0 +1,48 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Concord Agreements Users API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-API-KEY",
+      "value": "{{X-API-KEY}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Users",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get the authenticated user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.concordnow.com/api/rest/1/user/me"
+          },
+          "docs": "Returns the profile of the user that owns the API key. Confirmed live (returns 401 without a valid key)."
+        },
+        {
+          "info": {
+            "name": "List the user's organizations",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.concordnow.com/api/rest/1/user/me/organizations"
+          },
+          "docs": "Lists the organizations the authenticated user belongs to. The response payload nests the list under an `organizations` selector."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

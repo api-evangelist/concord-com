@@ -1,0 +1,107 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Concord Agreements API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-API-KEY",
+      "value": "{{X-API-KEY}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Agreements",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List agreements in an organization",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.concordnow.com/api/rest/1/user/me/organizations/:organizationId/agreements",
+            "params": [
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the organization."
+              },
+              {
+                "name": "limit",
+                "value": "",
+                "type": "query",
+                "description": "Maximum number of items to return (pagination)."
+              },
+              {
+                "name": "offset",
+                "value": "",
+                "type": "query",
+                "description": "Number of items to skip (pagination)."
+              }
+            ]
+          },
+          "docs": "Lists the agreements (contracts) in the given organization for the authenticated user. The response nests items under an `items` selector and is paginated."
+        },
+        {
+          "info": {
+            "name": "List an agreement's attachments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.concordnow.com/api/rest/1/organizations/:organizationId/agreements/:agreementUid/attachments",
+            "params": [
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the organization."
+              },
+              {
+                "name": "agreementUid",
+                "value": "",
+                "type": "path",
+                "description": "The UID of the agreement."
+              }
+            ]
+          },
+          "docs": "Returns the files attached to an agreement. The response nests the list under an `attachments` selector."
+        },
+        {
+          "info": {
+            "name": "List an agreement's members",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://api.concordnow.com/api/rest/1/organizations/:organizationId/agreements/:agreementUid/members",
+            "params": [
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the organization."
+              },
+              {
+                "name": "agreementUid",
+                "value": "",
+                "type": "path",
+                "description": "The UID of the agreement."
+              }
+            ]
+          },
+          "docs": "Returns the members (people) associated with an agreement."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

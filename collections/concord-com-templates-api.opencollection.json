@@ -1,0 +1,55 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Concord Agreements Templates API",
+    "version": "1.0"
+  },
+  "request": {
+    "auth": {
+      "type": "apikey",
+      "key": "X-API-KEY",
+      "value": "{{X-API-KEY}}",
+      "placement": "header"
+    }
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Templates",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Create a document from an automated template (MODELED - UNCONFIRMED)",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "https://api.concordnow.com/api/rest/1/organizations/:organizationId/templates/:templateUid/documents",
+            "params": [
+              {
+                "name": "organizationId",
+                "value": "",
+                "type": "path",
+                "description": "The ID of the organization."
+              },
+              {
+                "name": "templateUid",
+                "value": "",
+                "type": "path",
+                "description": "The UID of the automated template."
+              }
+            ],
+            "body": {
+              "type": "json",
+              "data": "{}"
+            }
+          },
+          "docs": "MODELED / UNCONFIRMED. Concord documents that a document can be generated from an automated (Excel-driven) template using an API key and the template UID, but the exact request path, method, and body are not published in the crawlable public reference. This path and request schema are modeled to represent the capability and MUST be verified against the live account before use."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
