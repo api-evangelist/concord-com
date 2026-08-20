@@ -32,6 +32,16 @@ tags:
 - Contracts
 - Agreements
 - E-Signature
+- Document-Management
+- Legal
+- Workflows
+tags_raw:
+- Contract Management
+- Contract Lifecycle Management
+- CLM
+- Contracts
+- Agreements
+- E-Signature
 - Document Management
 - Legal
 - Workflow
@@ -42,6 +52,10 @@ apis:
 - aid: concord-com:concord-com-webhooks-api
   name: Concord Webhooks (Outbound Events)
   tags:
+  - Webhook
+  - Event
+  - Notification
+  tags_raw:
   - Webhooks
   - Events
   - Notifications
@@ -83,6 +97,8 @@ apis:
   humanURL: https://help.concord.app/concord-api
   baseURL: https://api.concordnow.com/api/rest/1
   tags:
+  - Organization
+  tags_raw:
   - Organizations
   properties:
   - type: OpenAPI
@@ -125,6 +141,8 @@ apis:
   humanURL: https://help.concord.app/concord-api
   baseURL: https://api.concordnow.com/api/rest/1
   tags:
+  - User
+  tags_raw:
   - Users
   properties:
   - type: OpenAPI
