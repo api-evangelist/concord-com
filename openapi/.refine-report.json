@@ -1,10 +1,7 @@
 {
   "provider": "concord-com",
   "sources": [
-    "concord-com-agreements-api-openapi.yml",
-    "concord-com-organizations-api-openapi.yml",
-    "concord-com-templates-api-openapi.yml",
-    "concord-com-users-api-openapi.yml"
+    "_original/concord-com-openapi.yml"
   ],
   "outputs": [
     "concord-com-agreements-api-openapi.yml",
@@ -15,6 +12,15 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "concord-com-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "concord-com-agreements-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "concord-com-organizations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "concord-com-templates-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "concord-com-users-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }

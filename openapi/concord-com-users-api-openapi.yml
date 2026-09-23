@@ -1,10 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
-  title: Concord Agreements Users API
-  description: 'The Concord REST API provides programmatic, read-oriented access to a Concord contract lifecycle management (CLM) account. It exposes the authenticated user, the organizations that user belongs to, the agreements (contracts) within an organization, an agreement''s attachments and members, and organization-level reports, groups, and tags. All requests are authenticated with an API key passed in the `X-API-KEY` header; API key generation is available on paid plans only.
-
-
-    Confirmed endpoints below were validated against the live production host (https://api.concordnow.com/api/rest/1), which returns HTTP 401 `{"statusCode":401,"restCode":"unauthorized"}` when called without a valid key. Concord''s public developer reference is a rendered documentation portal (https://api.doc.concordnow.com/) and does not expose a machine-readable OpenAPI file; response schemas here are modeled from documented behavior and connector mappings, not copied from an official spec. The template document-generation operation is documented to exist but its exact path and request body are not published, so it is included and explicitly flagged as modeled/unconfirmed.'
+  title: Concord Users API
+  description: The Concord REST API provides programmatic, read-oriented access to a Concord contract lifecycle management (CLM) account.
   version: '1.0'
   contact:
     name: Concord
@@ -59,13 +56,13 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    Organization:
+    Error:
       type: object
-      description: Modeled representation of a Concord organization.
+      description: Modeled from the live 401 response body.
       properties:
-        id:
-          type: string
-        name:
+        statusCode:
+          type: integer
+        restCode:
           type: string
     User:
       type: object
@@ -80,13 +77,13 @@ components:
           type: string
         lastName:
           type: string
-    Error:
+    Organization:
       type: object
-      description: Modeled from the live 401 response body.
+      description: Modeled representation of a Concord organization.
       properties:
-        statusCode:
-          type: integer
-        restCode:
+        id:
+          type: string
+        name:
           type: string
   responses:
     Unauthorized:

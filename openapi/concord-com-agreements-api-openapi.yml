@@ -1,10 +1,7 @@
-openapi: 3.0.3
+openapi: 3.2.0
 info:
   title: Concord Agreements API
-  description: 'The Concord REST API provides programmatic, read-oriented access to a Concord contract lifecycle management (CLM) account. It exposes the authenticated user, the organizations that user belongs to, the agreements (contracts) within an organization, an agreement''s attachments and members, and organization-level reports, groups, and tags. All requests are authenticated with an API key passed in the `X-API-KEY` header; API key generation is available on paid plans only.
-
-
-    Confirmed endpoints below were validated against the live production host (https://api.concordnow.com/api/rest/1), which returns HTTP 401 `{"statusCode":401,"restCode":"unauthorized"}` when called without a valid key. Concord''s public developer reference is a rendered documentation portal (https://api.doc.concordnow.com/) and does not expose a machine-readable OpenAPI file; response schemas here are modeled from documented behavior and connector mappings, not copied from an official spec. The template document-generation operation is documented to exist but its exact path and request body are not published, so it is included and explicitly flagged as modeled/unconfirmed.'
+  description: The Concord REST API provides programmatic, read-oriented access to a Concord contract lifecycle management (CLM) account.
   version: '1.0'
   contact:
     name: Concord
@@ -93,6 +90,14 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
+    Error:
+      type: object
+      description: Modeled from the live 401 response body.
+      properties:
+        statusCode:
+          type: integer
+        restCode:
+          type: string
     Member:
       type: object
       description: Modeled representation of an agreement member.
@@ -103,14 +108,6 @@ components:
           type: string
           format: email
         role:
-          type: string
-    Error:
-      type: object
-      description: Modeled from the live 401 response body.
-      properties:
-        statusCode:
-          type: integer
-        restCode:
           type: string
     Attachment:
       type: object
@@ -139,13 +136,6 @@ components:
           type: string
           format: date-time
   parameters:
-    AgreementUid:
-      name: agreementUid
-      in: path
-      required: true
-      description: The UID of the agreement.
-      schema:
-        type: string
     OrganizationId:
       name: organizationId
       in: path
@@ -153,18 +143,25 @@ components:
       description: The ID of the organization.
       schema:
         type: string
-    Offset:
-      name: offset
-      in: query
-      required: false
-      description: Number of items to skip (pagination).
+    AgreementUid:
+      name: agreementUid
+      in: path
+      required: true
+      description: The UID of the agreement.
       schema:
-        type: integer
+        type: string
     Limit:
       name: limit
       in: query
       required: false
       description: Maximum number of items to return (pagination).
+      schema:
+        type: integer
+    Offset:
+      name: offset
+      in: query
+      required: false
+      description: Number of items to skip (pagination).
       schema:
         type: integer
   responses:
