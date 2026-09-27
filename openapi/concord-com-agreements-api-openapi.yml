@@ -90,13 +90,15 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    Error:
+    Attachment:
       type: object
-      description: Modeled from the live 401 response body.
+      description: Modeled representation of an agreement attachment (file).
       properties:
-        statusCode:
-          type: integer
-        restCode:
+        id:
+          type: string
+        name:
+          type: string
+        contentType:
           type: string
     Member:
       type: object
@@ -108,16 +110,6 @@ components:
           type: string
           format: email
         role:
-          type: string
-    Attachment:
-      type: object
-      description: Modeled representation of an agreement attachment (file).
-      properties:
-        id:
-          type: string
-        name:
-          type: string
-        contentType:
           type: string
     Agreement:
       type: object
@@ -135,19 +127,27 @@ components:
         updatedAt:
           type: string
           format: date-time
+    Error:
+      type: object
+      description: Modeled from the live 401 response body.
+      properties:
+        statusCode:
+          type: integer
+        restCode:
+          type: string
   parameters:
-    OrganizationId:
-      name: organizationId
-      in: path
-      required: true
-      description: The ID of the organization.
-      schema:
-        type: string
     AgreementUid:
       name: agreementUid
       in: path
       required: true
       description: The UID of the agreement.
+      schema:
+        type: string
+    OrganizationId:
+      name: organizationId
+      in: path
+      required: true
+      description: The ID of the organization.
       schema:
         type: string
     Limit:

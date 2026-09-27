@@ -44,7 +44,7 @@ tags:
 - Contracts
 - Agreements
 - E-Signature
-- Document-Management
+- Document Management
 - Legal
 - Workflows
 tags_raw:
@@ -57,6 +57,7 @@ tags_raw:
 - Document Management
 - Legal
 - Workflow
+- Document-Management
 created: '2026-07-12'
 modified: '2026-07-12'
 specificationVersion: '0.23'
