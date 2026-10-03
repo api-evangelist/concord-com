@@ -99,13 +99,6 @@ components:
           type: integer
         restCode:
           type: string
-  responses:
-    Unauthorized:
-      description: Missing or invalid API key. The live API returns `{"statusCode":401,"restCode":"unauthorized"}`.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/Error'
   parameters:
     OrganizationId:
       name: organizationId
@@ -114,6 +107,13 @@ components:
       description: The ID of the organization.
       schema:
         type: string
+  responses:
+    Unauthorized:
+      description: Missing or invalid API key. The live API returns `{"statusCode":401,"restCode":"unauthorized"}`.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
   securitySchemes:
     apiKeyAuth:
       type: apiKey

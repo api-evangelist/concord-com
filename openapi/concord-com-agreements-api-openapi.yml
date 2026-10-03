@@ -90,15 +90,13 @@ paths:
           $ref: '#/components/responses/Unauthorized'
 components:
   schemas:
-    Attachment:
+    Error:
       type: object
-      description: Modeled representation of an agreement attachment (file).
+      description: Modeled from the live 401 response body.
       properties:
-        id:
-          type: string
-        name:
-          type: string
-        contentType:
+        statusCode:
+          type: integer
+        restCode:
           type: string
     Member:
       type: object
@@ -110,6 +108,16 @@ components:
           type: string
           format: email
         role:
+          type: string
+    Attachment:
+      type: object
+      description: Modeled representation of an agreement attachment (file).
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+        contentType:
           type: string
     Agreement:
       type: object
@@ -127,22 +135,7 @@ components:
         updatedAt:
           type: string
           format: date-time
-    Error:
-      type: object
-      description: Modeled from the live 401 response body.
-      properties:
-        statusCode:
-          type: integer
-        restCode:
-          type: string
   parameters:
-    AgreementUid:
-      name: agreementUid
-      in: path
-      required: true
-      description: The UID of the agreement.
-      schema:
-        type: string
     OrganizationId:
       name: organizationId
       in: path
@@ -150,18 +143,25 @@ components:
       description: The ID of the organization.
       schema:
         type: string
-    Limit:
-      name: limit
-      in: query
-      required: false
-      description: Maximum number of items to return (pagination).
+    AgreementUid:
+      name: agreementUid
+      in: path
+      required: true
+      description: The UID of the agreement.
       schema:
-        type: integer
+        type: string
     Offset:
       name: offset
       in: query
       required: false
       description: Number of items to skip (pagination).
+      schema:
+        type: integer
+    Limit:
+      name: limit
+      in: query
+      required: false
+      description: Maximum number of items to return (pagination).
       schema:
         type: integer
   responses:

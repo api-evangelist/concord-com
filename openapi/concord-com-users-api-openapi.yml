@@ -64,6 +64,14 @@ components:
           type: integer
         restCode:
           type: string
+    Organization:
+      type: object
+      description: Modeled representation of a Concord organization.
+      properties:
+        id:
+          type: string
+        name:
+          type: string
     User:
       type: object
       description: Modeled representation of the authenticated user.
@@ -76,14 +84,6 @@ components:
         firstName:
           type: string
         lastName:
-          type: string
-    Organization:
-      type: object
-      description: Modeled representation of a Concord organization.
-      properties:
-        id:
-          type: string
-        name:
           type: string
   responses:
     Unauthorized:
