@@ -172,6 +172,9 @@ apis:
     url: >-
       https://help.concord.app/hc/en-us/articles/207854166-Create-a-Document-from-an-Automated-Template-with-the-API
 common:
+- type: CapabilityMap
+  url: capabilities/concord-com-capability-edges.yml
+  name: Concord Business Capability Map
 - type: AgenticAccess
   url: agentic-access/concord-com-agentic-access.yml
 - type: DomainSecurity

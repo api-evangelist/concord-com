@@ -1,0 +1,35 @@
+slug: concord-com
+provider: Concord
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Software & Technology
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 2
+edges:
+- tag: Agreements
+  spec_file: concord-com-agreements-api-openapi.yml
+  capability_id: BC-150.10
+  capability_id_l1: BC-150
+  capability_name: Contract Management
+  confidence: 0.92
+  evidence: GET /user/me/organizations/{organizationId}/agreements  listAgreements  List agreements in
+    an organization
+  reason: Concord is a contract lifecycle management platform and this tag reads agreements, their attachments
+    and members (Agreement, Attachment, Member schemas). This directly realises Contract Management.
+- tag: Templates
+  spec_file: concord-com-templates-api-openapi.yml
+  capability_id: BC-150.10
+  capability_id_l1: BC-150
+  capability_name: Contract Management
+  confidence: 0.78
+  evidence: POST /organizations/{organizationId}/templates/{templateUid}/documents  createDocumentFromTemplate  Create
+    a document from an automated template
+  reason: Generates a contract document from an automated template and returns an Agreement, which is
+    contract drafting within the contract lifecycle. Marked 'MODELED - UNCONFIRMED', hence moderate confidence.
