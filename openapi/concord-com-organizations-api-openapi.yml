@@ -90,15 +90,6 @@ paths:
         '401':
           $ref: '#/components/responses/Unauthorized'
 components:
-  schemas:
-    Error:
-      type: object
-      description: Modeled from the live 401 response body.
-      properties:
-        statusCode:
-          type: integer
-        restCode:
-          type: string
   parameters:
     OrganizationId:
       name: organizationId
@@ -114,6 +105,15 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/Error'
+  schemas:
+    Error:
+      type: object
+      description: Modeled from the live 401 response body.
+      properties:
+        statusCode:
+          type: integer
+        restCode:
+          type: string
   securitySchemes:
     apiKeyAuth:
       type: apiKey
