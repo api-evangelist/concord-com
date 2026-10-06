@@ -59,7 +59,7 @@ tags_raw:
 - Workflow
 - Document-Management
 created: '2026-07-12'
-modified: '2026-07-12'
+modified: '2026-10-06'
 specificationVersion: '0.23'
 apis:
 - aid: concord-com:concord-com-webhooks-api
@@ -172,6 +172,8 @@ apis:
     url: >-
       https://help.concord.app/hc/en-us/articles/207854166-Create-a-Document-from-an-Automated-Template-with-the-API
 common:
+- url: https://www.concord.app/blog
+  type: Blog
 - type: CapabilityMap
   url: capabilities/concord-com-capability-edges.yml
   name: Concord Business Capability Map
