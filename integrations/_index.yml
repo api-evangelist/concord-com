@@ -27,5 +27,5 @@
     - connectors/applications/concord
     vendor_link: https://www.concord.app/
     builder: Fivetran
-  status: pending-generation
+  status: not-a-workflow
   arazzo: null
