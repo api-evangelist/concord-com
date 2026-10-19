@@ -1,0 +1,475 @@
+openapi: 3.2.0
+info:
+  x-logo:
+    url: https://www.concord.app/wp-content/uploads/2025/01/Logo-full-color-16px-padding.svg
+  title: Concord Agreement Versions API
+  description: '## Overview
+
+
+    ### Basics
+
+
+    Concord, https://www.concord.app/, is a cloud-based contract lifecycle management platform built for all types of businesses.
+
+    It provides unlimited e-signatures and unlimited contract storage for any number of users.
+
+    Concord saves time, money, and trees. It’s a smart way to get everyone to agree.
+
+
+    This Concord API gives you access to features you see in Concord and lets you extend them for use in your own application.
+
+    It strives to be RESTful and is organized around the main resources you’re familiar with from the Concord interface.
+
+
+    Before you do anything, you should get a Concord account on our sandbox environment that you can test the API against
+
+    and create an API Key so that you can make API calls.
+
+
+    ### Format
+
+
+    Both request body data and response data are formatted as JSON.
+
+
+    ### Upcoming changes
+
+
+    We are always maintaining, fixing, and enhancing our API. As such, you should expect new endpoints to show up, new fields to be added to responses and new error codes to appear.
+
+    We recommend that you build your code to gracefully ignore things that you aren’t expecting, and to handle errors in standard HTTP-centric ways.
+
+
+    ### Getting help
+
+
+    To get in touch with our API experts directly, please send a message to support@concord.app.
+
+
+    ## Environments
+
+
+    The API is accessible from:
+
+
+    + https://uat.concordnow.com/api/rest/1/ - sandbox
+
+
+    + https://api.concordnow.com/api/rest/1/ - production
+
+
+    ## Authentication
+
+
+    To use this API, you need to be authenticated.
+
+
+    ### With an API key
+
+
+    Users authenticate themselves through the HTTP Header **X-API-KEY**.
+
+    You can generate as many API Keys as needed from your Concord account.
+
+
+    If the HTTP Header is missing or if the API Key is invalid,
+
+    the HTTP Response will be 401 Unauthorized.
+
+
+    ## Errors
+
+
+    The API communicates errors through standard HTTP status codes paired with error objects. Generally, the following pattern will apply:
+
+
+    + 2xx - The request was successfully received, understood, and accepted.
+
+
+    + 4xx - An error in the request. Usually a bad parameter.
+
+
+    + 5xx - The request is fine, but something is wrong on Concord''s end.
+
+
+    ### 4xx errors definition
+
+
+    The errors referenced here are valid for most (or even all) of our endpoints.
+
+    They are standard error messages for things like "Not authenticated, but you should" or "You can''t access this".
+
+    Depending on what you''re trying to access, you might get a bit more information in the response.
+
+
+    + Response 400 (application/json)
+
+
+    {
+
+    "statusCode": 400,
+
+    "restCode": "badRequest"
+
+    }
+
+
+    + Response 401 (application/json)
+
+
+    {
+
+    "statusCode": 401,
+
+    "restCode": "authFailed"
+
+    }
+
+
+    + Response 403 (application/json)
+
+
+    {
+
+    "statusCode": 403,
+
+    "restCode": "accessDenied"
+
+    }
+
+
+    + Response 404 (application/json)
+
+
+    {
+
+    "statusCode": 404,
+
+    "restCode": "notFound"
+
+    }
+
+
+    + Response 409 (application/json)
+
+
+    {
+
+    "statusCode": 409,
+
+    "restCode": "conflict"
+
+    }
+
+
+    ### HTTP status code
+
+
+    + 200 success
+
+
+    + 201 created
+
+
+    + 202 accepted
+
+
+    + 204 no_content
+
+
+    + 400 bad_request
+
+
+    + 401 unauthorized
+
+
+    + 403 forbidden
+
+
+    + 404 not_found
+
+
+    + 405 method_not_allowed
+
+
+    + 409 conflict
+
+
+    + 415 unsupported_media_type
+
+
+    + 500 internal_server_error
+
+
+    + 502 bad_gateway
+
+
+    + 503 unavailable
+
+
+    + 504 gateway_timeout'
+  contact:
+    email: support@concord.app
+    name: Support Concord
+    url: https://help.concord.app/
+  license:
+    name: Terms of service
+    url: https://www.concord.app/terms-of-service
+  version: Concord API v1.0
+servers:
+- url: https://uat.concordnow.com/api/rest/1
+  variables: {}
+security:
+- ApiKeyAuthentication: []
+tags:
+- name: Agreement Versions
+paths:
+  /organizations/{organizationId}/agreements/{agreementUid}/versions/last/fields:
+    parameters:
+    - in: path
+      name: organizationId
+      description: Organization ID
+      required: true
+      schema:
+        type: integer
+        format: int64
+    - in: path
+      name: agreementUid
+      description: Agreement unique identifier
+      required: true
+      schema:
+        $ref: '#/components/schemas/AgreementUid'
+    - in: query
+      name: context
+      description: Context for field validation (e.g. INTAKE_FORMS)
+      required: false
+      schema:
+        type: string
+        enum:
+        - INTAKE_FORMS
+    - in: query
+      name: autosave
+      description: Whether to autosave the changes
+      required: false
+      schema:
+        type: boolean
+        default: false
+    get:
+      tags:
+      - Agreement Versions
+      summary: List fields from the latest version of an agreement
+      description: 'Returns the list of fields from the latest version of an agreement.
+
+        If a context is provided, only fields allowed in that context will be returned.'
+      operationId: listFieldsLastVersion
+      responses:
+        '200':
+          description: List of fields successfully retrieved
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FieldListGetDto'
+        '403':
+          description: User does not have access to this agreement
+        '404':
+          description: Agreement not found
+components:
+  schemas:
+    FieldType:
+      title: FieldType
+      enum:
+      - TEXT
+      - PARAGRAPH
+      - RADIO
+      - SELECT
+      - CHECKBOX
+      - SINGLE_CLAUSE
+      - SIGNATURE
+      - SIGNER_FULL_NAME
+      - SIGNER_TITLE
+      - SIGNER_COMPANY
+      - SIGNER_INITIALS
+      type: string
+    FieldReservation:
+      title: FieldReservation
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/FieldReservationType'
+        organization:
+          description: if type is ORGANIZATION, CORPORATION or NOT_ORGANIZATION
+          $ref: '#/components/schemas/Organization'
+        user:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+        group:
+          $ref: '#/components/schemas/group'
+        signatureSlot:
+          $ref: '#/components/schemas/IdDto'
+        email:
+          type: string
+          description: if type is EMAIL
+          example: john.doe@company.com
+    group:
+      title: group
+      type: object
+      properties:
+        id:
+          type: number
+          example: 423
+      description: if type is GROUP
+    FillFieldDto:
+      title: FieldDto
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/FieldDtoBase'
+      - type: object
+        properties:
+          uuid:
+            type: string
+            format: uuid
+    FieldListGetDto:
+      title: FieldListGetDto
+      type: object
+      properties:
+        agreementUid:
+          $ref: '#/components/schemas/AgreementUid'
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/FieldDto'
+          description: ''
+    FieldDto:
+      title: FieldDto
+      type: object
+      allOf:
+      - $ref: '#/components/schemas/FillFieldDto'
+      - type: object
+        properties:
+          values:
+            type: array
+            items:
+              type: string
+            description: Values of the field inside this document.
+          organizationFieldItem:
+            $ref: '#/components/schemas/OrganizationFieldItemDto'
+          required:
+            type: boolean
+            example: true
+          type:
+            $ref: '#/components/schemas/FieldType'
+          placeholder:
+            type: string
+            example: enter text here
+          reservation:
+            $ref: '#/components/schemas/FieldReservation'
+          options:
+            type: array
+            items:
+              $ref: '#/components/schemas/FieldOptionDto'
+            description: if type is RADIO, SELECT, SINGLE_CLAUSE or CHECKBOX
+          locked:
+            type: boolean
+            description: true if the field is locked, false otherwise
+    FieldReservationType:
+      title: FieldReservationType
+      description: type of the field reservation
+      enum:
+      - NONE
+      - NOT_ORGANIZATION
+      - CORPORATION
+      - ORGANIZATION
+      - GROUP
+      - EMAIL
+      - USER
+      - SIGNER
+      type: string
+    AgreementUid:
+      oneOf:
+      - type: string
+        minLength: 22
+        maxLength: 22
+        description: Concord agreement unique identifier. (new format)
+      - type: string
+        minLength: 6
+        maxLength: 6
+        description: Concord agreement unique identifier. (old format)
+      examples:
+      - 01sp9L4YEZNcLHaSV8447N
+      - G4VIX7
+    IdDto:
+      title: IdDto
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Entity ID
+          example: 123
+    FieldDtoBase:
+      title: FieldDtoBase
+      type: object
+      properties:
+        values:
+          type: array
+          items:
+            type: string
+          description: Values of the field inside this document.
+        organizationFieldItem:
+          $ref: '#/components/schemas/OrganizationFieldItemDto'
+    Organization:
+      title: organization
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+    OrganizationFieldItemDto:
+      title: OrganizationFieldItemDto
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+    FieldOptionDto:
+      title: FieldOptionDto
+      type: object
+      properties:
+        key:
+          type: string
+          format: uuid
+        title:
+          type: string
+          description: option's title
+          example: title
+        description:
+          type: string
+          description: option's description
+          example: description
+        value:
+          type: string
+          description: option's value
+          example: value
+        clauseId:
+          type: number
+          description: clause's identifier linked to this option
+          example: 1
+        clauseVersion:
+          type: number
+          description: version's number of the clause linked to this option
+          example: 1
+  securitySchemes:
+    ApiKeyAuthentication:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+      description: 'Users authenticate themselves through the HTTP Header X-API-KEY. You can generate as many API Keys as needed from your Concord account.
+
+        If the HTTP Header is missing or if the API Key is invalid, the HTTP Response will be 401 Unauthorized.'

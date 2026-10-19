@@ -1,0 +1,467 @@
+openapi: 3.2.0
+info:
+  x-logo:
+    url: https://www.concord.app/wp-content/uploads/2025/01/Logo-full-color-16px-padding.svg
+  title: Concord Clause Library API
+  description: '## Overview
+
+
+    ### Basics
+
+
+    Concord, https://www.concord.app/, is a cloud-based contract lifecycle management platform built for all types of businesses.
+
+    It provides unlimited e-signatures and unlimited contract storage for any number of users.
+
+    Concord saves time, money, and trees. It’s a smart way to get everyone to agree.
+
+
+    This Concord API gives you access to features you see in Concord and lets you extend them for use in your own application.
+
+    It strives to be RESTful and is organized around the main resources you’re familiar with from the Concord interface.
+
+
+    Before you do anything, you should get a Concord account on our sandbox environment that you can test the API against
+
+    and create an API Key so that you can make API calls.
+
+
+    ### Format
+
+
+    Both request body data and response data are formatted as JSON.
+
+
+    ### Upcoming changes
+
+
+    We are always maintaining, fixing, and enhancing our API. As such, you should expect new endpoints to show up, new fields to be added to responses and new error codes to appear.
+
+    We recommend that you build your code to gracefully ignore things that you aren’t expecting, and to handle errors in standard HTTP-centric ways.
+
+
+    ### Getting help
+
+
+    To get in touch with our API experts directly, please send a message to support@concord.app.
+
+
+    ## Environments
+
+
+    The API is accessible from:
+
+
+    + https://uat.concordnow.com/api/rest/1/ - sandbox
+
+
+    + https://api.concordnow.com/api/rest/1/ - production
+
+
+    ## Authentication
+
+
+    To use this API, you need to be authenticated.
+
+
+    ### With an API key
+
+
+    Users authenticate themselves through the HTTP Header **X-API-KEY**.
+
+    You can generate as many API Keys as needed from your Concord account.
+
+
+    If the HTTP Header is missing or if the API Key is invalid,
+
+    the HTTP Response will be 401 Unauthorized.
+
+
+    ## Errors
+
+
+    The API communicates errors through standard HTTP status codes paired with error objects. Generally, the following pattern will apply:
+
+
+    + 2xx - The request was successfully received, understood, and accepted.
+
+
+    + 4xx - An error in the request. Usually a bad parameter.
+
+
+    + 5xx - The request is fine, but something is wrong on Concord''s end.
+
+
+    ### 4xx errors definition
+
+
+    The errors referenced here are valid for most (or even all) of our endpoints.
+
+    They are standard error messages for things like "Not authenticated, but you should" or "You can''t access this".
+
+    Depending on what you''re trying to access, you might get a bit more information in the response.
+
+
+    + Response 400 (application/json)
+
+
+    {
+
+    "statusCode": 400,
+
+    "restCode": "badRequest"
+
+    }
+
+
+    + Response 401 (application/json)
+
+
+    {
+
+    "statusCode": 401,
+
+    "restCode": "authFailed"
+
+    }
+
+
+    + Response 403 (application/json)
+
+
+    {
+
+    "statusCode": 403,
+
+    "restCode": "accessDenied"
+
+    }
+
+
+    + Response 404 (application/json)
+
+
+    {
+
+    "statusCode": 404,
+
+    "restCode": "notFound"
+
+    }
+
+
+    + Response 409 (application/json)
+
+
+    {
+
+    "statusCode": 409,
+
+    "restCode": "conflict"
+
+    }
+
+
+    ### HTTP status code
+
+
+    + 200 success
+
+
+    + 201 created
+
+
+    + 202 accepted
+
+
+    + 204 no_content
+
+
+    + 400 bad_request
+
+
+    + 401 unauthorized
+
+
+    + 403 forbidden
+
+
+    + 404 not_found
+
+
+    + 405 method_not_allowed
+
+
+    + 409 conflict
+
+
+    + 415 unsupported_media_type
+
+
+    + 500 internal_server_error
+
+
+    + 502 bad_gateway
+
+
+    + 503 unavailable
+
+
+    + 504 gateway_timeout'
+  contact:
+    email: support@concord.app
+    name: Support Concord
+    url: https://help.concord.app/
+  license:
+    name: Terms of service
+    url: https://www.concord.app/terms-of-service
+  version: Concord API v1.0
+servers:
+- url: https://uat.concordnow.com/api/rest/1
+  variables: {}
+security:
+- ApiKeyAuthentication: []
+tags:
+- name: Clause Library
+  description: Clause library related API
+paths:
+  /organizations/{organizationId}/clauses:
+    parameters:
+    - in: path
+      name: organizationId
+      description: Organization ID
+      required: true
+      schema:
+        type: integer
+        format: int64
+    get:
+      tags:
+      - Clause Library
+      summary: Get List active clauses
+      description: ''
+      operationId: GetListactiveclauses
+      parameters:
+      - name: sort
+        in: query
+        description: Sort parameter
+        style: form
+        explode: true
+        schema:
+          $ref: '#/components/schemas/OrganizationClauseSort'
+      - name: sortByAsc
+        in: query
+        description: Sort order
+        style: form
+        explode: true
+        schema:
+          type: boolean
+      - name: offset
+        in: query
+        description: Retrieved entity offset
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+      - name: limit
+        in: query
+        description: Number of retrieved clauses
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetListactiveclausesresponse'
+    post:
+      tags:
+      - Clause Library
+      summary: Create clause
+      description: ''
+      operationId: PostCreateClause
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PostOrganizationClauseDto'
+        required: true
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Createclauseresponse1'
+  /organizations/{organizationId}/clauses/{clauseId}:
+    parameters:
+    - in: path
+      name: organizationId
+      description: Organization ID
+      required: true
+      schema:
+        type: integer
+        format: int64
+    - name: clauseId
+      in: path
+      description: Clause ID
+      required: true
+      schema:
+        type: integer
+        format: int64
+    get:
+      tags:
+      - Clause Library
+      summary: Get clause
+      description: ''
+      operationId: GetClause
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetOrganizationClauseDto'
+    put:
+      tags:
+      - Clause Library
+      summary: Update clause
+      description: ''
+      operationId: PutUpdateClause
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PutOrganizationClauseDto'
+        required: true
+      responses:
+        '204':
+          description: ''
+    delete:
+      tags:
+      - Clause Library
+      summary: Delete clause
+      description: ''
+      operationId: DeleteClause
+      responses:
+        '204':
+          description: ''
+components:
+  schemas:
+    GetListactiveclausesresponse:
+      title: GetListactiveclausesresponse
+      type: object
+      properties:
+        organizationClauses:
+          type: array
+          items:
+            $ref: '#/components/schemas/GetOrganizationClauseDto'
+          description: ''
+        totalCount:
+          type: number
+          example: 42
+    OrganizationClauseSort:
+      title: OrganizationClauseSort
+      enum:
+      - TITLE
+      - CREATED_AT
+      type: string
+    GetOrganizationClauseDto:
+      title: GetOrganizationClauseDto
+      type: object
+      properties:
+        id:
+          type: number
+          description: unique identifier
+          example: 1
+        version:
+          type: number
+          description: clause's current version
+          example: 1
+        title:
+          type: string
+          description: limited to 300 characters
+          example: Title
+        description:
+          type: string
+          description: limited to 300 characters
+          example: Description
+        presignedUrl:
+          type: string
+          description: the Url to access the clause's content
+          example: https://domain.com/url/
+        numberOfTemplatesLinked:
+          type: number
+          description: the number of templates linked to the clause
+          example: 1
+        createdAt:
+          type: number
+          description: epoch timestamp ms
+          example: 1535116733000
+    Createclauseresponse1:
+      title: Createclauseresponse1
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+      example:
+        id: 1
+    PutOrganizationClauseDto:
+      title: PutOrganizationClauseDto
+      required:
+      - title
+      - content
+      type: object
+      properties:
+        version:
+          type: number
+          description: clause's current version
+          example: 1
+        title:
+          type: string
+          description: limited to 300 characters
+          example: Title
+        description:
+          type: string
+          description: limited to 300 characters
+          example: Description
+        content:
+          type: string
+          description: plain text content. Unlimited in terms of characters.
+          example: Content
+    PostOrganizationClauseDto:
+      title: PostOrganizationClauseDto
+      required:
+      - title
+      - content
+      type: object
+      properties:
+        title:
+          type: string
+          description: limited to 300 characters
+          example: Title
+        description:
+          type: string
+          description: limited to 300 characters
+          example: Description
+        content:
+          type: string
+          description: plain text content. Unlimited in terms of characters.
+          example: Content
+  securitySchemes:
+    ApiKeyAuthentication:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+      description: 'Users authenticate themselves through the HTTP Header X-API-KEY. You can generate as many API Keys as needed from your Concord account.
+
+        If the HTTP Header is missing or if the API Key is invalid, the HTTP Response will be 401 Unauthorized.'

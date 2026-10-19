@@ -83,16 +83,21 @@ apis:
     UI, firing on agreement lifecycle events - document fully approved, document fully signed, document
     expired, and signature provided. Webhooks are configured in the UI, not via a REST management endpoint,
     and payloads carry the impacted agreement plus the triggering user.
-- aid: concord-com:concord-com-agreements-api
-  name: Concord Agreements API
-  description: Agreements (contracts), their attachments, and members.
-  humanURL: https://help.concord.app/concord-api
+- aid: concord-com:concord-com-agreement-api
+  name: Concord Agreement API
+  description: >-
+    An Agreement is a contract, disregarding its status.
+
+    A draft, a contract in progress, a negotiation, an executed document, a template are Agreements.
+
+    You can create, edit and share Agreements.
+  humanURL: https://help.concord.app/hc/en-us/articles/4417525871508-create-a-webhook-integration
   baseURL: https://api.concordnow.com/api/rest/1
   tags:
-  - Agreements
+  - Agreement
   properties:
   - type: OpenAPI
-    url: openapi/concord-com-agreements-api-openapi.yml
+    url: openapi/concord-com-agreement-api-openapi.yml
   - type: Documentation
     url: https://help.concord.app/concord-api
   - type: APIReference
@@ -104,18 +109,152 @@ apis:
   - type: Documentation
     url: >-
       https://help.concord.app/hc/en-us/articles/207854166-Create-a-Document-from-an-Automated-Template-with-the-API
-- aid: concord-com:concord-com-organizations-api
-  name: Concord Organizations API
-  description: Organization-level resources - reports, groups, and tags.
-  humanURL: https://help.concord.app/concord-api
+- aid: concord-com:concord-com-agreement-versions-api
+  name: Concord Agreement Versions API
+  description: The Agreement Versions API from Concord — 1 operation(s) for agreement versions.
+  humanURL: https://help.concord.app/hc/en-us/articles/4417525871508-create-a-webhook-integration
+  baseURL: https://api.concordnow.com/api/rest/1
+  tags:
+  - Agreement Versions
+  properties:
+  - type: OpenAPI
+    url: openapi/concord-com-agreement-versions-api-openapi.yml
+  - type: Documentation
+    url: https://help.concord.app/concord-api
+  - type: APIReference
+    url: https://api.doc.concordnow.com/
+  - type: PostmanCollection
+    url: collections/concord-com.postman_collection.json
+  - type: OpenCollection
+    url: collections/concord-com.opencollection.json
+  - type: Documentation
+    url: >-
+      https://help.concord.app/hc/en-us/articles/207854166-Create-a-Document-from-an-Automated-Template-with-the-API
+- aid: concord-com:concord-com-automated-template-api
+  name: Concord Automated Template API
+  description: >-
+    Once you have created an automated template in Concord,
+
+    you can then create and customize contracts to send out for collaboration and signature.
+
+    You can designate which content will be variable.
+
+    Variables appear in blue in Concord and will be updated with data particular to each contract.
+
+
+    More information [here](https://help.concord.app/hc/en-us/articles/204428085-create-an-automated-template-with-excel).
+  humanURL: https://help.concord.app/hc/en-us/articles/4417525871508-create-a-webhook-integration
+  baseURL: https://api.concordnow.com/api/rest/1
+  tags:
+  - Automated Template
+  properties:
+  - type: OpenAPI
+    url: openapi/concord-com-automated-template-api-openapi.yml
+  - type: Documentation
+    url: https://help.concord.app/concord-api
+  - type: APIReference
+    url: https://api.doc.concordnow.com/
+  - type: PostmanCollection
+    url: collections/concord-com.postman_collection.json
+  - type: OpenCollection
+    url: collections/concord-com.opencollection.json
+  - type: Documentation
+    url: >-
+      https://help.concord.app/hc/en-us/articles/207854166-Create-a-Document-from-an-Automated-Template-with-the-API
+- aid: concord-com:concord-com-clause-library-api
+  name: Concord Clause Library API
+  description: Clause library related API
+  humanURL: https://help.concord.app/hc/en-us/articles/4417525871508-create-a-webhook-integration
+  baseURL: https://api.concordnow.com/api/rest/1
+  tags:
+  - Clause Library
+  properties:
+  - type: OpenAPI
+    url: openapi/concord-com-clause-library-api-openapi.yml
+  - type: Documentation
+    url: https://help.concord.app/concord-api
+  - type: APIReference
+    url: https://api.doc.concordnow.com/
+  - type: PostmanCollection
+    url: collections/concord-com.postman_collection.json
+  - type: OpenCollection
+    url: collections/concord-com.opencollection.json
+  - type: Documentation
+    url: >-
+      https://help.concord.app/hc/en-us/articles/207854166-Create-a-Document-from-an-Automated-Template-with-the-API
+- aid: concord-com:concord-com-custom-branding-api
+  name: Concord Custom Branding API
+  description: Custom branding related API
+  humanURL: https://help.concord.app/hc/en-us/articles/4417525871508-create-a-webhook-integration
+  baseURL: https://api.concordnow.com/api/rest/1
+  tags:
+  - Custom Branding
+  properties:
+  - type: OpenAPI
+    url: openapi/concord-com-custom-branding-api-openapi.yml
+  - type: Documentation
+    url: https://help.concord.app/concord-api
+  - type: APIReference
+    url: https://api.doc.concordnow.com/
+  - type: PostmanCollection
+    url: collections/concord-com.postman_collection.json
+  - type: OpenCollection
+    url: collections/concord-com.opencollection.json
+  - type: Documentation
+    url: >-
+      https://help.concord.app/hc/en-us/articles/207854166-Create-a-Document-from-an-Automated-Template-with-the-API
+- aid: concord-com:concord-com-events-api
+  name: Concord Events API
+  description: Events related API
+  humanURL: https://help.concord.app/hc/en-us/articles/4417525871508-create-a-webhook-integration
+  baseURL: https://api.concordnow.com/api/rest/1
+  tags:
+  - Events
+  properties:
+  - type: OpenAPI
+    url: openapi/concord-com-events-api-openapi.yml
+  - type: Documentation
+    url: https://help.concord.app/concord-api
+  - type: APIReference
+    url: https://api.doc.concordnow.com/
+  - type: PostmanCollection
+    url: collections/concord-com.postman_collection.json
+  - type: OpenCollection
+    url: collections/concord-com.opencollection.json
+  - type: Documentation
+    url: >-
+      https://help.concord.app/hc/en-us/articles/207854166-Create-a-Document-from-an-Automated-Template-with-the-API
+- aid: concord-com:concord-com-folders-api
+  name: Concord Folders API
+  description: Folders related API
+  humanURL: https://help.concord.app/hc/en-us/articles/4417525871508-create-a-webhook-integration
+  baseURL: https://api.concordnow.com/api/rest/1
+  tags:
+  - Folders
+  properties:
+  - type: OpenAPI
+    url: openapi/concord-com-folders-api-openapi.yml
+  - type: Documentation
+    url: https://help.concord.app/concord-api
+  - type: APIReference
+    url: https://api.doc.concordnow.com/
+  - type: PostmanCollection
+    url: collections/concord-com.postman_collection.json
+  - type: OpenCollection
+    url: collections/concord-com.opencollection.json
+  - type: Documentation
+    url: >-
+      https://help.concord.app/hc/en-us/articles/207854166-Create-a-Document-from-an-Automated-Template-with-the-API
+- aid: concord-com:concord-com-organization-api
+  name: Concord Organization API
+  description: Organization related API
+  humanURL: https://help.concord.app/hc/en-us/articles/4417525871508-create-a-webhook-integration
   baseURL: https://api.concordnow.com/api/rest/1
   tags:
   - Organization
-  tags_raw:
-  - Organizations
   properties:
   - type: OpenAPI
-    url: openapi/concord-com-organizations-api-openapi.yml
+    url: openapi/concord-com-organization-api-openapi.yml
   - type: Documentation
     url: https://help.concord.app/concord-api
   - type: APIReference
@@ -127,16 +266,16 @@ apis:
   - type: Documentation
     url: >-
       https://help.concord.app/hc/en-us/articles/207854166-Create-a-Document-from-an-Automated-Template-with-the-API
-- aid: concord-com:concord-com-templates-api
-  name: Concord Templates API
-  description: Document generation from automated templates (modeled/unconfirmed).
-  humanURL: https://help.concord.app/concord-api
+- aid: concord-com:concord-com-organization-groups-api
+  name: Concord Organization Groups API
+  description: Organization groups related API
+  humanURL: https://help.concord.app/hc/en-us/articles/4417525871508-create-a-webhook-integration
   baseURL: https://api.concordnow.com/api/rest/1
   tags:
-  - Templates
+  - Organization Groups
   properties:
   - type: OpenAPI
-    url: openapi/concord-com-templates-api-openapi.yml
+    url: openapi/concord-com-organization-groups-api-openapi.yml
   - type: Documentation
     url: https://help.concord.app/concord-api
   - type: APIReference
@@ -148,18 +287,165 @@ apis:
   - type: Documentation
     url: >-
       https://help.concord.app/hc/en-us/articles/207854166-Create-a-Document-from-an-Automated-Template-with-the-API
-- aid: concord-com:concord-com-users-api
-  name: Concord Users API
-  description: The authenticated user and their organization memberships.
-  humanURL: https://help.concord.app/concord-api
+- aid: concord-com:concord-com-organization-invitation-api
+  name: Concord Organization invitation API
+  description: Organization invitation related API
+  humanURL: https://help.concord.app/hc/en-us/articles/4417525871508-create-a-webhook-integration
+  baseURL: https://api.concordnow.com/api/rest/1
+  tags:
+  - Organization invitation
+  properties:
+  - type: OpenAPI
+    url: openapi/concord-com-organization-invitation-api-openapi.yml
+  - type: Documentation
+    url: https://help.concord.app/concord-api
+  - type: APIReference
+    url: https://api.doc.concordnow.com/
+  - type: PostmanCollection
+    url: collections/concord-com.postman_collection.json
+  - type: OpenCollection
+    url: collections/concord-com.opencollection.json
+  - type: Documentation
+    url: >-
+      https://help.concord.app/hc/en-us/articles/207854166-Create-a-Document-from-an-Automated-Template-with-the-API
+- aid: concord-com:concord-com-organization-members-api
+  name: Concord Organization Members API
+  description: Organization members related API
+  humanURL: https://help.concord.app/hc/en-us/articles/4417525871508-create-a-webhook-integration
+  baseURL: https://api.concordnow.com/api/rest/1
+  tags:
+  - Organization Members
+  properties:
+  - type: OpenAPI
+    url: openapi/concord-com-organization-members-api-openapi.yml
+  - type: Documentation
+    url: https://help.concord.app/concord-api
+  - type: APIReference
+    url: https://api.doc.concordnow.com/
+  - type: PostmanCollection
+    url: collections/concord-com.postman_collection.json
+  - type: OpenCollection
+    url: collections/concord-com.opencollection.json
+  - type: Documentation
+    url: >-
+      https://help.concord.app/hc/en-us/articles/207854166-Create-a-Document-from-an-Automated-Template-with-the-API
+- aid: concord-com:concord-com-report-api
+  name: Concord Report API
+  description: Report related API
+  humanURL: https://help.concord.app/hc/en-us/articles/4417525871508-create-a-webhook-integration
+  baseURL: https://api.concordnow.com/api/rest/1
+  tags:
+  - Report
+  properties:
+  - type: OpenAPI
+    url: openapi/concord-com-report-api-openapi.yml
+  - type: Documentation
+    url: https://help.concord.app/concord-api
+  - type: APIReference
+    url: https://api.doc.concordnow.com/
+  - type: PostmanCollection
+    url: collections/concord-com.postman_collection.json
+  - type: OpenCollection
+    url: collections/concord-com.opencollection.json
+  - type: Documentation
+    url: >-
+      https://help.concord.app/hc/en-us/articles/207854166-Create-a-Document-from-an-Automated-Template-with-the-API
+- aid: concord-com:concord-com-signature-api
+  name: Concord Signature API
+  description: >-
+    Signature configuration related endpoints like auto-request and signature slots configuration. You
+    can, for instance, add/remove slots, update their assignation, change orders.
+  humanURL: https://help.concord.app/hc/en-us/articles/4417525871508-create-a-webhook-integration
+  baseURL: https://api.concordnow.com/api/rest/1
+  tags:
+  - Signature
+  properties:
+  - type: OpenAPI
+    url: openapi/concord-com-signature-api-openapi.yml
+  - type: Documentation
+    url: https://help.concord.app/concord-api
+  - type: APIReference
+    url: https://api.doc.concordnow.com/
+  - type: PostmanCollection
+    url: collections/concord-com.postman_collection.json
+  - type: OpenCollection
+    url: collections/concord-com.opencollection.json
+  - type: Documentation
+    url: >-
+      https://help.concord.app/hc/en-us/articles/207854166-Create-a-Document-from-an-Automated-Template-with-the-API
+- aid: concord-com:concord-com-tags-api
+  name: Concord Tags API
+  description: Tags related API
+  humanURL: https://help.concord.app/hc/en-us/articles/4417525871508-create-a-webhook-integration
+  baseURL: https://api.concordnow.com/api/rest/1
+  tags:
+  - Tags
+  properties:
+  - type: OpenAPI
+    url: openapi/concord-com-tags-api-openapi.yml
+  - type: Documentation
+    url: https://help.concord.app/concord-api
+  - type: APIReference
+    url: https://api.doc.concordnow.com/
+  - type: PostmanCollection
+    url: collections/concord-com.postman_collection.json
+  - type: OpenCollection
+    url: collections/concord-com.opencollection.json
+  - type: Documentation
+    url: >-
+      https://help.concord.app/hc/en-us/articles/207854166-Create-a-Document-from-an-Automated-Template-with-the-API
+- aid: concord-com:concord-com-user-api
+  name: Concord User API
+  description: User related API
+  humanURL: https://help.concord.app/hc/en-us/articles/4417525871508-create-a-webhook-integration
   baseURL: https://api.concordnow.com/api/rest/1
   tags:
   - User
-  tags_raw:
-  - Users
   properties:
   - type: OpenAPI
-    url: openapi/concord-com-users-api-openapi.yml
+    url: openapi/concord-com-user-api-openapi.yml
+  - type: Documentation
+    url: https://help.concord.app/concord-api
+  - type: APIReference
+    url: https://api.doc.concordnow.com/
+  - type: PostmanCollection
+    url: collections/concord-com.postman_collection.json
+  - type: OpenCollection
+    url: collections/concord-com.opencollection.json
+  - type: Documentation
+    url: >-
+      https://help.concord.app/hc/en-us/articles/207854166-Create-a-Document-from-an-Automated-Template-with-the-API
+- aid: concord-com:concord-com-user-integrations-api
+  name: Concord User integrations API
+  description: The User integrations API from Concord — 1 operation(s) for user integrations.
+  humanURL: https://help.concord.app/hc/en-us/articles/4417525871508-create-a-webhook-integration
+  baseURL: https://api.concordnow.com/api/rest/1
+  tags:
+  - User integrations
+  properties:
+  - type: OpenAPI
+    url: openapi/concord-com-user-integrations-api-openapi.yml
+  - type: Documentation
+    url: https://help.concord.app/concord-api
+  - type: APIReference
+    url: https://api.doc.concordnow.com/
+  - type: PostmanCollection
+    url: collections/concord-com.postman_collection.json
+  - type: OpenCollection
+    url: collections/concord-com.opencollection.json
+  - type: Documentation
+    url: >-
+      https://help.concord.app/hc/en-us/articles/207854166-Create-a-Document-from-an-Automated-Template-with-the-API
+- aid: concord-com:concord-com-webhooks-api
+  name: Concord Webhooks API
+  description: Events sent by Concord to your custom URL.
+  humanURL: https://help.concord.app/hc/en-us/articles/4417525871508-create-a-webhook-integration
+  baseURL: https://api.concordnow.com/api/rest/1
+  tags:
+  - Webhooks
+  properties:
+  - type: OpenAPI
+    url: openapi/concord-com-webhooks-api-openapi.yml
   - type: Documentation
     url: https://help.concord.app/concord-api
   - type: APIReference

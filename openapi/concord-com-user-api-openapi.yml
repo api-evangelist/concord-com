@@ -1,0 +1,1166 @@
+openapi: 3.2.0
+info:
+  x-logo:
+    url: https://www.concord.app/wp-content/uploads/2025/01/Logo-full-color-16px-padding.svg
+  title: Concord User API
+  description: '## Overview
+
+
+    ### Basics
+
+
+    Concord, https://www.concord.app/, is a cloud-based contract lifecycle management platform built for all types of businesses.
+
+    It provides unlimited e-signatures and unlimited contract storage for any number of users.
+
+    Concord saves time, money, and trees. It’s a smart way to get everyone to agree.
+
+
+    This Concord API gives you access to features you see in Concord and lets you extend them for use in your own application.
+
+    It strives to be RESTful and is organized around the main resources you’re familiar with from the Concord interface.
+
+
+    Before you do anything, you should get a Concord account on our sandbox environment that you can test the API against
+
+    and create an API Key so that you can make API calls.
+
+
+    ### Format
+
+
+    Both request body data and response data are formatted as JSON.
+
+
+    ### Upcoming changes
+
+
+    We are always maintaining, fixing, and enhancing our API. As such, you should expect new endpoints to show up, new fields to be added to responses and new error codes to appear.
+
+    We recommend that you build your code to gracefully ignore things that you aren’t expecting, and to handle errors in standard HTTP-centric ways.
+
+
+    ### Getting help
+
+
+    To get in touch with our API experts directly, please send a message to support@concord.app.
+
+
+    ## Environments
+
+
+    The API is accessible from:
+
+
+    + https://uat.concordnow.com/api/rest/1/ - sandbox
+
+
+    + https://api.concordnow.com/api/rest/1/ - production
+
+
+    ## Authentication
+
+
+    To use this API, you need to be authenticated.
+
+
+    ### With an API key
+
+
+    Users authenticate themselves through the HTTP Header **X-API-KEY**.
+
+    You can generate as many API Keys as needed from your Concord account.
+
+
+    If the HTTP Header is missing or if the API Key is invalid,
+
+    the HTTP Response will be 401 Unauthorized.
+
+
+    ## Errors
+
+
+    The API communicates errors through standard HTTP status codes paired with error objects. Generally, the following pattern will apply:
+
+
+    + 2xx - The request was successfully received, understood, and accepted.
+
+
+    + 4xx - An error in the request. Usually a bad parameter.
+
+
+    + 5xx - The request is fine, but something is wrong on Concord''s end.
+
+
+    ### 4xx errors definition
+
+
+    The errors referenced here are valid for most (or even all) of our endpoints.
+
+    They are standard error messages for things like "Not authenticated, but you should" or "You can''t access this".
+
+    Depending on what you''re trying to access, you might get a bit more information in the response.
+
+
+    + Response 400 (application/json)
+
+
+    {
+
+    "statusCode": 400,
+
+    "restCode": "badRequest"
+
+    }
+
+
+    + Response 401 (application/json)
+
+
+    {
+
+    "statusCode": 401,
+
+    "restCode": "authFailed"
+
+    }
+
+
+    + Response 403 (application/json)
+
+
+    {
+
+    "statusCode": 403,
+
+    "restCode": "accessDenied"
+
+    }
+
+
+    + Response 404 (application/json)
+
+
+    {
+
+    "statusCode": 404,
+
+    "restCode": "notFound"
+
+    }
+
+
+    + Response 409 (application/json)
+
+
+    {
+
+    "statusCode": 409,
+
+    "restCode": "conflict"
+
+    }
+
+
+    ### HTTP status code
+
+
+    + 200 success
+
+
+    + 201 created
+
+
+    + 202 accepted
+
+
+    + 204 no_content
+
+
+    + 400 bad_request
+
+
+    + 401 unauthorized
+
+
+    + 403 forbidden
+
+
+    + 404 not_found
+
+
+    + 405 method_not_allowed
+
+
+    + 409 conflict
+
+
+    + 415 unsupported_media_type
+
+
+    + 500 internal_server_error
+
+
+    + 502 bad_gateway
+
+
+    + 503 unavailable
+
+
+    + 504 gateway_timeout'
+  contact:
+    email: support@concord.app
+    name: Support Concord
+    url: https://help.concord.app/
+  license:
+    name: Terms of service
+    url: https://www.concord.app/terms-of-service
+  version: Concord API v1.0
+servers:
+- url: https://uat.concordnow.com/api/rest/1
+  variables: {}
+security:
+- ApiKeyAuthentication: []
+tags:
+- name: User
+  description: User related API
+paths:
+  /user/me:
+    get:
+      tags:
+      - User
+      summary: Get Information
+      description: ''
+      operationId: GetInformation
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetInformationresponse'
+  /user/me/preferences:
+    get:
+      tags:
+      - User
+      summary: Get Preferences
+      description: ''
+      operationId: GetPreferences
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSettingsGetDto'
+  /user/me/organizations:
+    get:
+      tags:
+      - User
+      summary: Get all User Organizations
+      description: ''
+      operationId: ListUserOrganizations
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                required:
+                - organizations
+                type: object
+                properties:
+                  organizations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/UserOrganizationDto'
+                    description: ''
+components:
+  schemas:
+    UserPicturesDto:
+      title: UserPicturesDto
+      required:
+      - small
+      - normal
+      type: object
+      properties:
+        small:
+          type: string
+          example: /static/img/users/b0c8b9d2-2944-49d3-af3a-c216ddf089ca/small.jpg
+        normal:
+          type: string
+          example: /static/img/users/b0c8b9d2-2944-49d3-af3a-c216ddf089ca/normal.jpg
+        special:
+          type: string
+          example: /static/img/users/b0c8b9d2-2944-49d3-af3a-c216ddf089ca/special.jpg
+    Contact:
+      title: Contact
+      required:
+      - workphone
+      - cellphone
+      type: object
+      properties:
+        workphone:
+          $ref: '#/components/schemas/Workphone'
+        cellphone:
+          $ref: '#/components/schemas/Cellphone'
+      example:
+        workphone:
+          workphone_code: 33
+          workphone: +33 1 45 65 89 97
+        cellphone:
+          cellphone_code: 33
+          cellphone: +33 6 51 45 78 96
+    NotificationTypeEnum:
+      title: NotificationTypeEnum
+      enum:
+      - INVITATION
+      - NEW_VERSION
+      - WORKFLOW
+      - CHAT
+      - INTAKE_REQUEST_ASSIGNED
+      - INTAKE_REQUEST_COMMENTED
+      - INTAKE_REQUEST_CREATED
+      - INTAKE_REQUEST_STATUS_UPDATED
+      - SIGNATURE
+      - SIGNATURE_REQUESTED
+      - SIGNATURE_FINALIZED
+      - SIGNATURE_FULLY_SIGNED
+      type: string
+    UserOrganizationDto:
+      title: UserOrganizationDto
+      type: object
+      required:
+      - user
+      - id
+      - newOrganizationId
+      - name
+      - subscription
+      - createdAt
+      - isParent
+      - isSubsidiary
+      properties:
+        user:
+          $ref: '#/components/schemas/UserInfosDto'
+        id:
+          type: integer
+          format: int64
+          example: 69
+        newOrganizationId:
+          type: string
+          minLength: 22
+          maxLength: 22
+          description: Unique identifier for the organization ID
+          example: 02z1s7yQ9dTKQDO8hGwDMt
+        name:
+          type: string
+          description: Length 1-191
+          example: orgName
+        subscription:
+          $ref: '#/components/schemas/SubscriptionEnum'
+        createdAt:
+          type: number
+          description: Creation date as Unix timestamp in milliseconds
+          example: 1456763982000
+        isParent:
+          type: boolean
+        isSubsidiary:
+          type: boolean
+        parentId:
+          type: integer
+          format: int64
+        subsidiaries:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserOrganizationSubsidiaryDto'
+        isLegacy:
+          type: boolean
+          description: Whether the organization is on a legacy subscription plan
+    UserFeaturesDto:
+      title: UserFeatures
+      type: object
+      required:
+      - accessRules
+      - adminOversight
+      - amendments
+      - analytics
+      - api
+      - auditTrail
+      - autoTemplates
+      - bulkUpload
+      - clauseLibrary
+      - complexPasswords
+      - customBranding
+      - customRoles
+      - dataLocalization
+      - dedicatedEncryptionKey
+      - drafting
+      - execution
+      - exports
+      - intakeRequests
+      - integrations
+      - internalWorkflows
+      - organizationFieldItem
+      - property
+      - reports
+      - sendContractWithDocument
+      - sendInvitationWithDocument
+      - signature
+      - signDoubleAuth
+      - subsidiaries
+      - userGroups
+      - versioning
+      - whitelistedIp
+      - workflowCenter
+      - workflows
+      properties:
+        accessRules:
+          type: boolean
+        adminOversight:
+          type: boolean
+        amendments:
+          type: boolean
+        analytics:
+          type: boolean
+        api:
+          type: boolean
+        auditTrail:
+          type: boolean
+        autoTemplates:
+          type: boolean
+        bulkUpload:
+          type: boolean
+        clauseLibrary:
+          type: boolean
+        complexPasswords:
+          type: boolean
+        customBranding:
+          type: boolean
+        customRoles:
+          type: boolean
+        dataLocalization:
+          type: boolean
+        dedicatedEncryptionKey:
+          type: boolean
+        drafting:
+          type: boolean
+        execution:
+          type: boolean
+        exports:
+          type: object
+          required:
+          - advanced
+          - simple
+          properties:
+            advanced:
+              type: boolean
+            simple:
+              type: boolean
+        intakeRequests:
+          type: boolean
+        integrations:
+          type: object
+          required:
+          - box
+          - docusign
+          - dropbox
+          - facebook
+          - gdrive
+          - google
+          - hubspot
+          - linkedin
+          - salesforce
+          - saml
+          - slack
+          - webhook
+          properties:
+            box:
+              type: boolean
+            docusign:
+              type: boolean
+            dropbox:
+              type: boolean
+            facebook:
+              type: boolean
+            gdrive:
+              type: boolean
+            google:
+              type: boolean
+            hubspot:
+              type: boolean
+            linkedin:
+              type: boolean
+            salesforce:
+              type: boolean
+            saml:
+              type: boolean
+            slack:
+              type: boolean
+            webhook:
+              type: boolean
+        internalWorkflows:
+          type: boolean
+        organizationFieldItem:
+          type: boolean
+        property:
+          type: boolean
+        reports:
+          type: boolean
+        sendContractWithDocument:
+          type: boolean
+        sendInvitationWithDocument:
+          type: boolean
+        signature:
+          type: boolean
+        signDoubleAuth:
+          type: object
+          required:
+          - coworkers
+          - thirdParties
+          properties:
+            coworkers:
+              type: boolean
+            thirdParties:
+              type: boolean
+        subsidiaries:
+          type: boolean
+        userGroups:
+          type: boolean
+        versioning:
+          type: boolean
+        whitelistedIp:
+          type: boolean
+        workflowCenter:
+          type: boolean
+        workflows:
+          type: boolean
+    Workphone:
+      title: Workphone
+      required:
+      - workphone_code
+      - workphone
+      type: object
+      properties:
+        workphone_code:
+          type: integer
+          format: int32
+        workphone:
+          type: string
+      example:
+        workphone_code: 33
+        workphone: +33 1 45 65 89 97
+    UserRoleDto:
+      title: UserRoleDto
+      type: object
+      required:
+      - id
+      - type
+      - name
+      - rights
+      properties:
+        id:
+          type: integer
+          format: int64
+        type:
+          $ref: '#/components/schemas/RoleTypeEnum'
+        name:
+          type: string
+        description:
+          type: string
+        rights:
+          $ref: '#/components/schemas/Rights'
+    RoleTypeEnum:
+      title: RoleTypeEnum
+      enum:
+      - SYSTEM
+      - CUSTOM
+      type: string
+    Cellphone:
+      title: Cellphone
+      required:
+      - cellphone_code
+      - cellphone
+      type: object
+      properties:
+        cellphone_code:
+          type: integer
+          format: int32
+        cellphone:
+          type: string
+      example:
+        cellphone_code: 33
+        cellphone: +33 6 51 45 78 96
+    UserOrganizationSubsidiaryDto:
+      title: UserOrganizationSubsidiaryDto
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 69
+        name:
+          type: string
+          description: Length 1-191
+          example: orgName
+        subscription:
+          $ref: '#/components/schemas/SubscriptionEnum'
+    Rights:
+      title: Rights
+      required:
+      - accessAllAgreement
+      - contractAccess
+      - contractAttachments
+      - contractCreate
+      - contractCreateBulk
+      - contractDelete
+      - contractUpdate
+      - deadlinesSavedViewsEditAll
+      - deadlinesSavedViewsEditNotifsSettings
+      - deadlinesSavedViewsListAll
+      - deadlinesSavedViewsShare
+      - draftCommentAdd
+      - draftCommentReply
+      - draftCommentResolve
+      - draftOrganizationWorkflowUse
+      - draftWorkflowCreate
+      - draftWorkflowDelete
+      - draftWorkflowUpdate
+      - fillFields
+      - folderCreate
+      - folderDelete
+      - folderList
+      - folderUpdate
+      - groupCreate
+      - groupDelete
+      - groupUpdate
+      - groupUpdateUsers
+      - intakeAssign
+      - intakeCreate
+      - intakeDelete
+      - intakeListAll
+      - negotiationAddComment
+      - negotiationAttachments
+      - negotiationBreak
+      - negotiationCommentAdd
+      - negotiationCommentReply
+      - negotiationCommentResolve
+      - negotiationCreate
+      - negotiationInvite
+      - negotiationOrganizationWorkflowUse
+      - negotiationSign
+      - negotiationUpdate
+      - negotiationUpdateFirstVersion
+      - negotiationUpdateMetadata
+      - negotiationUpdateOwn
+      - negotiationWorkflowCreate
+      - negotiationWorkflowDelete
+      - negotiationWorkflowUpdate
+      - orgAccessAllContract
+      - orgAccessAllNegotiation
+      - orgAccessAllTemplate
+      - orgAccessRuleModify
+      - orgAccessRuleView
+      - orgAddUsers
+      - organizationClauseCreate
+      - organizationClauseDelete
+      - organizationClauseList
+      - organizationClauseUpdate
+      - organizationFieldItemCreate
+      - organizationFieldItemDelete
+      - organizationFieldItemGet
+      - organizationFieldItemUpdate
+      - organizationWorkflowCreate
+      - organizationWorkflowDelete
+      - organizationWorkflowList
+      - organizationWorkflowUpdate
+      - orgBilling
+      - orgCreate
+      - orgInviteUsers
+      - orgRemoveUsers
+      - orgUpdate
+      - propertyCreate
+      - propertyDelete
+      - propertyList
+      - propertyUpdate
+      - roleCreate
+      - roleDelete
+      - roleUpdate
+      - roleUpdateUsers
+      - tagCreate
+      - tagDelete
+      - tagListAll
+      - tagUpdate
+      - templateAttachments
+      - templateCommentAdd
+      - templateCommentReply
+      - templateCommentResolve
+      - templateCreate
+      - templateDelete
+      - templateOrganizationWorkflowUse
+      - templateUpdate
+      - templateUpdateTags
+      - templateUpdateUsers
+      - templateUse
+      - templateWorkflowCreate
+      - templateWorkflowDelete
+      - templateWorkflowUpdate
+      type: object
+      properties:
+        accessAllAgreement:
+          type: boolean
+        contractAccess:
+          type: boolean
+        contractAttachments:
+          type: boolean
+        contractCreate:
+          type: boolean
+        contractCreateBulk:
+          type: boolean
+        contractDelete:
+          type: boolean
+        contractUpdate:
+          type: boolean
+        deadlinesSavedViewsEditAll:
+          type: boolean
+        deadlinesSavedViewsEditNotifsSettings:
+          type: boolean
+        deadlinesSavedViewsListAll:
+          type: boolean
+        deadlinesSavedViewsShare:
+          type: boolean
+        draftCommentAdd:
+          type: boolean
+        draftCommentReply:
+          type: boolean
+        draftCommentResolve:
+          type: boolean
+        draftOrganizationWorkflowUse:
+          type: boolean
+        draftWorkflowCreate:
+          type: boolean
+        draftWorkflowDelete:
+          type: boolean
+        draftWorkflowUpdate:
+          type: boolean
+        fillFields:
+          type: boolean
+        folderCreate:
+          type: boolean
+        folderDelete:
+          type: boolean
+        folderList:
+          type: boolean
+        folderUpdate:
+          type: boolean
+        groupCreate:
+          type: boolean
+        groupDelete:
+          type: boolean
+        groupUpdate:
+          type: boolean
+        groupUpdateUsers:
+          type: boolean
+        intakeAssign:
+          type: boolean
+        intakeCreate:
+          type: boolean
+        intakeDelete:
+          type: boolean
+        intakeListAll:
+          type: boolean
+        negotiationAddComment:
+          type: boolean
+        negotiationAttachments:
+          type: boolean
+        negotiationBreak:
+          type: boolean
+        negotiationCommentAdd:
+          type: boolean
+        negotiationCommentReply:
+          type: boolean
+        negotiationCommentResolve:
+          type: boolean
+        negotiationCreate:
+          type: boolean
+        negotiationInvite:
+          type: boolean
+        negotiationOrganizationWorkflowUse:
+          type: boolean
+        negotiationSign:
+          type: boolean
+        negotiationUpdate:
+          type: boolean
+        negotiationUpdateFirstVersion:
+          type: boolean
+        negotiationUpdateMetadata:
+          type: boolean
+        negotiationUpdateOwn:
+          type: boolean
+        negotiationWorkflowCreate:
+          type: boolean
+        negotiationWorkflowDelete:
+          type: boolean
+        negotiationWorkflowUpdate:
+          type: boolean
+        orgAccessAllContract:
+          type: boolean
+        orgAccessAllNegotiation:
+          type: boolean
+        orgAccessAllTemplate:
+          type: boolean
+        orgAccessRuleModify:
+          type: boolean
+        orgAccessRuleView:
+          type: boolean
+        orgAddUsers:
+          type: boolean
+        organizationClauseCreate:
+          type: boolean
+        organizationClauseDelete:
+          type: boolean
+        organizationClauseList:
+          type: boolean
+        organizationClauseUpdate:
+          type: boolean
+        organizationFieldItemCreate:
+          type: boolean
+        organizationFieldItemDelete:
+          type: boolean
+        organizationFieldItemGet:
+          type: boolean
+        organizationFieldItemUpdate:
+          type: boolean
+        organizationWorkflowCreate:
+          type: boolean
+        organizationWorkflowDelete:
+          type: boolean
+        organizationWorkflowList:
+          type: boolean
+        organizationWorkflowUpdate:
+          type: boolean
+        orgBilling:
+          type: boolean
+        orgCreate:
+          type: boolean
+        orgInviteUsers:
+          type: boolean
+        orgRemoveUsers:
+          type: boolean
+        orgUpdate:
+          type: boolean
+        propertyCreate:
+          type: boolean
+        propertyDelete:
+          type: boolean
+        propertyList:
+          type: boolean
+        propertyUpdate:
+          type: boolean
+        roleCreate:
+          type: boolean
+        roleDelete:
+          type: boolean
+        roleUpdate:
+          type: boolean
+        roleUpdateUsers:
+          type: boolean
+        tagCreate:
+          type: boolean
+        tagDelete:
+          type: boolean
+        tagListAll:
+          type: boolean
+        tagUpdate:
+          type: boolean
+        templateAttachments:
+          type: boolean
+        templateCommentAdd:
+          type: boolean
+        templateCommentReply:
+          type: boolean
+        templateCommentResolve:
+          type: boolean
+        templateCreate:
+          type: boolean
+        templateDelete:
+          type: boolean
+        templateOrganizationWorkflowUse:
+          type: boolean
+        templateUpdate:
+          type: boolean
+        templateUpdateTags:
+          type: boolean
+        templateUpdateUsers:
+          type: boolean
+        templateUse:
+          type: boolean
+        templateWorkflowCreate:
+          type: boolean
+        templateWorkflowDelete:
+          type: boolean
+        templateWorkflowUpdate:
+          type: boolean
+      example:
+        accessAllAgreement: true
+        contractAccess: true
+        contractAttachments: true
+        contractCreate: true
+        contractCreateBulk: true
+        contractDelete: true
+        contractUpdate: true
+        deadlinesSavedViewsEditAll: true
+        deadlinesSavedViewsEditNotifsSettings: true
+        deadlinesSavedViewsListAll: true
+        deadlinesSavedViewsShare: true
+        draftCommentAdd: true
+        draftCommentReply: true
+        draftCommentResolve: true
+        draftOrganizationWorkflowUse: true
+        draftWorkflowCreate: true
+        draftWorkflowDelete: true
+        draftWorkflowUpdate: true
+        fillFields: true
+        folderCreate: true
+        folderDelete: true
+        folderList: true
+        folderUpdate: true
+        groupCreate: true
+        groupDelete: true
+        groupUpdate: true
+        groupUpdateUsers: true
+        intakeAssign: true
+        intakeCreate: true
+        intakeDelete: true
+        intakeListAll: true
+        negotiationAddComment: true
+        negotiationAttachments: true
+        negotiationBreak: true
+        negotiationCommentAdd: true
+        negotiationCommentReply: true
+        negotiationCommentResolve: true
+        negotiationCreate: true
+        negotiationInvite: true
+        negotiationOrganizationWorkflowUse: true
+        negotiationSign: true
+        negotiationUpdate: true
+        negotiationUpdateFirstVersion: true
+        negotiationUpdateMetadata: true
+        negotiationUpdateOwn: true
+        negotiationWorkflowCreate: true
+        negotiationWorkflowDelete: true
+        negotiationWorkflowUpdate: true
+        orgAccessAllContract: true
+        orgAccessAllNegotiation: true
+        orgAccessAllTemplate: true
+        orgAccessRuleModify: true
+        orgAccessRuleView: true
+        orgAddUsers: true
+        organizationClauseCreate: true
+        organizationClauseDelete: true
+        organizationClauseList: true
+        organizationClauseUpdate: true
+        organizationFieldItemCreate: true
+        organizationFieldItemDelete: true
+        organizationFieldItemGet: true
+        organizationFieldItemUpdate: true
+        organizationWorkflowCreate: true
+        organizationWorkflowDelete: true
+        organizationWorkflowList: true
+        organizationWorkflowUpdate: true
+        orgBilling: true
+        orgCreate: true
+        orgInviteUsers: true
+        orgRemoveUsers: true
+        orgUpdate: true
+        propertyCreate: true
+        propertyDelete: true
+        propertyList: true
+        propertyUpdate: true
+        roleCreate: true
+        roleDelete: true
+        roleUpdate: true
+        roleUpdateUsers: true
+        tagCreate: true
+        tagDelete: true
+        tagListAll: true
+        tagUpdate: true
+        templateAttachments: true
+        templateCommentAdd: true
+        templateCommentReply: true
+        templateCommentResolve: true
+        templateCreate: true
+        templateDelete: true
+        templateOrganizationWorkflowUse: true
+        templateUpdate: true
+        templateUpdateTags: true
+        templateUpdateUsers: true
+        templateUse: true
+        templateWorkflowCreate: true
+        templateWorkflowDelete: true
+        templateWorkflowUpdate: true
+    GetInformationresponse:
+      title: GetInformationresponse
+      required:
+      - id
+      - email
+      - fullName
+      - timezone
+      - hasPassword
+      - hasPicture
+      - currentOrganizationId
+      - createdAt
+      - contact
+      - authorities
+      - name
+      - hasAcceptedTerms
+      - extern
+      - passwordExpired
+      - passwordCompliant
+      - newUserId
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        email:
+          type: string
+        fullName:
+          type: string
+        timezone:
+          type: string
+        hasPassword:
+          type: boolean
+        hasPicture:
+          type: boolean
+        currentOrganizationId:
+          type: integer
+          format: int32
+        createdAt:
+          type: integer
+          format: int64
+        contact:
+          $ref: '#/components/schemas/Contact'
+        authorities:
+          type: array
+          items:
+            type: string
+        name:
+          type: string
+        pictures:
+          $ref: '#/components/schemas/UserPicturesDto'
+        hasAcceptedTerms:
+          type: boolean
+        extern:
+          type: boolean
+        passwordExpired:
+          type: boolean
+        passwordCompliant:
+          type: boolean
+        newUserId:
+          type: string
+          example: 02SwWcmt36il2lJpoeUwDU
+    SubscriptionEnum:
+      title: SubscriptionEnum
+      enum:
+      - FREE
+      - FREEMIUM
+      - STANDARD_2
+      - PLUS_2
+      - ENTERPRISE_2
+      - ENTERPRISE_PLUS_2
+      - STARTER_3
+      - STANDARD_3
+      - PRO_3
+      - ENTERPRISE_3
+      - ESSENTIALS_4
+      - BUSINESS_4
+      - ENTERPRISE_4
+      - ESSENTIALS_5
+      - BUSINESS_5
+      - ENTERPRISE_5
+      type: string
+    UserInfosDto:
+      title: UserInfosDto
+      type: object
+      required:
+      - role
+      - subscription
+      - features
+      properties:
+        role:
+          $ref: '#/components/schemas/UserRoleDto'
+        subscription:
+          $ref: '#/components/schemas/SubscriptionEnum'
+        features:
+          $ref: '#/components/schemas/UserFeaturesDto'
+    NotificationRuleDto:
+      title: NotificationRuleDto
+      required:
+      - notificationType
+      type: object
+      properties:
+        notificationType:
+          $ref: '#/components/schemas/NotificationTypeEnum'
+        fromColleaguesActive:
+          type: boolean
+          example: true
+        fromThirdPartiesActive:
+          type: boolean
+          example: true
+        inDailyDigest:
+          type: boolean
+          example: true
+    UserSettingsGetDto:
+      title: UserSettingsGetDto
+      type: object
+      properties:
+        mobile:
+          type: string
+          example: +33 6 00 00 00 00
+        mobileCode:
+          type: number
+          example: 33
+        deadlinesNotificationDays:
+          type: number
+          description: 'Min: 7 Max: 365'
+          example: 10
+        deadlinesNotificationEnabled:
+          type: boolean
+          example: true
+        displayCorporationSuggestions:
+          type: boolean
+          example: true
+        newDocumentShortcuts:
+          type: boolean
+          example: true
+        name:
+          type: string
+          description: Length 3-220
+          example: John Doe
+        language:
+          type: string
+          description: ISO 639-1
+          example: fr
+        phone:
+          type: string
+          example: +33 1 00 00 00 00
+        phoneCode:
+          type: number
+          example: 33
+        notificationRules:
+          type: array
+          items:
+            $ref: '#/components/schemas/NotificationRuleDto'
+          description: Rules notification
+        dateFormat:
+          type: string
+          description: Date format string compatible with the <a href="https://docs.oracle.com/en/java/javase/17/docs/api/java.base/java/text/SimpleDateFormat.html">java date format standards</a>
+          example: MM/dd/yyyy
+  securitySchemes:
+    ApiKeyAuthentication:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+      description: 'Users authenticate themselves through the HTTP Header X-API-KEY. You can generate as many API Keys as needed from your Concord account.
+
+        If the HTTP Header is missing or if the API Key is invalid, the HTTP Response will be 401 Unauthorized.'

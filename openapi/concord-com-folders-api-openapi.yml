@@ -1,0 +1,1391 @@
+openapi: 3.2.0
+info:
+  x-logo:
+    url: https://www.concord.app/wp-content/uploads/2025/01/Logo-full-color-16px-padding.svg
+  title: Concord Folders API
+  description: '## Overview
+
+
+    ### Basics
+
+
+    Concord, https://www.concord.app/, is a cloud-based contract lifecycle management platform built for all types of businesses.
+
+    It provides unlimited e-signatures and unlimited contract storage for any number of users.
+
+    Concord saves time, money, and trees. It’s a smart way to get everyone to agree.
+
+
+    This Concord API gives you access to features you see in Concord and lets you extend them for use in your own application.
+
+    It strives to be RESTful and is organized around the main resources you’re familiar with from the Concord interface.
+
+
+    Before you do anything, you should get a Concord account on our sandbox environment that you can test the API against
+
+    and create an API Key so that you can make API calls.
+
+
+    ### Format
+
+
+    Both request body data and response data are formatted as JSON.
+
+
+    ### Upcoming changes
+
+
+    We are always maintaining, fixing, and enhancing our API. As such, you should expect new endpoints to show up, new fields to be added to responses and new error codes to appear.
+
+    We recommend that you build your code to gracefully ignore things that you aren’t expecting, and to handle errors in standard HTTP-centric ways.
+
+
+    ### Getting help
+
+
+    To get in touch with our API experts directly, please send a message to support@concord.app.
+
+
+    ## Environments
+
+
+    The API is accessible from:
+
+
+    + https://uat.concordnow.com/api/rest/1/ - sandbox
+
+
+    + https://api.concordnow.com/api/rest/1/ - production
+
+
+    ## Authentication
+
+
+    To use this API, you need to be authenticated.
+
+
+    ### With an API key
+
+
+    Users authenticate themselves through the HTTP Header **X-API-KEY**.
+
+    You can generate as many API Keys as needed from your Concord account.
+
+
+    If the HTTP Header is missing or if the API Key is invalid,
+
+    the HTTP Response will be 401 Unauthorized.
+
+
+    ## Errors
+
+
+    The API communicates errors through standard HTTP status codes paired with error objects. Generally, the following pattern will apply:
+
+
+    + 2xx - The request was successfully received, understood, and accepted.
+
+
+    + 4xx - An error in the request. Usually a bad parameter.
+
+
+    + 5xx - The request is fine, but something is wrong on Concord''s end.
+
+
+    ### 4xx errors definition
+
+
+    The errors referenced here are valid for most (or even all) of our endpoints.
+
+    They are standard error messages for things like "Not authenticated, but you should" or "You can''t access this".
+
+    Depending on what you''re trying to access, you might get a bit more information in the response.
+
+
+    + Response 400 (application/json)
+
+
+    {
+
+    "statusCode": 400,
+
+    "restCode": "badRequest"
+
+    }
+
+
+    + Response 401 (application/json)
+
+
+    {
+
+    "statusCode": 401,
+
+    "restCode": "authFailed"
+
+    }
+
+
+    + Response 403 (application/json)
+
+
+    {
+
+    "statusCode": 403,
+
+    "restCode": "accessDenied"
+
+    }
+
+
+    + Response 404 (application/json)
+
+
+    {
+
+    "statusCode": 404,
+
+    "restCode": "notFound"
+
+    }
+
+
+    + Response 409 (application/json)
+
+
+    {
+
+    "statusCode": 409,
+
+    "restCode": "conflict"
+
+    }
+
+
+    ### HTTP status code
+
+
+    + 200 success
+
+
+    + 201 created
+
+
+    + 202 accepted
+
+
+    + 204 no_content
+
+
+    + 400 bad_request
+
+
+    + 401 unauthorized
+
+
+    + 403 forbidden
+
+
+    + 404 not_found
+
+
+    + 405 method_not_allowed
+
+
+    + 409 conflict
+
+
+    + 415 unsupported_media_type
+
+
+    + 500 internal_server_error
+
+
+    + 502 bad_gateway
+
+
+    + 503 unavailable
+
+
+    + 504 gateway_timeout'
+  contact:
+    email: support@concord.app
+    name: Support Concord
+    url: https://help.concord.app/
+  license:
+    name: Terms of service
+    url: https://www.concord.app/terms-of-service
+  version: Concord API v1.0
+servers:
+- url: https://uat.concordnow.com/api/rest/1
+  variables: {}
+security:
+- ApiKeyAuthentication: []
+tags:
+- name: Folders
+  description: Folders related API
+paths:
+  /organizations/{organizationId}/folders:
+    parameters:
+    - in: path
+      name: organizationId
+      description: Organization ID
+      required: true
+      schema:
+        type: integer
+        format: int64
+    get:
+      tags:
+      - Folders
+      summary: List folders
+      description: ''
+      operationId: ListFolders
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FolderTreeDto'
+    post:
+      tags:
+      - Folders
+      summary: Create a folder
+      description: ''
+      operationId: Createafolder
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Createafolderrequest'
+        required: true
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FolderDto'
+  /organizations/{organizationId}/folders/{folderId}:
+    parameters:
+    - in: path
+      name: organizationId
+      description: Organization ID
+      required: true
+      schema:
+        type: integer
+        format: int64
+    - name: folderId
+      in: path
+      description: Folder ID
+      required: true
+      schema:
+        type: integer
+        format: int64
+    get:
+      tags:
+      - Folders
+      summary: Read
+      description: ''
+      operationId: Read
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FolderDto'
+    put:
+      tags:
+      - Folders
+      summary: Update
+      description: ''
+      operationId: PutUpdate
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FolderUpdateDto'
+        required: true
+      responses:
+        '204':
+          description: ''
+    delete:
+      tags:
+      - Folders
+      summary: Delete Folder settings
+      description: ''
+      operationId: DeleteFoldersettings
+      responses:
+        '204':
+          description: ''
+  /organizations/{organizationId}/folders/{folderId}/agreements:
+    parameters:
+    - in: path
+      name: organizationId
+      description: Organization ID
+      required: true
+      schema:
+        type: integer
+        format: int64
+    - name: folderId
+      in: path
+      description: Folder ID
+      required: true
+      schema:
+        type: integer
+        format: int64
+    get:
+      tags:
+      - Folders
+      summary: Get agreements in folder
+      description: ''
+      operationId: GetFolderAgreements
+      parameters:
+      - name: statuses
+        in: query
+        description: 'Filter on Agreement stage. Possible values are : `DRAFT`, `VALIDATION`, `SIGNING`, `NEGOTIATION`, `CONTRACT`, `TEMPLATE`.'
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+      - name: createdBy
+        in: query
+        description: Display only documents created by the list of specified id users.
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: number
+      - name: isInboxed
+        in: query
+        description: Display only documents that appear in the inbox (false to display also archived documents).
+        style: form
+        explode: true
+        schema:
+          type: boolean
+          example: true
+      - name: page
+        in: query
+        description: The page to display.
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int64
+      - name: numberOfItemsByPage
+        in: query
+        description: Number to display per page.
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int64
+      - name: sortByColumn
+        in: query
+        description: Sorting column.
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: TITLE
+      - name: sortByAsc
+        in: query
+        description: Set ascending sorting type.
+        style: form
+        explode: true
+        schema:
+          type: boolean
+          example: false
+      - name: search
+        in: query
+        description: Filter on Agreement name, description and parties.
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: Search pattern
+      - name: tagNames
+        in: query
+        description: Filter on Agreement tags names.
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+          example: Tag1,Tag2
+        deprecated: true
+      - name: tagIds
+        in: query
+        description: Filter on Agreement tag's ids.
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: integer
+            format: int64
+          example: 1,13,157
+      - name: noTags
+        in: query
+        description: Filter on Agreement that have no tags.
+        style: form
+        explode: true
+        schema:
+          type: boolean
+          example: false
+      - name: createdAt.from
+        in: query
+        description: Filter on Agreement.createdAt >= createdAt.from<br/> As Unix timestamp in milliseconds.
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int64
+          example: 1456763982000
+      - name: createdAt.to
+        in: query
+        description: Filter on Agreement.createdAt <= createdAt.to<br/> As Unix timestamp in milliseconds.
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int64
+          example: 1456763982000
+      - name: createdAt.isBlank
+        in: query
+        description: Filter on Agreement.createdAt:<br/> - If true, only agreements <b>without</b> createdAt will be returned.<br/> - If false, only agreements <b>with</b> createdAt will be returned.<br/> - If not sent, agreements <b>with</b> and <b>without</b> the createdAt date will be returned.
+        style: form
+        explode: true
+        schema:
+          type: boolean
+          example: true
+      - name: modifiedAt.from
+        in: query
+        description: Filter on Agreement.modifiedAt >= modifiedAt.from<br/> As Unix timestamp in milliseconds.
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int64
+          example: 1456763982000
+      - name: modifiedAt.to
+        in: query
+        description: Filter on Agreement.modifiedAt <= modifiedAt.to<br/> As Unix timestamp in milliseconds.
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int64
+          example: 1456763982000
+      - name: modifiedAt.isBlank
+        in: query
+        description: Filter on Agreement.modifiedAt:<br/> - If true, only agreements <b>without</b> modifiedAt will be returned.<br/> - If false, only agreements <b>with</b> modifiedAt will be returned.<br/> - If not sent, agreements <b>with</b> and <b>without</b> the modifiedAt date will be returned.
+        style: form
+        explode: true
+        schema:
+          type: boolean
+          example: true
+      - name: endAt.from
+        in: query
+        description: Filter on Agreement.endAt >= endAt.from<br/> As Unix timestamp in milliseconds.
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int64
+          example: 1456763982000
+      - name: endAt.to
+        in: query
+        description: Filter on Agreement.endAt <= endAt.to<br/> As Unix timestamp in milliseconds.
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int64
+          example: 1456763982000
+      - name: endAt.isBlank
+        in: query
+        description: Filter on Agreement.endAt:<br/> - If true, only agreements <b>without</b> endAt will be returned.<br/> - If false, only agreements <b>with</b> endAt will be returned.<br/> - If not sent, agreements <b>with</b> and <b>without</b> the endAt date will be returned.
+        style: form
+        explode: true
+        schema:
+          type: boolean
+          example: true
+        deprecated: true
+      - name: endAt.isPermanent
+        in: query
+        description: Filter on Agreement's end date:<br/> - If <b>true</b>, only agreements <b>without</b> the end date and in undetermined duration (Permanent duration) will be returned.<br/> - If <b>false</b>, only agreements <b>with</b> the end date or in undetermined duration will be returned.<br/> - If not sent, no filter is done.
+        style: form
+        explode: true
+        schema:
+          type: boolean
+          example: true
+      - name: endAt.isUnknown
+        in: query
+        description: Filter on Agreement's end date and duration type:<br/> - If <b>true</b>, only agreements <b>without</b> the end date and in unknown duration will be returned.<br/> - If <b>false</b>, only agreements <b>with</b> the end date or not unknown duration will be returned.<br/> - If not sent, no filter is done.
+        style: form
+        explode: true
+        schema:
+          type: boolean
+          example: true
+      - name: signatureDate.from
+        in: query
+        description: Filter on Agreement.signatureDate >= signatureDate.from<br/> As Unix timestamp in milliseconds.
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int64
+          example: 1456763982000
+      - name: signatureDate.to
+        in: query
+        description: Filter on Agreement.signatureDate <= signatureDate.to<br/> As Unix timestamp in milliseconds.
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int64
+          example: 1456763982000
+      - name: signatureDate.isBlank
+        in: query
+        description: Filter on Agreement.signatureDate:<br/> - If true, only agreements <b>without</b> signatureDate will be returned.<br/> - If false, only agreements <b>with</b> signatureDate will be returned.<br/> - If not sent, agreements <b>with</b> and <b>without</b> the signatureDate date will be returned.
+        style: form
+        explode: true
+        schema:
+          type: boolean
+          example: true
+      - name: parties
+        in: query
+        description: Filter on property party value ID
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+            minLength: 22
+            maxLength: 22
+          example: 01sp9L4YEZNcLHaSV8447N,02wsHEv8BxuJTZobtyW69i
+      - name: sharedWith
+        in: query
+        description: Filter on property shared with value ID
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+            minLength: 22
+            maxLength: 22
+          example: 01sp9L4YEZNcLHaSV8447N
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AgreementListDto'
+components:
+  schemas:
+    UserPicturesDto:
+      title: UserPicturesDto
+      required:
+      - small
+      - normal
+      type: object
+      properties:
+        small:
+          type: string
+          example: /static/img/users/b0c8b9d2-2944-49d3-af3a-c216ddf089ca/small.jpg
+        normal:
+          type: string
+          example: /static/img/users/b0c8b9d2-2944-49d3-af3a-c216ddf089ca/normal.jpg
+        special:
+          type: string
+          example: /static/img/users/b0c8b9d2-2944-49d3-af3a-c216ddf089ca/special.jpg
+    NumericPropertyValueDto:
+      title: NumericPropertyValueDto
+      type: number
+      description: Numeric value
+    AgreementListDto:
+      title: AgreementListDto
+      required:
+      - items
+      - numberOfItems
+      - numberOfItemsByPage
+      - page
+      - total
+      - totalInvitations
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: '#/components/schemas/AgreementListItemDto'
+          description: Array of agreements
+        numberOfItems:
+          type: number
+          description: Number of items in the response
+          example: 36
+        numberOfItemsByPage:
+          type: number
+          description: Maximum number of items in a single page
+          example: 25
+        page:
+          type: number
+          description: Current page number
+          example: 0
+        result:
+          type: string
+          description: Result status
+          example: success
+        total:
+          type: integer
+          format: int64
+          description: Total number of documents and invitations matching the request parameters
+          example: 10
+        totalInvitations:
+          type: integer
+          format: int64
+          description: Total number of invitations
+          example: 2
+    FolderAccessUpdateDto:
+      title: FolderAccessUpdateDto
+      type: object
+      properties:
+        allUserInOrganizationAccess:
+          type: boolean
+          description: All users access flag
+          example: false
+        users:
+          type: array
+          items:
+            type: number
+          description: Array of user IDs
+        teams:
+          type: array
+          items:
+            type: number
+          description: Array of team IDs
+        invitations:
+          type: array
+          items:
+            type: number
+          description: Array of invitation IDs
+    AgreementListItemPropertyDto:
+      title: AgreementListItemPropertyDto
+      type: object
+      required:
+      - propertyId
+      - propertySource
+      - visibility
+      - content
+      properties:
+        propertyId:
+          type: string
+          minLength: 22
+          maxLength: 22
+          description: Unique identifier for the property ID
+        propertySource:
+          type: string
+          enum:
+          - USER
+          - SYSTEM
+          description: Property source
+        visibility:
+          type: string
+          enum:
+          - COMPANY
+          - ALL
+          description: Visibility
+        propertyName:
+          type: string
+          description: Name of the property
+        content:
+          $ref: '#/components/schemas/PropertyValueDto'
+          description: Property value (depending of the property schema)
+    PropertyValueDto:
+      title: PropertyValueDto
+      type: object
+      required:
+      - type
+      - value
+      properties:
+        type:
+          $ref: '#/components/schemas/PropertyTypeEnumDto'
+          description: Type of property value
+        metadata:
+          $ref: '#/components/schemas/Metadata'
+        value:
+          oneOf:
+          - $ref: '#/components/schemas/NumericPropertyValueDto'
+          - $ref: '#/components/schemas/ShortTextPropertyValueDto'
+          - $ref: '#/components/schemas/LongTextPropertyValueDto'
+          - $ref: '#/components/schemas/DatePropertyValueDto'
+          - $ref: '#/components/schemas/DateTimePropertyValueDto'
+          - $ref: '#/components/schemas/MonetaryAmountPropertyValueDto'
+          - $ref: '#/components/schemas/SingleSelectPropertyValueDto'
+          - $ref: '#/components/schemas/MultiSelectPropertyValueDto'
+          - type: 'null'
+    PropertyReferenceTypeEnum:
+      title: PropertyReferenceTypeEnum
+      enum:
+      - USER
+      - CUSTOM
+      - FOLDER
+      - ORGANIZATION
+      type: string
+    ShortTextPropertyValueDto:
+      title: ShortTextPropertyValueDto
+      type: string
+      maxLength: 256
+      description: Short text value
+      example: Contract Agreement 2022
+    InvitationDto:
+      title: InvitationDto
+      required:
+      - id
+      - email
+      type: object
+      properties:
+        id:
+          type: number
+          example: 69
+        email:
+          type: string
+          example: test@test.fr
+        createdAt:
+          type: number
+          description: epoch timestamp ms
+          example: 1535116733000
+        uuid:
+          $ref: '#/components/schemas/UuidWithoutHyphens'
+    FolderAccessDto:
+      title: FolderAccessDto
+      type: object
+      properties:
+        allUserInOrganizationAccess:
+          type: boolean
+          description: All users access flag
+          example: false
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserDto'
+          description: Array of UserDto
+        teams:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserGroupDto'
+          description: Array of UserGroupDto
+        invitations:
+          type: array
+          items:
+            $ref: '#/components/schemas/InvitationDto'
+          description: Array of InvitationDto
+    FolderTreeDto:
+      title: FolderTreeDto
+      type: object
+      required:
+      - children
+      - id
+      - name
+      properties:
+        id:
+          type: number
+          description: Folder ID
+          example: 21
+        name:
+          type: string
+          description: Folder name
+          example: My Folder
+        parentId:
+          type: number
+          description: Parent folder ID
+          example: 6
+        access:
+          $ref: '#/components/schemas/FolderAccessDto'
+        documentCount:
+          type: number
+          description: Number of documents in the folder
+          example: 12
+        children:
+          type: array
+          items:
+            $ref: '#/components/schemas/FolderTreeDto1'
+          description: children tree
+        isBookmarked:
+          type: boolean
+          description: Is folder bookmarked by user
+          example: true
+    PropertyValueCustomDto:
+      title: PropertyValueCustomDto
+      type: object
+      required:
+      - valueText
+      properties:
+        valueText:
+          type: string
+    PartialOrganizationDto:
+      title: PartialOrganizationDto
+      type: object
+      required:
+      - id
+      - newOrganizationId
+      - name
+      properties:
+        id:
+          type: number
+          example: 69
+        name:
+          type: string
+          description: Length 1-191
+          example: orgName
+    Createafolderrequest:
+      title: Createafolderrequest
+      required:
+      - name
+      - parentId
+      type: object
+      properties:
+        name:
+          type: string
+        parentId:
+          type: integer
+          format: int32
+      example:
+        name: My Folder
+        parentId: 3
+    DatePropertyValueDto:
+      title: DatePropertyValueDto
+      type: string
+      format: date
+      description: Date value
+      example: '2023-12-31'
+    UserDto:
+      title: UserDto
+      required:
+      - id
+      - newUserId
+      - email
+      - name
+      type: object
+      properties:
+        id:
+          type: number
+          example: 14
+        name:
+          type: string
+          example: userName
+        email:
+          type: string
+          example: test@mail.fr
+        hasPicture:
+          type: boolean
+          example: true
+        pictures:
+          $ref: '#/components/schemas/UserPicturesDto'
+        hasMfa:
+          type: boolean
+          example: false
+        job:
+          type: string
+          example: R&D Manager
+    TagDto:
+      title: TagDto
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+          description: between 1 and 255 characters ignoring leading and trailing whitespaces
+          example: tagName
+    DateTimePropertyValueDto:
+      title: DateTimePropertyValueDto
+      type: string
+      format: date-time
+      description: Datetime value
+      example: '2017-07-21T17:32:28Z'
+    UuidWithoutHyphens:
+      title: UuidWithoutHyphens
+      description: Universally Unique identifier without hyphens
+      type: string
+      example: e54b7e958d6148229f12373cf601b880
+    AgreementUid:
+      oneOf:
+      - type: string
+        minLength: 22
+        maxLength: 22
+        description: Concord agreement unique identifier. (new format)
+      - type: string
+        minLength: 6
+        maxLength: 6
+        description: Concord agreement unique identifier. (old format)
+      examples:
+      - 01sp9L4YEZNcLHaSV8447N
+      - G4VIX7
+    DocumentType:
+      type: string
+      enum:
+      - HTML
+      - PDF
+      - WORD_MODE
+      - WORD_LIVE_EDITING
+      - SIGNED
+      example: PDF
+    PropertyTypeEnumDto:
+      title: PropertyTypeEnumDto
+      type: string
+      enum:
+      - SHORT_TEXT
+      - LONG_TEXT
+      - NUMERIC
+      - DATE
+      - DATETIME
+      - MONETARY_AMOUNT
+      - SINGLE_SELECT
+      - MULTI_SELECT
+      - BOOLEAN
+    OrganizationFieldItemDto:
+      title: OrganizationFieldItemDto
+      type: object
+      properties:
+        uuid:
+          type: string
+          format: uuid
+    SingleSelectPropertyValueDto:
+      title: SingleSelectPropertyValueDto
+      type: array
+      items:
+        type: object
+        required:
+        - valueText
+        properties:
+          propertyValueId:
+            type: string
+            description: Unique identifier of the property value.
+          valueText:
+            type: string
+            description: Text value.
+          referenceType:
+            $ref: '#/components/schemas/PropertyReferenceTypeEnum'
+          value:
+            oneOf:
+            - $ref: '#/components/schemas/PropertyValueUserDto'
+            - $ref: '#/components/schemas/PropertyValueCustomDto'
+            discriminator:
+              propertyName: type
+              mapping:
+                USER: '#/components/schemas/PropertyValueUserDto'
+                CUSTOM: '#/components/schemas/PropertyValueCustomDto'
+    Metadata:
+      title: Metadata
+      type: object
+      properties:
+        value:
+          type: object
+          description: the JSON metadata object.
+    FolderTreeDto1:
+      title: FolderTreeDto1
+      type: object
+      required:
+      - children
+      - id
+      - name
+      properties:
+        id:
+          type: number
+          description: Folder ID
+          example: 21
+        name:
+          type: string
+          description: Folder name
+          example: My Folder
+        parentId:
+          type: number
+          description: Parent folder ID
+          example: 6
+        access:
+          $ref: '#/components/schemas/FolderAccessDto'
+        documentCount:
+          type: number
+          description: Number of documents in the folder
+          example: 12
+        children:
+          type: array
+          items:
+            type: object
+          description: children tree
+        isBookmarked:
+          type: boolean
+          description: Is folder bookmarked by user
+          example: true
+    PropertyValueUserDto:
+      title: PropertyValueUserDto
+      type: object
+      required:
+      - userId
+      - emailAddress
+      - fullName
+      - external
+      properties:
+        userId:
+          type: string
+          minLength: 22
+          maxLength: 22
+          description: User ID
+          example: 01sp9L4YEZNcLHaSV8447N
+        emailAddress:
+          type: string
+          format: email
+          example: john@doe.com
+        hasPicture:
+          type: boolean
+        pictures:
+          $ref: '#/components/schemas/UserPicturesDto'
+        fullName:
+          type: string
+          example: John Doe
+        status:
+          $ref: '#/components/schemas/DeletionStatusEnum'
+        external:
+          type: boolean
+          description: Indicates if the user is external to the organization.
+    LongTextPropertyValueDto:
+      title: LongTextPropertyValueDto
+      type: string
+      maxLength: 10000
+      description: Long text value
+      example: Long text value
+    FieldDtoBase:
+      title: FieldDtoBase
+      type: object
+      properties:
+        values:
+          type: array
+          items:
+            type: string
+          description: Values of the field inside this document.
+        organizationFieldItem:
+          $ref: '#/components/schemas/OrganizationFieldItemDto'
+    SignatureProvider:
+      title: SignatureProvider
+      description: Provider used for signature processing
+      type: string
+      enum:
+      - CONCORD
+      - DOCUSIGN
+      example: CONCORD
+    UserGroupDto:
+      title: UserGroupDto
+      required:
+      - id
+      - name
+      - invitations
+      - users
+      type: object
+      properties:
+        id:
+          type: number
+          example: 69
+          readOnly: true
+        name:
+          type: string
+          example: groupName
+        description:
+          type: string
+          example: desc
+        users:
+          type: array
+          items:
+            $ref: '#/components/schemas/UserDto'
+          description: UserDto
+        invitations:
+          type: array
+          items:
+            $ref: '#/components/schemas/InvitationDto'
+          description: InvitationDto
+        organization:
+          $ref: '#/components/schemas/PartialOrganizationDto'
+    AgreementAccessType:
+      type: string
+      enum:
+      - DIRECT
+      - FOLDER
+      - ORGANIZATION
+      - TAG
+      example: FOLDER
+    MonetaryAmountPropertyValueDto:
+      title: MonetaryValuePropertyValueDto
+      type: object
+      description: An object holding a pair amount/currency-code to represent a monetary value
+      required:
+      - amount
+      - currency
+      properties:
+        amount:
+          type: number
+          description: The amount of money held by the currency object
+        currency:
+          type: string
+          description: 'The currency code for the object.<br/> Must be a valid code in the <a href="https://www.iso.org/iso-4217-currency-codes.html" target="_blank">ISO-4217</a> standard.<br/> examples: "USD", "EUR", "CAD"'
+          examples:
+          - USD
+          - EUR
+          - CAD
+    AgreementListItemDto:
+      title: AgreementListItemDto
+      required:
+      - accessFromRole
+      - accessType
+      - createdAt
+      - createdBy
+      - createdByName
+      - documentType
+      - isInboxed
+      - isBookmarked
+      - modifiedAt
+      - organizationId
+      - parties
+      - status
+      - tags
+      - title
+      - uuid
+      type: object
+      properties:
+        accessFromRole:
+          type: boolean
+          description: Admin oversight access
+          example: false
+        accessType:
+          $ref: '#/components/schemas/AgreementAccessType'
+        createdAt:
+          type: number
+          description: Creation date as Unix timestamp in milliseconds
+          example: 1456763982000
+        createdBy:
+          type: integer
+          format: int64
+          description: creator ID
+          example: 123
+        createdByIsActive:
+          type: boolean
+          description: true if the creator account is active
+          example: true
+        createdByName:
+          type: string
+          description: The creator name
+          example: John doe
+        description:
+          type: string
+          description: Agreement description
+          example: NDA
+        documentType:
+          $ref: '#/components/schemas/DocumentType'
+        endDate:
+          type: integer
+          format: int64
+          description: End date as Unix timestamp in millisecond
+          example: 1548979200000
+        endDateUnknown:
+          type: boolean
+          example: true
+        fields:
+          type: array
+          items:
+            $ref: '#/components/schemas/FieldDtoBase'
+          description: Agreement smart fields
+        folderId:
+          type: integer
+          format: int64
+          description: ID of the folder containing this agreement
+          example: 123
+        hasSigned:
+          type: boolean
+          example: true
+          description: true if the current user has already signed this agreement.
+        isInboxed:
+          type: boolean
+          example: true
+        isBookmarked:
+          type: boolean
+          example: true
+        modifiedAt:
+          type: number
+          description: Modification date as Unix timestamp in milliseconds
+          example: 1456763982000
+        mustValidate:
+          type: boolean
+          example: false
+        organizationId:
+          type: number
+          description: ID of the organization that created/owns this agreement.
+          example: 1
+        organizationName:
+          type: string
+          description: 'Name of the organization this agreement belongs to.
+
+            Only present when performing cross-organization AI searches.
+
+            '
+          example: Acme Corporation
+        accessOrganizationId:
+          type: number
+          description: 'Organization ID through which the current user has access to this agreement.
+
+            Only present when performing cross-organization AI searches.
+
+            Use this instead of organizationId when navigating to the agreement, as organizationId
+
+            always refers to the creator organization which may differ from the user''s access organization.
+
+            '
+          example: 143305
+        signatureCount:
+          type: integer
+          format: int64
+          example: 1
+        signatureDate:
+          type: number
+          description: Signature date as Unix timestamp in millisecond
+          example: 1548979200000
+        signatureDateUnknown:
+          type: boolean
+          example: false
+        signatureRequired:
+          type: number
+          example: 1
+        signatureProvider:
+          $ref: '#/components/schemas/SignatureProvider'
+        status:
+          type: string
+          description: Agreement status
+          example: UNKNOWN_CONTRACT
+        tags:
+          type: array
+          items:
+            $ref: '#/components/schemas/TagDto'
+          description: Agreement tags
+        properties:
+          type: array
+          items:
+            $ref: '#/components/schemas/AgreementListItemPropertyDto'
+          description: Agreement properties
+        title:
+          type: string
+          description: Disclosure Agreement (string) - Agreement title
+          example: Non
+        unread:
+          type: boolean
+          example: false
+        uuid:
+          $ref: '#/components/schemas/AgreementUid'
+        validated:
+          type: boolean
+          example: false
+        validationCount:
+          type: number
+          example: 1
+        validationRequired:
+          type: number
+          example: 1
+    DeletionStatusEnum:
+      title: DeletionStatusEnum
+      default: ACTIVE
+      enum:
+      - ACTIVE
+      - SOFT_DELETED
+      type: string
+    MultiSelectPropertyValueDto:
+      title: MultiSelectPropertyValueDto
+      type: array
+      items:
+        type: object
+        required:
+        - valueText
+        properties:
+          propertyValueId:
+            type: string
+            description: Unique identifier of the property value.
+          valueText:
+            type: string
+            description: Text value.
+          referenceType:
+            $ref: '#/components/schemas/PropertyReferenceTypeEnum'
+          value:
+            oneOf:
+            - $ref: '#/components/schemas/PropertyValueUserDto'
+            - $ref: '#/components/schemas/PropertyValueCustomDto'
+            discriminator:
+              propertyName: type
+              mapping:
+                USER: '#/components/schemas/PropertyValueUserDto'
+                CUSTOM: '#/components/schemas/PropertyValueCustomDto'
+    FolderDto:
+      title: FolderDto
+      type: object
+      required:
+      - id
+      - name
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Folder ID
+          example: 14
+          readOnly: true
+        name:
+          type: string
+          description: Folder name
+          example: My Folder
+        parentId:
+          type: integer
+          format: int64
+          description: Parent folder ID
+          example: 5
+        createdBy:
+          $ref: '#/components/schemas/UserDto'
+        createdAt:
+          type: number
+          description: Creation date as Unix timestamp in milliseconds
+          example: 1456763982000
+        modifiedAt:
+          type: number
+          description: Modification date as Unix timestamp in milliseconds
+          example: 1456763982000
+        access:
+          $ref: '#/components/schemas/FolderAccessDto'
+        isBookmarked:
+          type: boolean
+          description: Is folder bookmarked by user
+          example: true
+    FolderUpdateDto:
+      title: FolderUpdateDto
+      type: object
+      properties:
+        name:
+          type: string
+          description: Folder name
+          example: My Folder
+        parentId:
+          type: number
+          description: Parent folder ID
+          example: 5
+        access:
+          $ref: '#/components/schemas/FolderAccessUpdateDto'
+  securitySchemes:
+    ApiKeyAuthentication:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+      description: 'Users authenticate themselves through the HTTP Header X-API-KEY. You can generate as many API Keys as needed from your Concord account.
+
+        If the HTTP Header is missing or if the API Key is invalid, the HTTP Response will be 401 Unauthorized.'

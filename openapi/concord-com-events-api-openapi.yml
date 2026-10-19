@@ -1,0 +1,498 @@
+openapi: 3.2.0
+info:
+  x-logo:
+    url: https://www.concord.app/wp-content/uploads/2025/01/Logo-full-color-16px-padding.svg
+  title: Concord Events API
+  description: '## Overview
+
+
+    ### Basics
+
+
+    Concord, https://www.concord.app/, is a cloud-based contract lifecycle management platform built for all types of businesses.
+
+    It provides unlimited e-signatures and unlimited contract storage for any number of users.
+
+    Concord saves time, money, and trees. It’s a smart way to get everyone to agree.
+
+
+    This Concord API gives you access to features you see in Concord and lets you extend them for use in your own application.
+
+    It strives to be RESTful and is organized around the main resources you’re familiar with from the Concord interface.
+
+
+    Before you do anything, you should get a Concord account on our sandbox environment that you can test the API against
+
+    and create an API Key so that you can make API calls.
+
+
+    ### Format
+
+
+    Both request body data and response data are formatted as JSON.
+
+
+    ### Upcoming changes
+
+
+    We are always maintaining, fixing, and enhancing our API. As such, you should expect new endpoints to show up, new fields to be added to responses and new error codes to appear.
+
+    We recommend that you build your code to gracefully ignore things that you aren’t expecting, and to handle errors in standard HTTP-centric ways.
+
+
+    ### Getting help
+
+
+    To get in touch with our API experts directly, please send a message to support@concord.app.
+
+
+    ## Environments
+
+
+    The API is accessible from:
+
+
+    + https://uat.concordnow.com/api/rest/1/ - sandbox
+
+
+    + https://api.concordnow.com/api/rest/1/ - production
+
+
+    ## Authentication
+
+
+    To use this API, you need to be authenticated.
+
+
+    ### With an API key
+
+
+    Users authenticate themselves through the HTTP Header **X-API-KEY**.
+
+    You can generate as many API Keys as needed from your Concord account.
+
+
+    If the HTTP Header is missing or if the API Key is invalid,
+
+    the HTTP Response will be 401 Unauthorized.
+
+
+    ## Errors
+
+
+    The API communicates errors through standard HTTP status codes paired with error objects. Generally, the following pattern will apply:
+
+
+    + 2xx - The request was successfully received, understood, and accepted.
+
+
+    + 4xx - An error in the request. Usually a bad parameter.
+
+
+    + 5xx - The request is fine, but something is wrong on Concord''s end.
+
+
+    ### 4xx errors definition
+
+
+    The errors referenced here are valid for most (or even all) of our endpoints.
+
+    They are standard error messages for things like "Not authenticated, but you should" or "You can''t access this".
+
+    Depending on what you''re trying to access, you might get a bit more information in the response.
+
+
+    + Response 400 (application/json)
+
+
+    {
+
+    "statusCode": 400,
+
+    "restCode": "badRequest"
+
+    }
+
+
+    + Response 401 (application/json)
+
+
+    {
+
+    "statusCode": 401,
+
+    "restCode": "authFailed"
+
+    }
+
+
+    + Response 403 (application/json)
+
+
+    {
+
+    "statusCode": 403,
+
+    "restCode": "accessDenied"
+
+    }
+
+
+    + Response 404 (application/json)
+
+
+    {
+
+    "statusCode": 404,
+
+    "restCode": "notFound"
+
+    }
+
+
+    + Response 409 (application/json)
+
+
+    {
+
+    "statusCode": 409,
+
+    "restCode": "conflict"
+
+    }
+
+
+    ### HTTP status code
+
+
+    + 200 success
+
+
+    + 201 created
+
+
+    + 202 accepted
+
+
+    + 204 no_content
+
+
+    + 400 bad_request
+
+
+    + 401 unauthorized
+
+
+    + 403 forbidden
+
+
+    + 404 not_found
+
+
+    + 405 method_not_allowed
+
+
+    + 409 conflict
+
+
+    + 415 unsupported_media_type
+
+
+    + 500 internal_server_error
+
+
+    + 502 bad_gateway
+
+
+    + 503 unavailable
+
+
+    + 504 gateway_timeout'
+  contact:
+    email: support@concord.app
+    name: Support Concord
+    url: https://help.concord.app/
+  license:
+    name: Terms of service
+    url: https://www.concord.app/terms-of-service
+  version: Concord API v1.0
+servers:
+- url: https://uat.concordnow.com/api/rest/1
+  variables: {}
+security:
+- ApiKeyAuthentication: []
+tags:
+- name: Events
+  description: Events related API
+paths:
+  /organizations/{organizationId}/events:
+    get:
+      tags:
+      - Events
+      summary: Get List all organization events
+      description: Only a user with the Administrator role can list events from an organization.
+      operationId: GetListallorganizationevents
+      parameters:
+      - in: path
+        name: organizationId
+        description: Organization ID
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: start
+        in: query
+        description: The start date (yyyy-MM-dd format). The range between `start` and `end` **must** be lesser or equals to 7 days.
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: '2024-01-01'
+      - name: end
+        in: query
+        description: The end date (yyyy-MM-dd format). The range between `start` and `end` **must** be lesser or equals to 7 days.
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: '2024-01-07'
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetListallorganizationeventsresponse'
+components:
+  schemas:
+    GetListallorganizationeventsresponse:
+      title: GetListallorganizationeventsresponse
+      required:
+      - events
+      type: object
+      properties:
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrganizationEvent'
+          description: ''
+      example:
+        events:
+        - id: 128538
+          createdAt: 1510657155000
+          type: AGREEMENT_SIGN
+          actor:
+            name: John Doe
+            id: 70
+            type: USER
+            hasAvatar: true
+            email: john@doe.com
+            job: none
+            organization: Acme Corp
+          event:
+            name: Non-Disclosure Agreement
+            id: 02xjNQD6nBXcaVLCJJGfN0
+            type: AGREEMENT
+            status: NEGOTIATION
+        - id: 128536
+          createdAt: 1510657127000
+          type: AGREEMENT_INVITE
+          actor:
+            name: Jane Doe
+            id: 293
+            type: USER
+            hasAvatar: false
+            email: jane@doe.com
+            job: ''
+            organization: Acme Corp
+          event:
+            name: Non-Disclosure Agreement
+            id: 02xjNQD6nBXcaVLCJJGfN0
+            type: AGREEMENT
+            status: NEGOTIATION
+        - id: 128534
+          createdAt: 1510657127000
+          type: AGREEMENT_CREATE
+          actor:
+            name: John Doe
+            id: 70
+            type: USER
+            hasAvatar: true
+            email: john@doe.com
+            job: none
+            organization: Acme Corp
+          event:
+            name: Non-Disclosure Agreement
+            id: 02xjNQD6nBXcaVLCJJGfN0
+            type: AGREEMENT
+            status: NEGOTIATION
+        - id: 128532
+          createdAt: 1510593506000
+          type: AGREEMENT_VIEW
+          actor:
+            name: Jane Doe
+            id: 293
+            type: USER
+            hasAvatar: false
+            email: jane@doe.com
+            job: ''
+            organization: Acme Corp
+          event:
+            name: Non-Disclosure Agreement
+            id: 02xjNQD6nBXcaVLCJJGfN0
+            type: AGREEMENT
+            status: NEGOTIATION
+    EventDataOrganization:
+      title: EventDataOrganization
+      required:
+      - name
+      - id
+      - type
+      type: object
+      properties:
+        name:
+          type: string
+          description: The organization name
+        id:
+          type: string
+          description: The organization ID
+        type:
+          type: string
+          enum:
+          - ORGANIZATION
+      example:
+        name: Acme Corp
+        id: 24140
+        type: ORGANIZATION
+    EventDataAgreement:
+      title: EventDataAgreement
+      required:
+      - name
+      - id
+      - type
+      - status
+      type: object
+      properties:
+        name:
+          type: string
+          description: The agreement title
+        id:
+          type: string
+          description: The agreement UID
+        type:
+          type: string
+          enum:
+          - AGREEMENT
+        status:
+          type: string
+      example:
+        name: Non-Disclosure Agreement
+        id: 02xjNQD6nBXcaVLCJJGfN0
+        type: AGREEMENT
+        status: NEGOTIATION
+    EventDataUser:
+      title: EventDataUser
+      required:
+      - name
+      - id
+      - type
+      - hasAvatar
+      - email
+      - job
+      - organization
+      type: object
+      properties:
+        name:
+          type: string
+          description: The user name
+        id:
+          type: string
+          description: The user ID
+        type:
+          type: string
+          enum:
+          - USER
+        hasAvatar:
+          type: boolean
+        email:
+          type: string
+          format: email
+        job:
+          type: string
+        organization:
+          type: string
+          description: The organization name
+      example:
+        name: John Doe
+        id: 24140
+        type: USER
+        hasAvatar: false
+        email: john@doe.com
+        job: CEO
+        organization: Acme Corp
+    OrganizationEvent:
+      title: Event
+      required:
+      - id
+      - createdAt
+      - type
+      - actor
+      - event
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        createdAt:
+          type: integer
+          format: int64
+        type:
+          type: string
+          enum:
+          - ORGANIZATION_ADD_USER
+          - ORGANIZATION_ADD_SUBSIDIARY
+          - AGREEMENT_CREATE
+          - AGREEMENT_DELETE
+          - AGREEMENT_INVITE
+          - AGREEMENT_UPDATE
+          - AGREEMENT_SIGN
+          - AGREEMENT_DELAYED
+          - AGREEMENT_JOIN
+          - AGREEMENT_VIEW
+          - AGREEMENT_OPENED_DOWNLOAD_LINK
+        actor:
+          oneOf:
+          - $ref: '#/components/schemas/EventDataOrganization'
+          - $ref: '#/components/schemas/EventDataUser'
+        event:
+          oneOf:
+          - $ref: '#/components/schemas/EventDataAgreement'
+          - $ref: '#/components/schemas/EventDataOrganization'
+          - $ref: '#/components/schemas/EventDataUser'
+      example:
+        id: 128538
+        createdAt: 1510657155000
+        type: AGREEMENT_SIGN
+        actor:
+          name: John Doe
+          id: 70
+          type: USER
+          hasAvatar: true
+          email: john@doe.com
+          job: none
+          organization: Acme Corp
+        event:
+          name: Non-Disclosure Agreement
+          id: 02xjNQD6nBXcaVLCJJGfN0
+          type: AGREEMENT
+          status: NEGOTIATION
+  securitySchemes:
+    ApiKeyAuthentication:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+      description: 'Users authenticate themselves through the HTTP Header X-API-KEY. You can generate as many API Keys as needed from your Concord account.
+
+        If the HTTP Header is missing or if the API Key is invalid, the HTTP Response will be 401 Unauthorized.'

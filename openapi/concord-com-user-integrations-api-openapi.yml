@@ -1,0 +1,341 @@
+openapi: 3.2.0
+info:
+  x-logo:
+    url: https://www.concord.app/wp-content/uploads/2025/01/Logo-full-color-16px-padding.svg
+  title: Concord User integrations API
+  description: '## Overview
+
+
+    ### Basics
+
+
+    Concord, https://www.concord.app/, is a cloud-based contract lifecycle management platform built for all types of businesses.
+
+    It provides unlimited e-signatures and unlimited contract storage for any number of users.
+
+    Concord saves time, money, and trees. It’s a smart way to get everyone to agree.
+
+
+    This Concord API gives you access to features you see in Concord and lets you extend them for use in your own application.
+
+    It strives to be RESTful and is organized around the main resources you’re familiar with from the Concord interface.
+
+
+    Before you do anything, you should get a Concord account on our sandbox environment that you can test the API against
+
+    and create an API Key so that you can make API calls.
+
+
+    ### Format
+
+
+    Both request body data and response data are formatted as JSON.
+
+
+    ### Upcoming changes
+
+
+    We are always maintaining, fixing, and enhancing our API. As such, you should expect new endpoints to show up, new fields to be added to responses and new error codes to appear.
+
+    We recommend that you build your code to gracefully ignore things that you aren’t expecting, and to handle errors in standard HTTP-centric ways.
+
+
+    ### Getting help
+
+
+    To get in touch with our API experts directly, please send a message to support@concord.app.
+
+
+    ## Environments
+
+
+    The API is accessible from:
+
+
+    + https://uat.concordnow.com/api/rest/1/ - sandbox
+
+
+    + https://api.concordnow.com/api/rest/1/ - production
+
+
+    ## Authentication
+
+
+    To use this API, you need to be authenticated.
+
+
+    ### With an API key
+
+
+    Users authenticate themselves through the HTTP Header **X-API-KEY**.
+
+    You can generate as many API Keys as needed from your Concord account.
+
+
+    If the HTTP Header is missing or if the API Key is invalid,
+
+    the HTTP Response will be 401 Unauthorized.
+
+
+    ## Errors
+
+
+    The API communicates errors through standard HTTP status codes paired with error objects. Generally, the following pattern will apply:
+
+
+    + 2xx - The request was successfully received, understood, and accepted.
+
+
+    + 4xx - An error in the request. Usually a bad parameter.
+
+
+    + 5xx - The request is fine, but something is wrong on Concord''s end.
+
+
+    ### 4xx errors definition
+
+
+    The errors referenced here are valid for most (or even all) of our endpoints.
+
+    They are standard error messages for things like "Not authenticated, but you should" or "You can''t access this".
+
+    Depending on what you''re trying to access, you might get a bit more information in the response.
+
+
+    + Response 400 (application/json)
+
+
+    {
+
+    "statusCode": 400,
+
+    "restCode": "badRequest"
+
+    }
+
+
+    + Response 401 (application/json)
+
+
+    {
+
+    "statusCode": 401,
+
+    "restCode": "authFailed"
+
+    }
+
+
+    + Response 403 (application/json)
+
+
+    {
+
+    "statusCode": 403,
+
+    "restCode": "accessDenied"
+
+    }
+
+
+    + Response 404 (application/json)
+
+
+    {
+
+    "statusCode": 404,
+
+    "restCode": "notFound"
+
+    }
+
+
+    + Response 409 (application/json)
+
+
+    {
+
+    "statusCode": 409,
+
+    "restCode": "conflict"
+
+    }
+
+
+    ### HTTP status code
+
+
+    + 200 success
+
+
+    + 201 created
+
+
+    + 202 accepted
+
+
+    + 204 no_content
+
+
+    + 400 bad_request
+
+
+    + 401 unauthorized
+
+
+    + 403 forbidden
+
+
+    + 404 not_found
+
+
+    + 405 method_not_allowed
+
+
+    + 409 conflict
+
+
+    + 415 unsupported_media_type
+
+
+    + 500 internal_server_error
+
+
+    + 502 bad_gateway
+
+
+    + 503 unavailable
+
+
+    + 504 gateway_timeout'
+  contact:
+    email: support@concord.app
+    name: Support Concord
+    url: https://help.concord.app/
+  license:
+    name: Terms of service
+    url: https://www.concord.app/terms-of-service
+  version: Concord API v1.0
+servers:
+- url: https://uat.concordnow.com/api/rest/1
+  variables: {}
+security:
+- ApiKeyAuthentication: []
+tags:
+- name: User integrations
+paths:
+  /users/me/integrations/webhooks:
+    get:
+      tags:
+      - User integrations
+      summary: List webhooks integrations
+      operationId: WebHooksIntegrationsList
+      responses:
+        '200':
+          description: List of webhook integrations
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebHooksIntegrationsList'
+    post:
+      tags:
+      - User integrations
+      summary: Create a webhook integration
+      operationId: WebHookIntegrationCreate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebHookIntegrationCreate'
+      responses:
+        '201':
+          description: Webhook integration created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WebHookIntegrationGet'
+components:
+  schemas:
+    WebHookIntegrationEvent:
+      title: WebHookIntegrationEvent
+      type: array
+      items:
+        type: string
+        description: Events triggering webhook
+        enum:
+        - AGREEMENT_EXECUTED
+        - AGREEMENT_NEW_SIGNATURE
+        - AGREEMENT_APPROVED
+        - AGREEMENT_EXPIRED
+        - AGREEMENT_CUSTOM_FIELDS_ADDED
+        - AGREEMENT_CUSTOM_FIELDS_UPDATED
+        - AGREEMENT_CUSTOM_FIELDS_DELETED
+        - AGREEMENT_LIFECYCLE_UPDATED
+        - AGREEMENT_CANCELLED
+        - AGREEMENT_BACK_TO_REVIEW
+    WebHookIntegrationCreate:
+      title: WebHookIntegrationCreate
+      type: object
+      properties:
+        name:
+          type: string
+          description: Integration's display name
+          example: My webhook integration
+        events:
+          $ref: '#/components/schemas/WebHookIntegrationEvent'
+        customHeaderName:
+          type: string
+          description: Custom header name for webhook requests
+          example: Authorization
+        customHeaderValue:
+          type: string
+          description: Custom header value for webhook requests
+          example: Bearer token123
+        url:
+          type: string
+          format: uri
+          description: Webhook location
+    WebHooksIntegrationsList:
+      title: WebHooksIntegrationsList
+      required:
+      - size
+      - integrations
+      type: object
+      properties:
+        size:
+          type: integer
+          format: int32
+        integrations:
+          type: array
+          items:
+            $ref: '#/components/schemas/WebHookIntegrationGet'
+    WebHookIntegrationGet:
+      title: WebHookIntegrationGet
+      allOf:
+      - $ref: '#/components/schemas/WebHookIntegrationCreate'
+      - type: object
+        properties:
+          id:
+            type: integer
+            format: int64
+            description: Unique identifier
+          createdAt:
+            type: integer
+            format: int64
+            description: Creation timestamp in milliseconds
+          modifiedAt:
+            type: integer
+            format: int64
+            description: Last modification timestamp in milliseconds
+          lastAccessAt:
+            type: integer
+            format: int64
+            description: Last access timestamp in milliseconds
+  securitySchemes:
+    ApiKeyAuthentication:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+      description: 'Users authenticate themselves through the HTTP Header X-API-KEY. You can generate as many API Keys as needed from your Concord account.
+
+        If the HTTP Header is missing or if the API Key is invalid, the HTTP Response will be 401 Unauthorized.'

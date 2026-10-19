@@ -1,0 +1,723 @@
+openapi: 3.2.0
+info:
+  x-logo:
+    url: https://www.concord.app/wp-content/uploads/2025/01/Logo-full-color-16px-padding.svg
+  title: Concord Organization API
+  description: '## Overview
+
+
+    ### Basics
+
+
+    Concord, https://www.concord.app/, is a cloud-based contract lifecycle management platform built for all types of businesses.
+
+    It provides unlimited e-signatures and unlimited contract storage for any number of users.
+
+    Concord saves time, money, and trees. It’s a smart way to get everyone to agree.
+
+
+    This Concord API gives you access to features you see in Concord and lets you extend them for use in your own application.
+
+    It strives to be RESTful and is organized around the main resources you’re familiar with from the Concord interface.
+
+
+    Before you do anything, you should get a Concord account on our sandbox environment that you can test the API against
+
+    and create an API Key so that you can make API calls.
+
+
+    ### Format
+
+
+    Both request body data and response data are formatted as JSON.
+
+
+    ### Upcoming changes
+
+
+    We are always maintaining, fixing, and enhancing our API. As such, you should expect new endpoints to show up, new fields to be added to responses and new error codes to appear.
+
+    We recommend that you build your code to gracefully ignore things that you aren’t expecting, and to handle errors in standard HTTP-centric ways.
+
+
+    ### Getting help
+
+
+    To get in touch with our API experts directly, please send a message to support@concord.app.
+
+
+    ## Environments
+
+
+    The API is accessible from:
+
+
+    + https://uat.concordnow.com/api/rest/1/ - sandbox
+
+
+    + https://api.concordnow.com/api/rest/1/ - production
+
+
+    ## Authentication
+
+
+    To use this API, you need to be authenticated.
+
+
+    ### With an API key
+
+
+    Users authenticate themselves through the HTTP Header **X-API-KEY**.
+
+    You can generate as many API Keys as needed from your Concord account.
+
+
+    If the HTTP Header is missing or if the API Key is invalid,
+
+    the HTTP Response will be 401 Unauthorized.
+
+
+    ## Errors
+
+
+    The API communicates errors through standard HTTP status codes paired with error objects. Generally, the following pattern will apply:
+
+
+    + 2xx - The request was successfully received, understood, and accepted.
+
+
+    + 4xx - An error in the request. Usually a bad parameter.
+
+
+    + 5xx - The request is fine, but something is wrong on Concord''s end.
+
+
+    ### 4xx errors definition
+
+
+    The errors referenced here are valid for most (or even all) of our endpoints.
+
+    They are standard error messages for things like "Not authenticated, but you should" or "You can''t access this".
+
+    Depending on what you''re trying to access, you might get a bit more information in the response.
+
+
+    + Response 400 (application/json)
+
+
+    {
+
+    "statusCode": 400,
+
+    "restCode": "badRequest"
+
+    }
+
+
+    + Response 401 (application/json)
+
+
+    {
+
+    "statusCode": 401,
+
+    "restCode": "authFailed"
+
+    }
+
+
+    + Response 403 (application/json)
+
+
+    {
+
+    "statusCode": 403,
+
+    "restCode": "accessDenied"
+
+    }
+
+
+    + Response 404 (application/json)
+
+
+    {
+
+    "statusCode": 404,
+
+    "restCode": "notFound"
+
+    }
+
+
+    + Response 409 (application/json)
+
+
+    {
+
+    "statusCode": 409,
+
+    "restCode": "conflict"
+
+    }
+
+
+    ### HTTP status code
+
+
+    + 200 success
+
+
+    + 201 created
+
+
+    + 202 accepted
+
+
+    + 204 no_content
+
+
+    + 400 bad_request
+
+
+    + 401 unauthorized
+
+
+    + 403 forbidden
+
+
+    + 404 not_found
+
+
+    + 405 method_not_allowed
+
+
+    + 409 conflict
+
+
+    + 415 unsupported_media_type
+
+
+    + 500 internal_server_error
+
+
+    + 502 bad_gateway
+
+
+    + 503 unavailable
+
+
+    + 504 gateway_timeout'
+  contact:
+    email: support@concord.app
+    name: Support Concord
+    url: https://help.concord.app/
+  license:
+    name: Terms of service
+    url: https://www.concord.app/terms-of-service
+  version: Concord API v1.0
+servers:
+- url: https://uat.concordnow.com/api/rest/1
+  variables: {}
+security:
+- ApiKeyAuthentication: []
+tags:
+- name: Organization
+  description: Organization related API
+paths:
+  /organizations:
+    post:
+      tags:
+      - Organization
+      summary: Create an Organization
+      description: ''
+      operationId: CreateOrganization
+      parameters:
+      - name: X-API-KEY
+        in: header
+        description: ''
+        required: true
+        schema:
+          type: string
+          example: my-api-key
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizationPostDto'
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/IdDto'
+  /organizations/{organizationId}:
+    get:
+      tags:
+      - Organization
+      summary: Get Organization
+      description: ''
+      operationId: GetOrganization
+      parameters:
+      - in: path
+        name: organizationId
+        description: Organization ID
+        required: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FullOrganizationDto'
+  /organizations/{organizationId}/subscription:
+    get:
+      tags:
+      - Organization
+      summary: Get Subscription
+      description: 'Without parameters, retrieve the current subscription.
+
+
+        With the `emails` parameter, retrieve the subscription as it would be if potential users were added to the current
+
+        organization as role defined by `roleId` (or default organization role if `roleId` is not provided).'
+      operationId: GetSubscription
+      parameters:
+      - in: path
+        name: organizationId
+        description: Organization ID
+        required: true
+        schema:
+          type: integer
+          format: int64
+      - name: emails
+        in: query
+        description: The emails of the potential users.
+        style: form
+        explode: true
+        schema:
+          type: array
+          items:
+            type: string
+      - name: roleId
+        in: query
+        description: 'Role ID in organization. If not provided, the value will be the default role''s id
+
+          in the organization.'
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int64
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SubscriptionDto'
+components:
+  schemas:
+    OrganizationInvitationDto:
+      title: OrganizationInvitationDto
+      required:
+      - invitationCustomTitle
+      - invitationCustomMessage
+      type: object
+      properties:
+        invitationCustomTitle:
+          type: string
+          description: Custom invitation's title
+          minLength: 3
+          maxLength: 120
+          example: Welcome to my organization
+        invitationCustomMessage:
+          type: string
+          description: Custom invitation's message
+          minLength: 3
+          maxLength: 4000
+          example: Please join my organization
+        invitationEmails:
+          type: array
+          items:
+            type: string
+            format: email
+            description: List of mails to invite into the organization
+            example: johndoe@johndoe.com
+    SigningAuthenticationDto:
+      title: SigningAuthenticationDto
+      type: object
+      properties:
+        colleagues:
+          $ref: '#/components/schemas/SigningAuthentication'
+        thirdParties:
+          $ref: '#/components/schemas/SigningAuthentication'
+    SubscriptionLevelEnum:
+      title: SubscriptionLevelEnum
+      enum:
+      - FREE
+      - STANDARD
+      - PLUS
+      - STANDARD_2
+      - PLUS_2
+      - ENTERPRISE_2
+      - ENTERPRISE_PLUS_2
+      - DEMO
+      type: string
+    SubscriptionStatusEnum:
+      title: SubscriptionStatusEnum
+      enum:
+      - ACTIVE
+      - CANCELLED
+      - NON_RENEWING
+      - PAUSED
+      type: string
+    SubscriptionDto:
+      title: SubscriptionDto
+      type: object
+      required:
+      - subscriptionName
+      - subscriptionId
+      - customerId
+      - status
+      - seats
+      - type
+      - featureLevel
+      properties:
+        subscriptionName:
+          type: string
+          example: Enterprise
+        subscriptionId:
+          type: string
+          example: abcde12345
+        customerId:
+          type: string
+          example: abcde12345
+        status:
+          $ref: '#/components/schemas/SubscriptionStatusEnum'
+        seats:
+          type: array
+          items:
+            $ref: '#/components/schemas/SubscriptionSeatDto'
+        type:
+          $ref: '#/components/schemas/SubscriptionTypeEnum'
+        featureLevel:
+          $ref: '#/components/schemas/SubscriptionLevelEnum'
+    OrganizationContactInfos:
+      title: OrganizationContactInfos
+      type: object
+      properties:
+        street:
+          type: string
+          description: Length 0-256
+          example: abcde12345
+        zipCode:
+          type: string
+          description: Length 0-50
+          example: abcde12345
+        city:
+          type: string
+          description: Length 0-120
+          example: abcde12345
+        state:
+          type: string
+          description: Length 4-30
+          example: abcde12345
+        country:
+          type: string
+          description: Length 0-120
+          example: abcde12345
+        name:
+          type: string
+          description: Length 0-256
+          example: abcde12345
+        email:
+          type: string
+          description: Valid email
+          example: test@test.fr
+        function:
+          type: string
+          description: Length 0-100
+          example: abcde12345
+        phone:
+          type: string
+          description: Phone number
+          example: 25321421
+        mobile:
+          type: string
+          description: Phone number
+          example: 65321421
+        phoneCode:
+          type: number
+          description: Phone country code
+          example: 44
+        mobileCode:
+          type: number
+          description: Phone country code
+          example: 33
+    AskForTagsEnum:
+      title: AskForTagsEnum
+      enum:
+      - NONE
+      - REQUEST
+      - MANDATORY
+      type: string
+    EmailDomainDto:
+      title: EmailDomainDto
+      required:
+      - domain
+      type: object
+      properties:
+        domain:
+          type: string
+          example: domain.name
+        verified:
+          type: boolean
+          example: false
+    IdDto:
+      title: IdDto
+      required:
+      - id
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: Entity ID
+          example: 123
+    StoreRegion:
+      title: StoreRegion
+      enum:
+      - EU
+      - US
+      - AU
+      type: string
+    PartialOrganizationDto:
+      title: PartialOrganizationDto
+      type: object
+      required:
+      - id
+      - newOrganizationId
+      - name
+      properties:
+        id:
+          type: number
+          example: 69
+        name:
+          type: string
+          description: Length 1-191
+          example: orgName
+    FullOrganizationDto:
+      title: FullOrganizationDto
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+          description: Length 1-191
+          example: Organization name
+        description:
+          type: string
+          description: limited to 1024 characters
+          example: description
+        parent:
+          $ref: '#/components/schemas/PartialOrganizationDto'
+        contactInfos:
+          $ref: '#/components/schemas/OrganizationContactInfos'
+        passwordStrategy:
+          type: boolean
+        adminOversight:
+          type: boolean
+        signingAuthentications:
+          $ref: '#/components/schemas/SigningAuthenticationDto'
+        sendInvitationWithDocument:
+          type: boolean
+        requestSignatureOnApproval:
+          type: boolean
+        supportTeamAccessEnabled:
+          type: boolean
+          description: Whether support team access is enabled for this organization
+        supportTeamAccessExpiration:
+          type: string
+          format: date
+          description: The date when support team access expires (format YYYY-MM-DD)
+        region:
+          $ref: '#/components/schemas/StoreRegion'
+        subsidiaries:
+          type: array
+          items:
+            type: string
+        createdAt:
+          type: number
+          description: epoch timestamp ms
+          example: 1535116733000
+        emailDomains:
+          type: array
+          items:
+            $ref: '#/components/schemas/EmailDomainDto'
+        whitelistedIps:
+          type: array
+          items:
+            type: string
+        askForTags:
+          $ref: '#/components/schemas/AskForTagsEnum'
+        allTagsVisible:
+          type: boolean
+        sendContractWithDocument:
+          type: boolean
+        canCollaboratorSign:
+          type: boolean
+        subscription:
+          $ref: '#/components/schemas/SubscriptionEnum'
+        deleted:
+          type: boolean
+          description: Is the organization deleted
+        logo:
+          type: object
+          required:
+          - url
+          properties:
+            url:
+              type: string
+        aiEnabled:
+          type: boolean
+          description: Whether AI is enabled for this organization
+        guestInvitationOtpExemptionPeriod:
+          $ref: '#/components/schemas/GuestInvitationOtpExemptionPeriod'
+    SubscriptionTypeEnum:
+      title: SubscriptionTypeEnum
+      enum:
+      - FREE
+      - GENERIC_SEAT
+      - UNLIMITED
+      - CREATOR_COLLABORATOR_VIEWER
+      type: string
+    GuestInvitationOtpExemptionPeriod:
+      title: GuestInvitationOtpExemptionPeriod
+      type: string
+      description: 'Period during which external guests are exempt from OTP verification after receiving their invitation.
+
+        Defines how long a guest can access agreements without requiring OTP verification.
+
+
+        - **TEN_MINUTES**: Guest exempt from OTP for 10 minutes after invitation sent
+
+        - **ONE_DAY**: Guest exempt from OTP for 1 day after invitation sent
+
+        - **TWO_WEEKS**: Guest exempt from OTP for 2 weeks after invitation sent
+
+        - **ONE_MONTH**: Guest exempt from OTP for 1 month (30 days) after invitation sent
+
+        - **SIX_MONTHS**: Guest exempt from OTP for 6 months (180 days) after invitation sent
+
+        '
+      enum:
+      - TEN_MINUTES
+      - ONE_DAY
+      - TWO_WEEKS
+      - ONE_MONTH
+      - SIX_MONTHS
+      example: ONE_DAY
+    SubscriptionSeatDto:
+      title: SubscriptionSeatDto
+      required:
+      - type
+      - used
+      - invited
+      type: object
+      properties:
+        type:
+          $ref: '#/components/schemas/SubscriptionSeatTypeEnum'
+        subscribed:
+          type: number
+          description: Not filled when type is `UNLIMITED`.
+          example: 15
+        used:
+          type: number
+          example: 10
+        invited:
+          type: number
+          example: 3
+        maxAllowed:
+          type: integer
+          description: Maximum non-viewer seats for legacy customers. Null for non-legacy or unlimited subscriptions.
+          example: 15
+    SubscriptionEnum:
+      title: SubscriptionEnum
+      enum:
+      - FREE
+      - FREEMIUM
+      - STANDARD_2
+      - PLUS_2
+      - ENTERPRISE_2
+      - ENTERPRISE_PLUS_2
+      - STARTER_3
+      - STANDARD_3
+      - PRO_3
+      - ENTERPRISE_3
+      - ESSENTIALS_4
+      - BUSINESS_4
+      - ENTERPRISE_4
+      - ESSENTIALS_5
+      - BUSINESS_5
+      - ENTERPRISE_5
+      type: string
+    SigningAuthentication:
+      title: SigningAuthentication
+      enum:
+      - SMS
+      - EMAIL
+      - ANY
+      - NONE
+      type: string
+    SubscriptionSeatTypeEnum:
+      title: SubscriptionSeatTypeEnum
+      enum:
+      - GLOBAL
+      - CREATOR
+      - COLLABORATOR
+      - VIEWER
+      type: string
+    OrganizationPostDto:
+      title: OrganizationPostDto
+      required:
+      - name
+      type: object
+      properties:
+        name:
+          type: string
+          description: Organization's name
+          minLength: 1
+          maxLength: 220
+          example: Freez Corp
+        description:
+          type: string
+          description: Organizaton's description
+          maxLength: 1024
+          example: Coolest company ever
+        job:
+          type: string
+          description: Job title
+          maxLength: 1024
+          example: CEO
+        parentOrgId:
+          type: number
+          description: Parent organization ID
+          example: 123
+        invitation:
+          $ref: '#/components/schemas/OrganizationInvitationDto'
+  securitySchemes:
+    ApiKeyAuthentication:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+      description: 'Users authenticate themselves through the HTTP Header X-API-KEY. You can generate as many API Keys as needed from your Concord account.
+
+        If the HTTP Header is missing or if the API Key is invalid, the HTTP Response will be 401 Unauthorized.'

@@ -1,0 +1,608 @@
+openapi: 3.2.0
+info:
+  x-logo:
+    url: https://www.concord.app/wp-content/uploads/2025/01/Logo-full-color-16px-padding.svg
+  title: Concord Report API
+  description: '## Overview
+
+
+    ### Basics
+
+
+    Concord, https://www.concord.app/, is a cloud-based contract lifecycle management platform built for all types of businesses.
+
+    It provides unlimited e-signatures and unlimited contract storage for any number of users.
+
+    Concord saves time, money, and trees. It’s a smart way to get everyone to agree.
+
+
+    This Concord API gives you access to features you see in Concord and lets you extend them for use in your own application.
+
+    It strives to be RESTful and is organized around the main resources you’re familiar with from the Concord interface.
+
+
+    Before you do anything, you should get a Concord account on our sandbox environment that you can test the API against
+
+    and create an API Key so that you can make API calls.
+
+
+    ### Format
+
+
+    Both request body data and response data are formatted as JSON.
+
+
+    ### Upcoming changes
+
+
+    We are always maintaining, fixing, and enhancing our API. As such, you should expect new endpoints to show up, new fields to be added to responses and new error codes to appear.
+
+    We recommend that you build your code to gracefully ignore things that you aren’t expecting, and to handle errors in standard HTTP-centric ways.
+
+
+    ### Getting help
+
+
+    To get in touch with our API experts directly, please send a message to support@concord.app.
+
+
+    ## Environments
+
+
+    The API is accessible from:
+
+
+    + https://uat.concordnow.com/api/rest/1/ - sandbox
+
+
+    + https://api.concordnow.com/api/rest/1/ - production
+
+
+    ## Authentication
+
+
+    To use this API, you need to be authenticated.
+
+
+    ### With an API key
+
+
+    Users authenticate themselves through the HTTP Header **X-API-KEY**.
+
+    You can generate as many API Keys as needed from your Concord account.
+
+
+    If the HTTP Header is missing or if the API Key is invalid,
+
+    the HTTP Response will be 401 Unauthorized.
+
+
+    ## Errors
+
+
+    The API communicates errors through standard HTTP status codes paired with error objects. Generally, the following pattern will apply:
+
+
+    + 2xx - The request was successfully received, understood, and accepted.
+
+
+    + 4xx - An error in the request. Usually a bad parameter.
+
+
+    + 5xx - The request is fine, but something is wrong on Concord''s end.
+
+
+    ### 4xx errors definition
+
+
+    The errors referenced here are valid for most (or even all) of our endpoints.
+
+    They are standard error messages for things like "Not authenticated, but you should" or "You can''t access this".
+
+    Depending on what you''re trying to access, you might get a bit more information in the response.
+
+
+    + Response 400 (application/json)
+
+
+    {
+
+    "statusCode": 400,
+
+    "restCode": "badRequest"
+
+    }
+
+
+    + Response 401 (application/json)
+
+
+    {
+
+    "statusCode": 401,
+
+    "restCode": "authFailed"
+
+    }
+
+
+    + Response 403 (application/json)
+
+
+    {
+
+    "statusCode": 403,
+
+    "restCode": "accessDenied"
+
+    }
+
+
+    + Response 404 (application/json)
+
+
+    {
+
+    "statusCode": 404,
+
+    "restCode": "notFound"
+
+    }
+
+
+    + Response 409 (application/json)
+
+
+    {
+
+    "statusCode": 409,
+
+    "restCode": "conflict"
+
+    }
+
+
+    ### HTTP status code
+
+
+    + 200 success
+
+
+    + 201 created
+
+
+    + 202 accepted
+
+
+    + 204 no_content
+
+
+    + 400 bad_request
+
+
+    + 401 unauthorized
+
+
+    + 403 forbidden
+
+
+    + 404 not_found
+
+
+    + 405 method_not_allowed
+
+
+    + 409 conflict
+
+
+    + 415 unsupported_media_type
+
+
+    + 500 internal_server_error
+
+
+    + 502 bad_gateway
+
+
+    + 503 unavailable
+
+
+    + 504 gateway_timeout'
+  contact:
+    email: support@concord.app
+    name: Support Concord
+    url: https://help.concord.app/
+  license:
+    name: Terms of service
+    url: https://www.concord.app/terms-of-service
+  version: Concord API v1.0
+servers:
+- url: https://uat.concordnow.com/api/rest/1
+  variables: {}
+security:
+- ApiKeyAuthentication: []
+tags:
+- name: Report
+  description: Report related API
+paths:
+  /organizations/{organizationId}/reports:
+    parameters:
+    - in: path
+      name: organizationId
+      description: Organization ID
+      required: true
+      schema:
+        type: integer
+        format: int64
+    get:
+      tags:
+      - Report
+      summary: List All Reports
+      description: ''
+      operationId: ListAllReports
+      parameters:
+      - name: page
+        in: query
+        description: The page to display.
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+      - name: numberOfItemsByPage
+        in: query
+        description: Number of reports per page.
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int32
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportListDto'
+    post:
+      tags:
+      - Report
+      summary: Create a New Report
+      description: ''
+      operationId: CreateReport
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateReportDto'
+        required: true
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportDto'
+  /organizations/{organizationId}/reports/{id}:
+    parameters:
+    - in: path
+      name: organizationId
+      description: Organization ID
+      required: true
+      schema:
+        type: integer
+        format: int64
+    get:
+      tags:
+      - Report
+      summary: Get Report
+      description: ''
+      operationId: GetReport
+      parameters:
+      - name: id
+        in: path
+        description: Sample report ID
+        required: true
+        schema:
+          oneOf:
+          - $ref: '#/components/schemas/SampleReportEnum'
+          - type: integer
+            format: int64
+      responses:
+        '200':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportDto'
+    post:
+      tags:
+      - Report
+      summary: Create a new Report from a sample
+      description: ''
+      operationId: CreateaNewReportFromSample
+      parameters:
+      - name: id
+        in: path
+        description: Sample report ID
+        required: true
+        schema:
+          $ref: '#/components/schemas/SampleReportEnum'
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReportDto'
+        required: true
+      responses:
+        '201':
+          description: ''
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ReportDto'
+    put:
+      tags:
+      - Report
+      summary: Update Report
+      description: ''
+      operationId: UpdateReport
+      parameters:
+      - name: id
+        in: path
+        description: reportId
+        required: true
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        description: ''
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ReportDto'
+        required: true
+      responses:
+        '204':
+          description: ''
+      deprecated: true
+    delete:
+      tags:
+      - Report
+      summary: Delete Report
+      description: ''
+      operationId: DeleteReport
+      parameters:
+      - name: id
+        in: path
+        description: Sample report ID
+        required: true
+        schema:
+          oneOf:
+          - $ref: '#/components/schemas/SampleReportEnum'
+          - type: integer
+            format: int64
+      responses:
+        '204':
+          description: ''
+components:
+  schemas:
+    ReportListDto:
+      title: ReportListDto
+      type: object
+      properties:
+        reports:
+          type: array
+          items:
+            $ref: '#/components/schemas/ReportDto'
+          description: ''
+        sampleReports:
+          type: array
+          items:
+            $ref: '#/components/schemas/SampleReportEnum'
+          description: The sample report ids
+        totalCount:
+          type: number
+          example: 25
+    DateFilterDto:
+      title: DateFilterDto
+      description: Filter documents based on the date field referenced by this filter.<br/> <u>One and only one field can be set:</u><br/> - Use <u>"isBetween"</u> to filter documents having the referenced date <u>between</u> <b>"from"</b> and <b>"to"</b> <u>(inclusive)</u> of the date range provided.<br/> - Use <u>"isAfter"</u> to filter documents having the referenced date <u>after</u> <u>(inclusive)</u> <b>the provided timestamp</b>.<br/> - Use <u>"isBefore"</u> to filter documents having the referenced date <u>before</u> <u>(inclusive)</u> <b>the provided timestamp</b>.<br/> - Use <u>"isWithinTheNext"</u> to filter documents having the referenced date <u>between</u> <b>now</b> and <b>now + the provided period</b>.<br/> - Use <u>"isWithinTheLast"</u> to filter documents having the referenced date <u>between</u> <b>now - the provided period</b> and <b>now</b>.<br/> - Use <u>"isMoreThan"</u> to filter documents having the referenced date <u>before</u> <b>now - the provided period</b>.<br/> - Use <u>"isBlankFilter"</u> to filter documents having the referenced date <b>Blank</b> or <b>Not Blank</b>.</br> When <b>isBetween, isAfter, isBefore, isWithinTheNext, isWithinTheLast or isMoreThan</b> are used, documents with a blank referenced date will always be filtered out.<br/> <u>NB:</u> isBetween={from=x, to=null} will be converted to isAfter=x and isBetween={from=null, to=y} will be converted to isBefore=y
+      type: object
+      properties:
+        isBetween:
+          $ref: '#/components/schemas/DateRangeDto'
+        isAfter:
+          description: Filter documents having the referenced date <u>after</u> <u>(inclusive)</u> <b>the provided timestamp</b>.<br/> As Unix timestamp in milliseconds.
+          type: integer
+          format: int64
+          example: 1456763982000
+        isBefore:
+          description: Filter documents having the referenced date <u>before</u> <u>(inclusive)</u> <b>the provided timestamp</b>.<br/> As Unix timestamp in milliseconds.
+          type: integer
+          format: int64
+          example: 1456763982000
+        isWithinTheNext:
+          $ref: '#/components/schemas/Period'
+        isWithinTheLast:
+          $ref: '#/components/schemas/Period'
+        isMoreThan:
+          $ref: '#/components/schemas/Period'
+        isBlank:
+          description: Filter on Agreement's referenced date:<br/> - If <b>true</b>, only agreements <b>without</b> the referenced date will be returned.<br/> - If <b>false</b>, only agreements <b>with</b> the referenced date will be returned.<br/> - If not sent, agreements <b>with</b> and <b>without</b> the referenced date will be returned.
+          type: boolean
+          example: true
+    DateRangeDto:
+      title: DateRangeDto
+      type: object
+      properties:
+        from:
+          description: Corresponds to the minimum threshold (included) of the range.<br/> Must be less than or equal to .to (if set).<br/> As Unix timestamp in milliseconds.
+          type: integer
+          format: int64
+          example: 1456763982000
+        to:
+          description: Corresponds to the maximum threshold (included) of the range.<br/> Must be greater than or equal to .from (if set).<br/> As Unix timestamp in milliseconds.
+          type: integer
+          format: int64
+          example: 1456763982000
+    SampleReportEnum:
+      title: SampleReportEnum
+      enum:
+      - SIGNED_IN_THE_LAST_30_DAYS
+      - EXPIRING_IN_THE_NEXT_30_DAYS
+      - WAITING_ON_SIGNATURES
+      - CREATED_IN_THE_LAST_30_DAYS
+      - OUTSTANDING_DOCUMENTS
+    EndDateFilterDto:
+      title: DateFilterDto
+      description: Filter documents based on the date field referenced by this filter.<br/> <u>One and only one field can be set:</u><br/> - Use <u>"isBetween"</u> to filter documents having the referenced date <u>between</u> <b>"from"</b> and <b>"to"</b> <u>(inclusive)</u> of the date range provided.<br/> - Use <u>"isAfter"</u> to filter documents having the referenced date <u>after</u> <u>(inclusive)</u> <b>the provided timestamp</b>.<br/> - Use <u>"isBefore"</u> to filter documents having the referenced date <u>before</u> <u>(inclusive)</u> <b>the provided timestamp</b>.<br/> - Use <u>"isWithinTheNext"</u> to filter documents having the referenced date <u>between</u> <b>now</b> and <b>now + the provided period</b>.<br/> - Use <u>"isWithinTheLast"</u> to filter documents having the referenced date <u>between</u> <b>now - the provided period</b> and <b>now</b>.<br/> - Use <u>"isMoreThan"</u> to filter documents having the referenced date <u>before</u> <b>now - the provided period</b>.<br/> - Use <u>"isBlankFilter"</u> to filter documents having the referenced date <b>Blank</b> or <b>Not Blank</b>.</br> When <b>isBetween, isAfter, isBefore, isWithinTheNext, isWithinTheLast or isMoreThan</b> are used, documents with a blank referenced date will always be filtered out.<br/> <u>NB:</u> isBetween={from=x, to=null} will be converted to isAfter=x and isBetween={from=null, to=y} will be converted to isBefore=y
+      type: object
+      properties:
+        isBetween:
+          $ref: '#/components/schemas/DateRangeDto'
+        isAfter:
+          description: Filter documents having the referenced date <u>after</u> <u>(inclusive)</u> <b>the provided timestamp</b>.<br/> As Unix timestamp in milliseconds.
+          type: integer
+          format: int64
+          example: 1456763982000
+        isBefore:
+          description: Filter documents having the referenced date <u>before</u> <u>(inclusive)</u> <b>the provided timestamp</b>.<br/> As Unix timestamp in milliseconds.
+          type: integer
+          format: int64
+          example: 1456763982000
+        isWithinTheNext:
+          $ref: '#/components/schemas/Period'
+        isWithinTheLast:
+          $ref: '#/components/schemas/Period'
+        isMoreThan:
+          $ref: '#/components/schemas/Period'
+        isBlank:
+          description: Filter on Agreement's referenced date:<br/> - If <b>true</b>, only agreements <b>without</b> the referenced date will be returned.<br/> - If <b>false</b>, only agreements <b>with</b> the referenced date will be returned.<br/> - If not sent, agreements <b>with</b> and <b>without</b> the referenced date will be returned.
+          type: boolean
+          example: true
+        isPermanent:
+          description: Filter on Agreement's referenced date:<br/> - If <b>true</b>, only agreements <b>without</b> the referenced date and in undetermined duration (Permanent duration) will be returned.<br/> - If <b>false</b>, only agreements <b>with</b> the referenced date or unknown duration will be returned.<br/> - If not sent, no filter is done.
+          type: boolean
+          example: true
+        isUnknown:
+          description: Filter on Agreement's referenced date:<br/> - If <b>true</b>, only agreements <b>without</b> the referenced date and in unknown duration will be returned.<br/> - If <b>false</b>, only agreements <b>with</b> the referenced date or not in unknown duration will be returned.<br/> - If not sent, no filter is done.
+          type: boolean
+          example: true
+    Period:
+      title: Period
+      description: String representation of a duration/period.<br/> Format should follow <a href="https://en.wikipedia.org/wiki/ISO_8601#Durations">ISO_8601</a> Duration specification.<br/> For example, "P3D" for a 3 days period, "P3W" for a 3 weeks duration, "P1M" for a 1 month duration.
+      type: string
+      example: P3D
+    ReportDto:
+      title: ReportDto
+      type: object
+      required:
+      - id
+      - name
+      - description
+      - filters
+      properties:
+        id:
+          type: string
+          example: 1 or SIGNED_IN_THE_LAST_30_DAYS
+        name:
+          type: string
+          description: Name of the report.
+          example: name
+        description:
+          type: string
+          description: Description of the report.
+          example: description
+        filters:
+          $ref: '#/components/schemas/FilterDto'
+        lastUpdatedAt:
+          type: number
+          description: Last date when the report was modified.
+          example: 1502122899564
+    FilterDto:
+      title: FilterDto
+      type: object
+      properties:
+        tagNames:
+          type: array
+          items:
+            type: string
+          description: filter on tags names if it is specified. The noTags Filter should be false.
+        tagIds:
+          type: array
+          items:
+            type: number
+            format: int64
+          description: filter on tags ID if it is specified. The noTags Filter should be false.
+        noTags:
+          type: boolean
+          description: filter document that do not contain tags. It must have the value false when the filter tagNames or tagIds is specified.
+          example: false
+        statuses:
+          type: array
+          items:
+            type: string
+          description: ''
+        search:
+          type: string
+          description: limited to 300 characters.
+          example: text
+        inboxed:
+          type: boolean
+          description: Display only documents that appear in the inbox (false to display also archived documents).
+          example: false
+        createdBy:
+          type: array
+          items:
+            type: number
+          description: Display only documents created by the list of specified id users.
+        createdAt:
+          $ref: '#/components/schemas/DateFilterDto'
+        modifiedAt:
+          $ref: '#/components/schemas/DateFilterDto'
+        endAt:
+          $ref: '#/components/schemas/EndDateFilterDto'
+        signatureDate:
+          $ref: '#/components/schemas/DateFilterDto'
+        parties:
+          description: Filter on property party value ID
+          type: array
+          items:
+            type: string
+            minLength: 22
+            maxLength: 22
+          example: 01sp9L4YEZNcLHaSV8447N
+        sharedWith:
+          description: Filter on property shared with value ID
+          type: array
+          items:
+            type: string
+            minLength: 22
+            maxLength: 22
+          example: 01sp9L4YEZNcLHaSV8447N
+    CreateReportDto:
+      title: CreateReportDto
+      type: object
+      properties:
+        name:
+          type: string
+          description: limited to 127 characters.
+          example: name
+        description:
+          type: string
+          description: limited to 127 characters.
+          example: description
+        sampleId:
+          $ref: '#/components/schemas/SampleReportEnum'
+        filters:
+          $ref: '#/components/schemas/FilterDto'
+  securitySchemes:
+    ApiKeyAuthentication:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+      description: 'Users authenticate themselves through the HTTP Header X-API-KEY. You can generate as many API Keys as needed from your Concord account.
+
+        If the HTTP Header is missing or if the API Key is invalid, the HTTP Response will be 401 Unauthorized.'

@@ -4,23 +4,33 @@
     "_original/concord-com-openapi.yml"
   ],
   "outputs": [
-    "concord-com-agreements-api-openapi.yml",
-    "concord-com-organizations-api-openapi.yml",
-    "concord-com-templates-api-openapi.yml",
-    "concord-com-users-api-openapi.yml"
+    "concord-com-agreement-api-openapi.yml",
+    "concord-com-agreement-versions-api-openapi.yml",
+    "concord-com-automated-template-api-openapi.yml",
+    "concord-com-clause-library-api-openapi.yml",
+    "concord-com-custom-branding-api-openapi.yml",
+    "concord-com-events-api-openapi.yml",
+    "concord-com-folders-api-openapi.yml",
+    "concord-com-organization-api-openapi.yml",
+    "concord-com-organization-groups-api-openapi.yml",
+    "concord-com-organization-members-api-openapi.yml",
+    "concord-com-organization-invitation-api-openapi.yml",
+    "concord-com-report-api-openapi.yml",
+    "concord-com-signature-api-openapi.yml",
+    "concord-com-tags-api-openapi.yml",
+    "concord-com-user-api-openapi.yml",
+    "concord-com-user-integrations-api-openapi.yml",
+    "concord-com-webhooks-api-openapi.yml"
   ],
   "archived": [],
   "errors": [],
   "warnings": [],
   "notes": [
     "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
-    "concord-com-openapi.yml: upgraded openapi 3.0.3 -> OpenAPI 3.2.0",
-    "apis.yml register: already-registered"
+    "concord-com-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
+    "concord-com-openapi.yml: declared missing tag: Agreement Versions",
+    "concord-com-openapi.yml: declared missing tag: User integrations",
+    "apis.yml register: written (+17 apis, 18 total)"
   ],
-  "skipped": [
-    "concord-com-agreements-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "concord-com-organizations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "concord-com-templates-api-openapi.yml: previously refined output, superseded by openapi/_original/",
-    "concord-com-users-api-openapi.yml: previously refined output, superseded by openapi/_original/"
-  ]
+  "skipped": []
 }

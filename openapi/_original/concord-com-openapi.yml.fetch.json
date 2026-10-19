@@ -1,0 +1,12 @@
+{
+ "url": "https://api.doc.concordnow.com/concord-openapi-bundled.yaml",
+ "final": "https://api.doc.concordnow.com/concord-openapi-bundled.yaml",
+ "status": 200,
+ "content_type": "binary/octet-stream",
+ "bytes": 339854,
+ "sha256": "c32f017d0044b456f8ef4922c99f594b8d20289c1baca1aaba2075d844572abd",
+ "fetched_at": "2026-10-19",
+ "fetched_by": "APIEvangelist-Harvest/1.0 (+https://apievangelist.com)",
+ "match": "byte-identical",
+ "note": "re-archived: the provider's current document replaced a stale archive (roadmap#793); the old files are in openapi/_superseded/2026-10-19-stale"
+}

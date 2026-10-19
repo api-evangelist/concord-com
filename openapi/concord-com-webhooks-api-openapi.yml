@@ -1,0 +1,563 @@
+openapi: 3.2.0
+info:
+  x-logo:
+    url: https://www.concord.app/wp-content/uploads/2025/01/Logo-full-color-16px-padding.svg
+  title: Concord Webhooks API
+  description: '## Overview
+
+
+    ### Basics
+
+
+    Concord, https://www.concord.app/, is a cloud-based contract lifecycle management platform built for all types of businesses.
+
+    It provides unlimited e-signatures and unlimited contract storage for any number of users.
+
+    Concord saves time, money, and trees. It’s a smart way to get everyone to agree.
+
+
+    This Concord API gives you access to features you see in Concord and lets you extend them for use in your own application.
+
+    It strives to be RESTful and is organized around the main resources you’re familiar with from the Concord interface.
+
+
+    Before you do anything, you should get a Concord account on our sandbox environment that you can test the API against
+
+    and create an API Key so that you can make API calls.
+
+
+    ### Format
+
+
+    Both request body data and response data are formatted as JSON.
+
+
+    ### Upcoming changes
+
+
+    We are always maintaining, fixing, and enhancing our API. As such, you should expect new endpoints to show up, new fields to be added to responses and new error codes to appear.
+
+    We recommend that you build your code to gracefully ignore things that you aren’t expecting, and to handle errors in standard HTTP-centric ways.
+
+
+    ### Getting help
+
+
+    To get in touch with our API experts directly, please send a message to support@concord.app.
+
+
+    ## Environments
+
+
+    The API is accessible from:
+
+
+    + https://uat.concordnow.com/api/rest/1/ - sandbox
+
+
+    + https://api.concordnow.com/api/rest/1/ - production
+
+
+    ## Authentication
+
+
+    To use this API, you need to be authenticated.
+
+
+    ### With an API key
+
+
+    Users authenticate themselves through the HTTP Header **X-API-KEY**.
+
+    You can generate as many API Keys as needed from your Concord account.
+
+
+    If the HTTP Header is missing or if the API Key is invalid,
+
+    the HTTP Response will be 401 Unauthorized.
+
+
+    ## Errors
+
+
+    The API communicates errors through standard HTTP status codes paired with error objects. Generally, the following pattern will apply:
+
+
+    + 2xx - The request was successfully received, understood, and accepted.
+
+
+    + 4xx - An error in the request. Usually a bad parameter.
+
+
+    + 5xx - The request is fine, but something is wrong on Concord''s end.
+
+
+    ### 4xx errors definition
+
+
+    The errors referenced here are valid for most (or even all) of our endpoints.
+
+    They are standard error messages for things like "Not authenticated, but you should" or "You can''t access this".
+
+    Depending on what you''re trying to access, you might get a bit more information in the response.
+
+
+    + Response 400 (application/json)
+
+
+    {
+
+    "statusCode": 400,
+
+    "restCode": "badRequest"
+
+    }
+
+
+    + Response 401 (application/json)
+
+
+    {
+
+    "statusCode": 401,
+
+    "restCode": "authFailed"
+
+    }
+
+
+    + Response 403 (application/json)
+
+
+    {
+
+    "statusCode": 403,
+
+    "restCode": "accessDenied"
+
+    }
+
+
+    + Response 404 (application/json)
+
+
+    {
+
+    "statusCode": 404,
+
+    "restCode": "notFound"
+
+    }
+
+
+    + Response 409 (application/json)
+
+
+    {
+
+    "statusCode": 409,
+
+    "restCode": "conflict"
+
+    }
+
+
+    ### HTTP status code
+
+
+    + 200 success
+
+
+    + 201 created
+
+
+    + 202 accepted
+
+
+    + 204 no_content
+
+
+    + 400 bad_request
+
+
+    + 401 unauthorized
+
+
+    + 403 forbidden
+
+
+    + 404 not_found
+
+
+    + 405 method_not_allowed
+
+
+    + 409 conflict
+
+
+    + 415 unsupported_media_type
+
+
+    + 500 internal_server_error
+
+
+    + 502 bad_gateway
+
+
+    + 503 unavailable
+
+
+    + 504 gateway_timeout'
+  contact:
+    email: support@concord.app
+    name: Support Concord
+    url: https://help.concord.app/
+  license:
+    name: Terms of service
+    url: https://www.concord.app/terms-of-service
+  version: Concord API v1.0
+servers:
+- url: https://uat.concordnow.com/api/rest/1
+  variables: {}
+security:
+- ApiKeyAuthentication: []
+tags:
+- name: Webhooks
+  description: Events sent by Concord to your custom URL.
+paths: {}
+webhooks:
+  newAgreement:
+    post:
+      tags:
+      - Webhooks
+      security: []
+      summary: Agreement event
+      description: 'Those events are triggered when an action occurs on an agreement.
+
+        If you subscribed to the triggered event, you will be notified on the URL you specified.
+
+
+        Here is the documentation to enable Webhooks on you Concord account'
+      operationId: postAgreementEvent
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WebhookEvent'
+      responses:
+        '200':
+          description: Return a 200 status to indicate that the data was received successfully
+        '201':
+          description: Return a 201 status to indicate that the data was received successfully
+        '202':
+          description: Return a 202 status to indicate that the data was received successfully
+        '203':
+          description: Return a 203 status to indicate that the data was received successfully
+        '204':
+          description: Return a 204 status to indicate that the data was received successfully
+        default:
+          description: Any other status code will be handled as an error by our system
+components:
+  schemas:
+    Termination:
+      title: Termination
+      required:
+      - atEnd
+      - date
+      - notifiedAt
+      - nofifiedBy
+      type: object
+      properties:
+        atEnd:
+          type: boolean
+        date:
+          type: integer
+          format: int64
+        notifiedAt:
+          type: integer
+          format: int64
+        nofifiedBy:
+          $ref: '#/components/schemas/NofifiedBy'
+      example:
+        atEnd: false
+        date: 1459599655224
+        notifiedAt: 1459499655224
+        nofifiedBy:
+          id: 124
+          fullName: Jean Bon
+          email: jean.bon@corp.com
+    Lifecycle:
+      title: Lifecycle
+      required:
+      - signatureDateUnknown
+      - signatureDate
+      - effect
+      - calculatedEnd
+      - terminate
+      - termination
+      type: object
+      properties:
+        signatureDateUnknown:
+          type: boolean
+        signatureDate:
+          type: integer
+          format: int64
+        effect:
+          $ref: '#/components/schemas/Effect'
+        calculatedEnd:
+          type: integer
+          format: int64
+        terminate:
+          type: boolean
+        termination:
+          $ref: '#/components/schemas/Termination'
+      example:
+        signatureDateUnknown: false
+        signatureDate: 1459499655224
+        effect:
+          type: DATE_SPECIFIED
+          date: '2023-12-31'
+        calculatedEnd: 1459599655224
+        terminate: true
+        termination:
+          atEnd: false
+          date: 1459599655224
+          notifiedAt: 1459499655224
+          nofifiedBy:
+            id: 124
+            fullName: Jean Bon
+            email: jean.bon@corp.com
+    AgreementUid:
+      oneOf:
+      - type: string
+        minLength: 22
+        maxLength: 22
+        description: Concord agreement unique identifier. (new format)
+      - type: string
+        minLength: 6
+        maxLength: 6
+        description: Concord agreement unique identifier. (old format)
+      examples:
+      - 01sp9L4YEZNcLHaSV8447N
+      - G4VIX7
+    WebhookEvent:
+      title: Webhook Event
+      type: object
+      properties:
+        event_id:
+          type: string
+          format: uuid
+          example: bb468a0e-d84b-44ab-8b23-29b2a0c6a7a3
+          description: Unique event ID
+        event_name:
+          type: string
+          enum:
+          - AGREEMENT_EXECUTED
+          - AGREEMENT_NEW_SIGNATURE
+          - AGREEMENT_APPROVED
+          - AGREEMENT_EXPIRED
+          - AGREEMENT_CUSTOM_FIELDS_ADDED
+          - AGREEMENT_CUSTOM_FIELDS_UPDATED
+          - AGREEMENT_CUSTOM_FIELDS_DELETED
+          - AGREEMENT_LIFECYCLE_UPDATED
+          - AGREEMENT_CANCELLED
+          - AGREEMENT_BACK_TO_REVIEW
+          - AGREEMENT_NEGOTIATION_CREATED
+          - AGREEMENT_MOVE_TO_SIGNING
+          - AGREEMENT_NEGOTIATION_SHARED
+          - AGREEMENT_NEW_VERSION
+          - AGREEMENT_NEGOTIATION_JOINED
+          description: '`AGREEMENT_EXECUTED`: sent when the document is fully signed. When a review/negotiation is fully signed, a contract is created. In this case, the `agreement.uid` field contains the review/negotiation UID, and the `agreement.signedAgreementUid` field contains the newly created contract UID.<br> `AGREEMENT_NEW_SIGNATURE`: sent when a new signature is added on the agreement.<br> `AGREEMENT_APPROVED`: sent when the worklow is fully approved.<br> `AGREEMENT_EXPIRED`: sent when the contract is expired.<br> `AGREEMENT_CUSTOM_FIELDS_ADDED`: sent when custom fields are added.<br> `AGREEMENT_CUSTOM_FIELDS_UPDATED`: sent when custom fields are updated.<br> `AGREEMENT_CUSTOM_FIELDS_DELETED`: sent when custom fields are deleted.<br> `AGREEMENT_LIFECYCLE_UPDATED`: sent when the document lifecycle is updated.<br> `AGREEMENT_CANCELLED`: sent when the document is cancelled.<br> `AGREEMENT_BACK_TO_REVIEW`: sent when a document in signing phase goes back to review.<br> `AGREEMENT_NEGOTIATION_CREATED`: sent when a new negotiation has been created in the organization.<br> `AGREEMENT_MOVE_TO_SIGNING`: sent when an agreement has been moved to signing status.<br> `AGREEMENT_NEGOTIATION_SHARED`: sent when a negotiation has been shared internally or externally.<br> `AGREEMENT_NEW_VERSION`: sent when a new version of the agreement has been created.<br> `AGREEMENT_NEGOTIATION_JOINED`: sent when a user has joined a negotiation.
+
+            '
+        occured_at:
+          type: string
+          format: date-time
+          description: ISO-8601 representation of the time when this event had occured.
+        source:
+          type: string
+          enum:
+          - USER
+          - SCHEDULED
+          description: '`USER`: the event has been triggered by a user''s action.<br> `SCHEDULED`: the event has been triggered automatically (ex: when contract is expiring).
+
+            '
+        content:
+          type: object
+          properties:
+            user:
+              $ref: '#/components/schemas/WebhookUser'
+              description: 'The user that triggered the event.<br> Only present when the event source is `USER`.
+
+                '
+            agreement:
+              type: object
+              description: The agreement impacted by the event.
+              properties:
+                uid:
+                  $ref: '#/components/schemas/AgreementUid'
+                title:
+                  type: string
+                  description: Agreement's title
+                description:
+                  type: string
+                  description: Agreement's description
+                signedAgreementUid:
+                  $ref: '#/components/schemas/AgreementUid'
+                  description: 'The UID of the newly created signed contract.<br>
+
+                    This field is only present for `AGREEMENT_EXECUTED` events when a review/negotiation is fully signed and a contract is created.<br>
+
+                    '
+                externalResource:
+                  type: object
+                  description: Agreement's external infos
+                  properties:
+                    id:
+                      type: string
+                      description: Provider resource id associated to the concord agreement
+                    provider:
+                      type: string
+                      description: Provider
+                      enum:
+                      - HUBSPOT
+                    type:
+                      type: string
+                      description: Provider type of resource associated to the agreement
+                      example: Deal
+                type:
+                  type: string
+                  enum:
+                  - DRAFT
+                  - VALIDATION
+                  - NEGOTIATION
+                  - SIGNING
+                  - CONTRACT
+                  description: Agreement's type
+                url:
+                  type: string
+                  format: uri
+                  description: URL link to the agreement
+                file:
+                  type: string
+                  format: uri
+                  description: URL link to download the agreement's PDF
+                folder:
+                  type: object
+                  description: Agreement's folder
+                  properties:
+                    id:
+                      type: integer
+                      format: int64
+                      description: Folder's unique ID
+                    name:
+                      type: string
+                      description: Folder's name
+                lifecycle:
+                  $ref: '#/components/schemas/Lifecycle'
+                tags:
+                  type: array
+                  description: List of agreement's tags
+                  items:
+                    type: string
+                smartfields:
+                  type: array
+                  description: List of agreement's smart fields
+                  items:
+                    type: object
+                    properties:
+                      uuid:
+                        type: string
+                        format: uuid
+                        description: Smart field's unique ID
+                      name:
+                        type: string
+                        description: Smart field's name
+                      required:
+                        type: boolean
+                        description: True if the smart field is required, false otherwise
+                      type:
+                        type: string
+                        enum:
+                        - TEXT
+                        - NUMBER
+                        description: Smart field's type
+                      value:
+                        type: string
+                        description: Smart field's value inside the agreement
+                members:
+                  type: object
+                  description: Agreement's members
+                  properties:
+                    users:
+                      type: array
+                      description: Members that are active users
+                      items:
+                        $ref: '#/components/schemas/WebhookUser'
+    Effect:
+      title: Effect
+      required:
+      - type
+      - date
+      type: object
+      properties:
+        type:
+          type: string
+        date:
+          type: string
+          format: date
+      example:
+        type: DATE_SPECIFIED
+        date: '2023-12-31'
+    NofifiedBy:
+      title: NofifiedBy
+      required:
+      - id
+      - fullName
+      - email
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+        fullName:
+          type: string
+        email:
+          type: string
+      example:
+        id: 124
+        fullName: Jean Bon
+        email: jean.bon@corp.com
+    WebhookUser:
+      title: Webhook User
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          description: the user's unique ID
+        name:
+          type: string
+          description: the user's name
+        email:
+          type: string
+          format: email
+          description: the user's email
+        organization:
+          type: object
+          properties:
+            id:
+              type: integer
+              format: int64
+              description: the organization's unique ID
+            name:
+              type: string
+              description: the organization's name
+  securitySchemes:
+    ApiKeyAuthentication:
+      type: apiKey
+      in: header
+      name: X-API-KEY
+      description: 'Users authenticate themselves through the HTTP Header X-API-KEY. You can generate as many API Keys as needed from your Concord account.
+
+        If the HTTP Header is missing or if the API Key is invalid, the HTTP Response will be 401 Unauthorized.'
