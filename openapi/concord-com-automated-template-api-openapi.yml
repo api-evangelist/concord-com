@@ -450,3 +450,9 @@ components:
       description: 'Users authenticate themselves through the HTTP Header X-API-KEY. You can generate as many API Keys as needed from your Concord account.
 
         If the HTTP Header is missing or if the API Key is invalid, the HTTP Response will be 401 Unauthorized.'
+x-provenance:
+  method: harvested
+  publisher: Concord
+  source: https://api.doc.concordnow.com/concord-openapi-bundled.yaml
+  note: split by refine-openapis from the provider's own published document, verified by fetch (openapi/_original/*.fetch.json);
+    stamped by stamp-openapi-provenance.py (roadmap#793)
