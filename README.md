@@ -1,4 +1,4 @@
-# Concord (concord-com)
+# Concord
 
 <!-- API-EVANGELIST-PROVENANCE:BEGIN -->
 > ### About this repository
@@ -64,151 +64,132 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Concord is a contract lifecycle management (CLM) platform for creating, negotiating, redlining, e-signing, storing, and tracking agreements in one place, with unlimited electronic signatures, automated templates, approval workflows, and reporting.
+Concord is a contract lifecycle management (CLM) platform for creating, negotiating, redlining, e-signing, storing, and tracking agreements in one place, with unlimited electronic signatures, automated templates, approval workflows, and reporting. Concord exposes a documented REST API (base https://api.concordnow.com/api/rest/1) that lets integrators read a user's organizations, list and retrieve agreements and their attachments and members, and pull organization reports, groups, and tags. Outbound webhooks notify external systems of agreement lifecycle events (fully approved, fully signed, expired, signature provided). API key generation is offered on paid plans only.
 
-**Access model (read this first):** Concord exposes a documented REST API at `https://api.concordnow.com/api/rest/1` (UAT/sandbox at `https://uat.concordnow.com/api/rest/1`), authenticated with an API key sent in the `X-API-KEY` header. **API key generation is offered on paid plans only** - free trial / sandbox (UAT) accounts must be upgraded before a key can be issued. Concord's public developer reference is a rendered documentation portal ([api.doc.concordnow.com](https://api.doc.concordnow.com/)) and does **not** publish a machine-readable OpenAPI file, so the OpenAPI in this repo is authored from documented behavior and connector mappings; response schemas and one write operation are modeled and flagged as such. The confirmed endpoints below were validated against the live host, which returns `401 {"statusCode":401,"restCode":"unauthorized"}` without a valid key.
+**Areas:** Contract Management · Contract Lifecycle Management · Contracts · Agreements · E-Signature · Document Management · Legal · Workflows
 
-**APIs.json:** [https://raw.githubusercontent.com/api-evangelist/concord-com/refs/heads/main/apis.yml](https://raw.githubusercontent.com/api-evangelist/concord-com/refs/heads/main/apis.yml)
+## Concord on APIs.io
 
-## Tags
+Everything profiled for Concord is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/concord-com/](https://apis.io/providers/concord-com/)** — or go straight to one of the APIs or properties below.
 
-- Contract Management
-- Contract Lifecycle Management
-- CLM
-- Contracts
-- Agreements
-- E-Signature
-- Document Management
-- Legal
-- Workflow
+### APIs (5)
 
-## Timestamps
+- [Concord Webhooks (Outbound Events)](https://apis.io/apis/concord-com/concord-com-webhooks-api/) — Concord sends outbound HTTP POST webhooks to a URL you configure in the Automations > Integrations UI, firing on agreement lifecycle events - document fully…
+- [Concord Agreements API](https://apis.io/apis/concord-com/concord-com-agreements-api/) — Agreements (contracts), their attachments, and members.
+- [Concord Organizations API](https://apis.io/apis/concord-com/concord-com-organizations-api/) — Organization-level resources - reports, groups, and tags.
+- [Concord Templates API](https://apis.io/apis/concord-com/concord-com-templates-api/) — Document generation from automated templates (modeled/unconfirmed).
+- [Concord Users API](https://apis.io/apis/concord-com/concord-com-users-api/) — The authenticated user and their organization memberships.
 
-- **Created:** 2026-07-12
-- **Modified:** 2026-07-12
+### Published properties
 
-## APIs
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
 
-### Concord Agreements API
+#### MCP servers (1)
 
-List an organization's agreements (contracts) and retrieve a single agreement's attachments and members. Read access is confirmed against the live API; write/create operations are not documented in the public developer reference.
+Model Context Protocol servers that expose the API to agents.
 
-- **Human URL:** [https://help.concord.app/concord-api](https://help.concord.app/concord-api)
-- **Base URL:** `https://api.concordnow.com/api/rest/1`
-- **Confirmed:** `GET /user/me/organizations/{organizationId}/agreements`, `GET /organizations/{organizationId}/agreements/{agreementUid}/attachments`, `GET /organizations/{organizationId}/agreements/{agreementUid}/members`
+- [concord-com](https://apis.io/servers/concord-com/concord-com/)
 
-#### Tags
+#### Agentic access (1)
 
-- Agreements
-- Contracts
-- CLM
+Which operations an agent can call, which act, and which need a human in the loop.
 
-#### Properties
+- [Concord Com Agentic Access](https://apis.io/agentic-access/concord-com/concord-com-agentic-access/)
 
-- [Documentation](https://help.concord.app/concord-api)
-- [API Reference](https://api.doc.concordnow.com/)
-- [OpenAPI](openapi/concord-com-openapi.yml)
-- [Postman Collection](collections/concord-com.postman_collection.json)
-- [Open Collection](collections/concord-com.opencollection.json)
+#### Collections (5)
 
-### Concord Organizations & Users API
+Postman and Open Collection request collections.
 
-Read the authenticated user (`/user/me`), the organizations that user belongs to (`/user/me/organizations`), and per-organization reports, groups, and tags. Concord does not publish a user CRUD or SCIM provisioning API; user identity is surfaced read-only.
+- [Concord API](https://apis.io/collections/concord-com/open-concord-com/)
+- [Concord Agreements API](https://apis.io/collections/concord-com/open-concord-com-agreements-api/)
+- [Concord Agreements Organizations API](https://apis.io/collections/concord-com/open-concord-com-organizations-api/)
+- [Concord Agreements Templates API](https://apis.io/collections/concord-com/open-concord-com-templates-api/)
+- [Concord Agreements Users API](https://apis.io/collections/concord-com/open-concord-com-users-api/)
 
-- **Human URL:** [https://help.concord.app/concord-api](https://help.concord.app/concord-api)
-- **Base URL:** `https://api.concordnow.com/api/rest/1`
-- **Confirmed:** `GET /user/me`, `GET /user/me/organizations`, `GET /organizations/{organizationId}/reports`, `GET /organizations/{organizationId}/groups`, `GET /organizations/{organizationId}/tags`
+#### Security (2)
 
-#### Tags
+Authentication, trust centre, and vulnerability disclosure.
 
-- Organizations
-- Users
-- Accounts
+- [Concord Com Authentication](https://apis.io/security/concord-com/concord-com-authentication/)
+- [Concord Com Domain Security](https://apis.io/security/concord-com/concord-com-domain-security/)
 
-#### Properties
+#### Plans and pricing (1)
 
-- [Documentation](https://help.concord.app/concord-api)
-- [API Reference](https://api.doc.concordnow.com/)
-- [OpenAPI](openapi/concord-com-openapi.yml)
-- [Postman Collection](collections/concord-com.postman_collection.json)
-- [Open Collection](collections/concord-com.opencollection.json)
+Published plans, tiers and prices.
 
-### Concord Documents & Attachments API
+- [Concord Com Plans Pricing](https://apis.io/plans/concord-com/concord-com-plans-pricing/)
 
-Retrieve the files (attachments) associated with an agreement. In Concord's model a document is an agreement plus its attachments.
+#### Rate limits (1)
 
-- **Human URL:** [https://help.concord.app/concord-api](https://help.concord.app/concord-api)
-- **Base URL:** `https://api.concordnow.com/api/rest/1`
-- **Confirmed:** `GET /organizations/{organizationId}/agreements/{agreementUid}/attachments`
+Published request limits.
 
-#### Tags
+- [Concord Com Rate Limits](https://apis.io/rate-limits/concord-com/concord-com-rate-limits/)
 
-- Documents
-- Attachments
-- Files
+#### FinOps (1)
 
-#### Properties
+What the API costs to run, by operation.
 
-- [Documentation](https://help.concord.app/concord-api)
-- [OpenAPI](openapi/concord-com-openapi.yml)
-- [Postman Collection](collections/concord-com.postman_collection.json)
-- [Open Collection](collections/concord-com.opencollection.json)
+- [Concord Com Finops](https://apis.io/finops/concord-com/concord-com-finops/)
 
-### Concord Templates API
+## Where to find this API
 
-Generate a document from an automated (Excel-driven) template using an API key and the template UID. **Modeled / unconfirmed:** Concord documents that this capability exists, but the exact request path and body are not published in the crawlable public reference, so the operation is flagged `x-concord-modeled: true` in the OpenAPI and must be verified against a live account.
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
 
-- **Human URL:** [Create a Document from an Automated Template with the API](https://help.concord.app/hc/en-us/articles/207854166-Create-a-Document-from-an-Automated-Template-with-the-API)
-- **Base URL:** `https://api.concordnow.com/api/rest/1`
-
-#### Tags
-
-- Templates
-- Document Generation
-- Automation
-
-#### Properties
-
-- [Documentation](https://help.concord.app/hc/en-us/articles/207854166-Create-a-Document-from-an-Automated-Template-with-the-API)
-- [OpenAPI](openapi/concord-com-openapi.yml)
-
-### Concord Webhooks (Outbound Events)
-
-Concord sends outbound HTTP POST webhooks to a URL you configure in the **Automations > Integrations** UI, firing on agreement lifecycle events - document fully approved, document fully signed, document expired, and signature provided. Webhooks are configured in the UI, **not** via a REST management endpoint; payloads carry the impacted agreement plus the triggering user.
-
-- **Human URL:** [Create a Webhook Integration](https://help.concord.app/hc/en-us/articles/4417525871508-create-a-webhook-integration)
-- **Base URL:** `https://api.concordnow.com/api/rest/1`
-
-#### Tags
-
-- Webhooks
-- Events
-- Notifications
-
-#### Properties
-
-- [Documentation](https://help.concord.app/hc/en-us/articles/4417525871508-create-a-webhook-integration)
-
-## Common Properties
-
-- [Domain Security](security/concord-com-domain-security.yml)
-- [Authentication](authentication/concord-com-authentication.yml)
 - [Website](https://www.concord.app)
 - [Documentation](https://help.concord.app/concord-api)
-- [LinkedIn](https://www.linkedin.com/company/concordnow)
-- [Plans](plans/concord-com-plans-pricing.yml)
-- [Rate Limits](rate-limits/concord-com-rate-limits.yml)
-- [Fin Ops](finops/concord-com-finops.yml)
+- [Blog](https://www.concord.app/blog)
 
-## Authentication
+## API Evangelist rating
 
-API key in the `X-API-KEY` header. Keys are generated inside a Concord account on **paid plans only**. The live production host returns `401 {"statusCode":401,"restCode":"unauthorized"}` when called without a valid key.
+**Kin Score 24.0** — emerging · rubric 0.25.0 · scored 2026-10-23
 
-## WebSocket Review
+| Facet | Score |
+|---|---|
+| Discoverability | 68.3 |
+| Contract quality | 37.2 |
+| Contract governance | 0.0 |
+| Operational transparency | 7.9 |
+| Developer ergonomics | 32.1 |
+| Access clarity | 7.9 |
 
-**Does Concord expose a documented public WebSocket API? No.** Concord's own public API is request/response REST over HTTPS plus UI-configured outbound webhooks (HTTP POST). No `ws://`/`wss://` endpoint is documented, and no AsyncAPI document was authored. See [review.yml](review.yml).
+**Agent readiness 48.9** — agent-ready (gated down from agent-native)
 
-## Maintainers
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | verified |
+| Auth Clarity | served (partial credit) |
+| Idempotency | — |
+| Error Semantics | — |
+| OpenAPI Examples | partial |
+| Rate Limit Signal | derived (partial credit) |
+| Event Surface Described | yes |
+| Agent Skills | — |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | served (partial credit) |
+| Protected Resource Metadata | verified |
+| Dynamic Client Registration | yes |
+| Agentic Commerce | — |
+| Pagination Ratio | — |
+| Operation Distinctiveness | distinct |
 
-**FN:** Kin Lane
-**Email:** kin@apievangelist.com
+**Regulatory alignment 11.8** — Horizontal (data, software, accessibility, platform)
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/concord-com/](https://apis.io/providers/concord-com/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Concord: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/concord-com/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
